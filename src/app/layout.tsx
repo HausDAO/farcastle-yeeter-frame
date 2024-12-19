@@ -26,8 +26,8 @@ export async function generateMetadata(): Promise<Metadata> {
     metadataBase: new URL('https://zoo.farcastle.net'),
     title: 'Infernal Menagerie',
     openGraph: {
-      title: 'Infernal',
-      description: 'Menagerie',
+      title: 'Menagerie',
+      description: 'collection of cursed creatures',
       images: `https://zoo.farcastle.net/image.png`,
     },
     other: {
