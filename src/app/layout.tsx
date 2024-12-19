@@ -7,28 +7,28 @@ import { Providers } from '@/providers/Providers';
 
 const frame = {
   version: 'next',
-  imageUrl: `https://rewards.warpcast.com/og.png`,
+  imageUrl: `https://zoo.farcastle.net/image.png`,
   button: {
-    title: 'Launch',
+    title: 'Enter',
     action: {
       type: 'launch_frame',
-      name: 'Rewards',
-      url: 'https://rewards.warpcast.com',
-      iconImageUrl: `https://rewards.warpcast.com/splash.png`,
-      splashImageUrl: `https://rewards.warpcast.com/splash.png`,
-      splashBackgroundColor: '#000000',
+      name: 'Menagerie',
+      url: 'https://zoo.farcastle.net',
+      iconImageUrl: `https://zoo.farcastle.net/icon.png`,
+      splashImageUrl: `https://zoo.farcastle.net/splash.png`,
+      splashBackgroundColor: '#17151F',
     },
   },
 };
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
-    metadataBase: new URL('https://rewards.warpcast.com'),
-    title: 'Warpcast Rewards',
+    metadataBase: new URL('https://zoo.farcastle.net'),
+    title: 'Infernal Menagerie',
     openGraph: {
-      title: 'Warpcast',
-      description: 'Rewards',
-      images: `https://rewards.warpcast.com/og.png`,
+      title: 'Infernal',
+      description: 'Menagerie',
+      images: `https://zoo.farcastle.net/image.png`,
     },
     other: {
       'fc:frame': JSON.stringify(frame),
