@@ -9,7 +9,7 @@ const frame = {
   version: 'next',
   imageUrl: `https://zoo.farcastle.net/image.png`,
   button: {
-    title: 'Enter',
+    title: 'Enter the Abyss',
     action: {
       type: 'launch_frame',
       name: 'Menagerie',
@@ -24,7 +24,7 @@ const frame = {
 export async function generateMetadata(): Promise<Metadata> {
   return {
     metadataBase: new URL('https://zoo.farcastle.net'),
-    title: 'Infernal Menagerie',
+    title: 'Infernal Zoo',
     openGraph: {
       title: 'Menagerie',
       description: 'collection of cursed creatures',
