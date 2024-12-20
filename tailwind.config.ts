@@ -9,6 +9,10 @@ export default {
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
+    fontFamily: {
+      display: ['VT323', 'monospace'],
+      fraktur: ['FetteUNZFraktur', 'serif'],
+    },
     extend: {
       colors: {
         background: 'hsl(var(--background))',

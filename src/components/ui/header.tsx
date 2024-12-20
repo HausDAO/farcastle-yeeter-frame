@@ -50,11 +50,11 @@ function Header() {
 
   return (
     <div className="w-full flex flex-row items-center justify-between p-4">
-      <HeaderLogoSvg className="opacity-100" onClick={onLogoClick} />
-      <div className="text-xl font-semibold pt-[2px] leading-[30px] h-[30px]">
-        Warpcast Rewards
-      </div>
       <div className="opacity-0 h-[30px] w-[30px]" />
+      <div className="text-xl font-fraktur pt-[2px] leading-[30px] h-[30px]">
+        Infernal Zoo
+      </div>
+      <HeaderLogoSvg className="opacity-100" onClick={onLogoClick} />
     </div>
   );
 }
