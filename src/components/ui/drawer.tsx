@@ -44,7 +44,7 @@ const DrawerContent = React.forwardRef<
       ref={ref}
       className={cn(
         'fixed inset-x-0 bottom-0 z-50 mt-24 flex h-auto flex-col rounded-t-[10px] border bg-background',
-        className,
+        className
       )}
       {...props}
     >
@@ -59,7 +59,7 @@ const DrawerContent = React.forwardRef<
         <path
           opacity="0.3"
           d="M2.25 2H52.75"
-          stroke="white"
+          stroke="#EAF8FF"
           strokeWidth="4"
           strokeLinecap="round"
         />
@@ -100,7 +100,7 @@ const DrawerTitle = React.forwardRef<
     ref={ref}
     className={cn(
       'text-lg font-semibold leading-none tracking-tight text-left',
-      className,
+      className
     )}
     {...props}
   />

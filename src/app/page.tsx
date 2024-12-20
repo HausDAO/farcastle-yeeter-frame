@@ -113,7 +113,7 @@ export default function Home() {
           <RewardTiersPill />
         </div>
       </div>
-      <div className="text-xl font-display">Leaderboard</div>
+      <div className="text-xl font-display text-primary">Leaderboard</div>
       <RewardsLeaderboard />
     </div>
   );
