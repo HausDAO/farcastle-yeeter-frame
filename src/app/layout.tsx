@@ -16,7 +16,7 @@ const frame = {
       url: 'https://zoo.farcastle.net',
       iconImageUrl: `https://zoo.farcastle.net/icon.png`,
       splashImageUrl: `https://zoo.farcastle.net/splash.png`,
-      splashBackgroundColor: '#17151F',
+      splashBackgroundColor: '#341A34',
     },
   },
 };
