@@ -85,3 +85,11 @@
     scrollbar-width: none; /* Firefox */
   }
 }
+
+@font-face {
+  font-family: 'FetteUNZFraktur';
+  src: url('/fonts/FetteUNZFraktur.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
