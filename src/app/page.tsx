@@ -72,7 +72,9 @@ export default function Home() {
     <div className="w-full h-full space-y-4 pb-4 px-4">
       <Card className="flex flex-col items-center px-4">
         <div className="p-4 gap-2 flex flex-col items-center justify-center w-full relative">
-          <div className="text-muted font-semibold text-sm">Your score</div>
+          <div className="text-muted font-display text-base uppercase">
+            Score
+          </div>
           <div className="font-semibold text-4xl text-center">
             {formatScore({ score: scores.currentPeriodScore })}
           </div>
@@ -80,14 +82,18 @@ export default function Home() {
         <div className="flex flex-row items-center justify-evenly w-full mb-4 border-t pt-4">
           {typeof scores.currentPeriodRank !== 'undefined' && (
             <div className="flex flex-col items-center justify-center w-full border-r">
-              <div className="text-muted font-semibold text-xs">Your rank</div>
+              <div className="text-muted font-display text-sm uppercase">
+                Your rank
+              </div>
               <div className="text-default font-semibold [font-variant-numeric:tabular-nums]">
                 #{scores.currentPeriodRank}
               </div>
             </div>
           )}
           <div className="flex flex-col items-center justify-center w-full">
-            <div className="text-muted font-semibold text-xs">Round ends</div>
+            <div className="text-muted font-display text-sm uppercase">
+              Round ends
+            </div>
             <div className="text-default font-semibold [font-variant-numeric:tabular-nums]">
               <FormattedTimeWithCountdown
                 timestamp={currentCycleEndTimestamp}
@@ -113,7 +119,9 @@ export default function Home() {
           <RewardTiersPill />
         </div>
       </div>
-      <div className="text-xl font-display text-primary">Leaderboard</div>
+      <div className="text-xl font-display text-primary uppercase">
+        Leaderboard
+      </div>
       <RewardsLeaderboard />
     </div>
   );
