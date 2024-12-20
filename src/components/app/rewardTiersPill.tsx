@@ -14,7 +14,9 @@ function RewardTiersPill() {
       <Drawer.DrawerContent aria-describedby={undefined}>
         <div className="w-full">
           <Drawer.DrawerHeader className="mx-4">
-            <Drawer.DrawerTitle>Reward Tiers</Drawer.DrawerTitle>
+            <Drawer.DrawerTitle className="text-xl font-display text-primary uppercase">
+              Reward Tiers
+            </Drawer.DrawerTitle>
           </Drawer.DrawerHeader>
           <Card className="flex flex-col mb-4 mx-4">
             <div className="flex flex-row border-b p-3">

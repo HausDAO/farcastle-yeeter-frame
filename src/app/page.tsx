@@ -72,7 +72,7 @@ export default function Home() {
     <div className="w-full h-full space-y-4 pb-4 px-4">
       <Card className="flex flex-col items-center px-4">
         <div className="p-4 gap-2 flex flex-col items-center justify-center w-full relative">
-          <div className="text-muted font-display text-base uppercase">
+          <div className="text-muted font-display text-2xl uppercase">
             Score
           </div>
           <div className="font-semibold text-4xl text-center">
@@ -82,7 +82,7 @@ export default function Home() {
         <div className="flex flex-row items-center justify-evenly w-full mb-4 border-t pt-4">
           {typeof scores.currentPeriodRank !== 'undefined' && (
             <div className="flex flex-col items-center justify-center w-full border-r">
-              <div className="text-muted font-display text-sm uppercase">
+              <div className="text-muted font-display text-xl uppercase">
                 Your rank
               </div>
               <div className="text-default font-semibold [font-variant-numeric:tabular-nums]">
@@ -91,7 +91,7 @@ export default function Home() {
             </div>
           )}
           <div className="flex flex-col items-center justify-center w-full">
-            <div className="text-muted font-display text-sm uppercase">
+            <div className="text-muted font-display text-xl uppercase">
               Round ends
             </div>
             <div className="text-default font-semibold [font-variant-numeric:tabular-nums]">
