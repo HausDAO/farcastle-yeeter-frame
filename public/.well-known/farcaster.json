@@ -12,7 +12,7 @@
     "imageUrl": "https://zoo.farcastle.net/image.png",
     "buttonTitle": "Check this out",
     "splashImageUrl": "https://zoo.farcastle.net/splash.png",
-    "splashBackgroundColor": "#17151F",
+    "splashBackgroundColor": "#341A34",
     "webhookUrl": "https://zoo.farcastle.net/api/webhook"
   }
 }
