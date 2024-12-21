@@ -1,12 +1,14 @@
 # Infernal Menagerie
 
-Step into [Baalhorn the Goat's](https://warpcast.com/baalhorn) blockchain petting zoo—a haunting collection of cursed creatures, where visitors can interact with Baalhorn and his kin.
+Step into [Baalhorn the Goat's](https://warpcast.com/baalhorn) Infernal Zoo. A blockchain managerie and collection of cursed creatures.
 
-In [Farcastle](https://warpcast.com/~/channel/farcastle), the Infernal Menagerie is no ordinary exhibition. It is a nexus of bound magic and untamed mystery, where majestic and monstrous beasts are held in tenuous balance. These creatures, each marked by the dark fate that brought them to the castle, now exist as living lore for all who dare approach.
+This is no ordinary exhibition. Interact in the nexus of bound magic and untamed mystery, where majestic and monstrous beasts are held in tenuous balance.
 
-Here, the Menagerie serves as a living archive of Farcastle's arcane history. Each cursed beast tells a tale, whispering secrets of ancient pacts, broken oaths, and the powers that bind them. Visitors are beckoned to explore not just the creatures themselves, but the veiled truths they represent, interacting with their essence through the blockchain.
+These creatures, each marked by the dark fate that brought them to [Farcastle](https://warpcast.com/~/channel/farcastle), now exist as living lore for all who dare approach. The Infernal Zoo serves as a living archive of arcane history.
 
-This is a place of wonder and forewarning, a testament to Farcastle's belief that even the most feral and cursed among us contribute to the eternal story of the castle's will.
+Each beast tells a tale, whispering secrets of ancient pacts, broken oaths, and the powers that bind them. Visitors are beckoned to explore not just the creatures themselves, but the veiled truths they represent, interacting with their essence through the blockchain.
+
+This is a haunting place of wonder and forewarning, a testament to Farcastle's belief that even the most feral and cursed among us contribute to the eternal story of the realm's will.
 
 ---
 
