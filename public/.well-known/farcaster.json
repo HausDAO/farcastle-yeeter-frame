@@ -6,11 +6,11 @@
   },
   "frame": {
     "version": "1",
-    "name": "Menagerie",
+    "name": "Farcastle Proposals",
     "iconUrl": "https://zoo.farcastle.net/icon.png",
     "homeUrl": "https://zoo.farcastle.net",
     "imageUrl": "https://zoo.farcastle.net/image.png",
-    "buttonTitle": "Check this out",
+    "buttonTitle": "Create Proposals",
     "splashImageUrl": "https://zoo.farcastle.net/splash.png",
     "splashBackgroundColor": "#341A34",
     "webhookUrl": "https://zoo.farcastle.net/api/webhook"

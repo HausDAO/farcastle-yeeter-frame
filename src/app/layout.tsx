@@ -1,37 +1,37 @@
-import './globals.css';
+import "./globals.css";
 
-import type { Metadata } from 'next';
+import type { Metadata } from "next";
 
-import { Header } from '@/components/ui/header';
-import { Providers } from '@/providers/Providers';
+import { Header } from "@/components/ui/header";
+import { Providers } from "@/providers/Providers";
 
 const frame = {
-  version: 'next',
+  version: "next",
   imageUrl: `https://zoo.farcastle.net/image.png`,
   button: {
-    title: 'Enter the Abyss',
+    title: "Farcastle Proposals",
     action: {
-      type: 'launch_frame',
-      name: 'Menagerie',
-      url: 'https://zoo.farcastle.net',
+      type: "launch_frame",
+      name: "Farcastle Proposals",
+      url: "https://zoo.farcastle.net",
       iconImageUrl: `https://zoo.farcastle.net/icon.png`,
       splashImageUrl: `https://zoo.farcastle.net/splash.png`,
-      splashBackgroundColor: '#341A34',
+      splashBackgroundColor: "#341A34",
     },
   },
 };
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
-    metadataBase: new URL('https://zoo.farcastle.net'),
-    title: 'Infernal Zoo',
+    metadataBase: new URL("https://zoo.farcastle.net"),
+    title: "Farcastle Proposals",
     openGraph: {
-      title: 'Menagerie',
-      description: 'collection of cursed creatures',
+      title: "Farcastle Proposals",
+      description: "collection of cursed creatures",
       images: `https://zoo.farcastle.net/image.png`,
     },
     other: {
-      'fc:frame': JSON.stringify(frame),
+      "fc:frame": JSON.stringify(frame),
     },
   };
 }
