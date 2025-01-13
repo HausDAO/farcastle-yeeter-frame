@@ -1,9 +1,8 @@
 # Farcastle Proposals
 
-DAO Proposal frame
+Farcaster Frame for creating moloch v3 dao proposals.
 
 ---
-
 
 ## Getting Started
 
@@ -12,6 +11,7 @@ git clone https://github.com/HausDAO/menagerie.git
 ```
 
 Use node version
+
 ```bash
 nvm use
 ```

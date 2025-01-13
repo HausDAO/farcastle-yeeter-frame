@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import Dao from "./dao";
+import DaoHome from "./dao-home";
 
 const appUrl = process.env.NEXT_PUBLIC_URL;
 
@@ -12,7 +12,6 @@ type Props = {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { chainid, daoid } = await params;
 
-  console.log("chainid, daoid", chainid, daoid);
   const frame = {
     version: "next",
     imageUrl: `${appUrl}/opengraph-image`,
@@ -20,7 +19,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title: "Launch",
       action: {
         type: "launch_frame",
-        name: "Farcastle DAO Proposals",
+        name: "#3 Farcastle DAO Proposals",
         url: `${appUrl}/dao/${chainid}/${daoid}`,
         splashImageUrl: `${appUrl}/splash.png`,
         splashBackgroundColor: "#17151F",
@@ -29,9 +28,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 
   return {
-    title: "Farcastle DAO Proposals",
+    title: "#1 Farcastle DAO Proposals",
     openGraph: {
-      title: "Farcastle DAO Proposals",
+      title: "#2 Farcastle DAO Proposals",
       description: "Farcastle DAO Proposals",
     },
     other: {
@@ -40,6 +39,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default function DaoPage() {
-  return <Dao />;
+export default function Page() {
+  return <DaoHome />;
 }

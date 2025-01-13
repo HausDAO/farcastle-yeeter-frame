@@ -10,8 +10,6 @@ type Props = {
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  console.log("appUrl", appUrl);
-
   const { chainid, daoid, proposaltype } = await params;
 
   const frame = {
@@ -40,6 +38,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default function ProposalPage() {
+export default function Page() {
   return <Proposal />;
 }

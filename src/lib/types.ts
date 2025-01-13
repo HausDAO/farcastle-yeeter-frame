@@ -1,3 +1,6 @@
+import { Dispatch } from "react";
+import { FormValues } from "./form-configs";
+
 export type SubgraphQueryOrderPaginationOptions = {
   skip?: number;
   first?: number;
@@ -210,4 +213,18 @@ export type MemberItem = {
     approved: boolean;
     balance: string;
   };
+};
+
+export type WaitForReceipt = {
+  logs: {
+    topics: `0x${string}`[];
+  }[];
+};
+
+export type FormComponentProps = {
+  isConfirmed: boolean;
+  formValues: FormValues;
+  validValues: boolean;
+  setFormValues: Dispatch<FormValues>;
+  setValidValues: Dispatch<boolean>;
 };
