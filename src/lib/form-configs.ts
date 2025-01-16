@@ -11,6 +11,10 @@ export type FormConfig = {
 export type FormValues = Record<string, string>;
 
 export const FORM_CONFIGS: Record<string, FormConfig> = {
+  SAMPLE: {
+    id: "SAMPLE",
+    tx: TX.POST_SIGNAL,
+  },
   POST_SIGNAL: {
     id: "POST_SIGNAL",
     tx: TX.POST_SIGNAL,

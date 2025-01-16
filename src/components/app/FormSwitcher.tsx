@@ -1,6 +1,7 @@
 import { Dispatch } from "react";
 import { FormValues } from "@/lib/form-configs";
 import { Signal } from "../forms/Signal";
+import { Sample } from "../forms/Sample";
 // import { RequestMembership } from "../forms/RequestMembership";
 
 export const FormSwitcher = ({
@@ -20,6 +21,8 @@ export const FormSwitcher = ({
 }) => {
   const renderForm = () => {
     switch (formid) {
+      case "SAMPLE":
+        return <Sample />;
       case "POST_SIGNAL":
         return (
           <Signal
