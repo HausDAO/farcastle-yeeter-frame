@@ -160,7 +160,7 @@ export const MySampleForm = ({
                   >
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder="Model" />
+                        <SelectValue />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent className="bg-card rounded-none">
