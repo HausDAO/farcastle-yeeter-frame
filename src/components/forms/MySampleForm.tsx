@@ -72,8 +72,8 @@ export const MySampleForm = ({
   return (
     <div className="w-full h-full space-y-4 pb-4 px-4">
       <Card className="flex flex-col items-center px-4 pt-4 pb-8">
-        <div className="text-xl font-display text-primary uppercase mb-4">
-          Create Character
+        <div className="text-3xl font-display text-muted uppercase mb-4">
+          View Sample
         </div>
         <Form {...form}>
           <form
