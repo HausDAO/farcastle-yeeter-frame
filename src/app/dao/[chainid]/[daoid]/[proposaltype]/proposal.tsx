@@ -16,18 +16,14 @@ import { Button } from "@/components/ui/button";
 import { prepareTX } from "@/lib/tx-prepper/tx-prepper";
 import { getExplorerUrl, getWagmiChainObj } from "@/lib/constants";
 import { useParams } from "next/navigation";
-import {
-  FORM_CONFIGS,
-  FormConfig,
-  FormValues,
-  validFormId,
-} from "@/lib/form-configs";
-import { ValidNetwork } from "@/lib/tx-prepper/prepper-types";
+import { FORM_CONFIGS, FormConfig, validFormId } from "@/lib/form-configs";
+import { ArbitraryState, ValidNetwork } from "@/lib/tx-prepper/prepper-types";
 import { useFrameSDK } from "@/providers/FramesSDKProvider";
 import { useDaoRecord } from "@/providers/DaoRecordProvider";
 import { WaitForReceipt } from "@/lib/types";
 import { proposalCastUrl } from "@/lib/formatters";
 import { FormSwitcher } from "@/components/app/FormSwitcher";
+import { Card } from "@/components/ui/card";
 // import { FormSwitcher } from "@/forms/FormSwitcher";
 
 const getPropidFromReceipt = (receipt: WaitForReceipt): number | null => {
@@ -48,8 +44,6 @@ export default function Proposal() {
 
   const [propid, setPropid] = useState<number | null>(null);
   const [formConfig, setFormConfig] = useState<FormConfig | null>(null);
-  const [formValues, setFormValues] = useState<FormValues>({});
-  const [validValues, setValidValues] = useState<boolean>(false);
 
   const {
     writeContract,
@@ -87,16 +81,14 @@ export default function Proposal() {
     sdk.actions.openUrl(`${getExplorerUrl(daochain)}/tx/${hash}`);
   }, [hash, daochain]);
 
-  const handleSend = async () => {
-    console.log("formValues", formValues);
-
+  const handleSend = async (values: ArbitraryState) => {
     if (!formConfig) return;
 
     const wholeState = {
       formValues: {
-        ...formValues,
-        recipient: address,
+        ...values,
       },
+      senderAddress: address,
       chainId: daochain,
       safeId: daosafe,
       daoId: daoid,
@@ -130,32 +122,28 @@ export default function Proposal() {
   if (!formConfig) return null;
 
   const validChain = chainId === daochainid;
-  const disableSubmit =
-    !isConnected ||
-    isSendTxPending ||
-    !validChain ||
-    isConfirming ||
-    !!hash ||
-    !validValues;
-  const txLoading = isSendTxPending || isConfirming;
 
   return (
     <>
-      <FormSwitcher
-        formid={formConfig.id}
-        isConfirmed={isConfirmed}
-        formValues={formValues}
-        validValues={validValues}
-        setFormValues={setFormValues}
-        setValidValues={setValidValues}
-      />
+      <div className="w-full h-full space-y-4 pb-4 px-4">
+        <Card className="flex flex-col items-center px-4 pt-4 pb-8 rounded-none">
+          <div className="text-muted font-display text-2xl uppercase mb-4">
+            {formConfig.title}
+          </div>
+
+          <div className="w-full space-y-4">
+            <FormSwitcher
+              formConfig={formConfig}
+              confirmed={isConfirmed}
+              loading={isSendTxPending || isConfirming}
+              invalidConnection={!isConnected || !validChain}
+              handleSubmit={handleSend}
+            />
+          </div>
+        </Card>
+      </div>
 
       <div className="flex flex-col gap-2">
-        <Button onClick={handleSend} disabled={disableSubmit}>
-          {txLoading
-            ? "Loading"
-            : formConfig.submitButtonText || "Create Proposal"}
-        </Button>
         {isSendTxError && renderError(sendTxError)}
 
         {!isConnected && (

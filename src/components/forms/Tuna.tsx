@@ -13,24 +13,39 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { InfoIcon } from "lucide-react";
 import { Spinner } from "../ui/spinner";
 import { Textarea } from "../ui/textarea";
+import { parseUnits } from "viem";
 import { FormComponentProps } from "../app/FormSwitcher";
+
+// adding a new form
+// // define tx lego
+// // define schema
+// // add all field components
+// // define value tranformer to send back to parent txPrepper
 
 const formSchema = z.object({
   title: z.string().min(2, {
     message: "Title must be at least 2 characters.",
   }),
   description: z.string(),
-  link: z.string().url(),
+  amount: z.coerce.number({
+    required_error: "Amount is required",
+    invalid_type_error: "Amount must be a number",
+  }),
 });
 
-export const Signal = ({
+export const Tuna = ({
   formConfig,
   handleSubmit,
   loading,
   confirmed,
-  invalidConnection,
 }: FormComponentProps) => {
   const { submitButtonText } = formConfig;
   const form = useForm<z.infer<typeof formSchema>>({
@@ -38,18 +53,24 @@ export const Signal = ({
     defaultValues: {
       title: "",
       description: "",
-      link: "",
+      amount: 0,
     },
   });
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
     const preparedValues = {
       ...values,
+      amount: parseUnits(values.amount.toString(), 18),
     };
+    console.log(values);
+    console.log("preparedValues", preparedValues);
+
     handleSubmit(preparedValues);
   };
 
-  const disabled = loading || confirmed || invalidConnection;
+  //   const titleWatcher = form.watch("title");
+  //   console.log("form", form);
+  //   console.log("titleWatcher", titleWatcher);
 
   return (
     <Form {...form}>
@@ -57,11 +78,19 @@ export const Signal = ({
         <FormField
           control={form.control}
           name="title"
-          disabled={disabled}
+          disabled={loading || confirmed}
           render={({ field }) => (
             <FormItem>
               <div className="flex mb-2 justify-between">
                 <FormLabel>Title</FormLabel>
+                <Popover>
+                  <PopoverTrigger>
+                    <InfoIcon className="h-4 w-4 text-muted-foreground" />
+                  </PopoverTrigger>
+                  <PopoverContent className="w-80" align="end">
+                    some content
+                  </PopoverContent>
+                </Popover>
               </div>
               <FormControl>
                 <Input
@@ -77,11 +106,19 @@ export const Signal = ({
         <FormField
           control={form.control}
           name="description"
-          disabled={disabled}
+          disabled={loading || confirmed}
           render={({ field }) => (
             <FormItem>
               <div className="flex mb-2 justify-between">
                 <FormLabel>Description</FormLabel>
+                <Popover>
+                  <PopoverTrigger>
+                    <InfoIcon className="h-4 w-4 text-muted-foreground" />
+                  </PopoverTrigger>
+                  <PopoverContent className="w-80" align="end">
+                    some content
+                  </PopoverContent>
+                </Popover>
               </div>
               <FormControl>
                 <Textarea
@@ -96,17 +133,26 @@ export const Signal = ({
         />
         <FormField
           control={form.control}
-          name="link"
-          disabled={disabled}
+          name="amount"
+          disabled={loading || confirmed}
           render={({ field }) => (
             <FormItem>
               <div className="flex mb-2 justify-between">
-                <FormLabel>Link</FormLabel>
+                <FormLabel>Amount</FormLabel>
+                <Popover>
+                  <PopoverTrigger>
+                    <InfoIcon className="h-4 w-4 text-muted-foreground" />
+                  </PopoverTrigger>
+                  <PopoverContent className="w-80" align="end">
+                    some content
+                  </PopoverContent>
+                </Popover>
               </div>
               <FormControl>
                 <Input
-                  id="link"
-                  placeholder="Url for more content"
+                  id="amount"
+                  placeholder="Amount"
+                  type="number"
                   {...field}
                 />
               </FormControl>
@@ -120,7 +166,7 @@ export const Signal = ({
           </Button>
         )}
         {!loading && !confirmed && (
-          <Button type="submit" className="w-full" disabled={disabled}>
+          <Button type="submit" className="w-full">
             {submitButtonText || "Create Proposal"}
           </Button>
         )}
