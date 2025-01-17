@@ -160,7 +160,7 @@ export const MySampleForm = ({
                   >
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue />
+                        <SelectValue placeholder="Select Placeholder" />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent className="bg-card rounded-none">
@@ -180,7 +180,15 @@ export const MySampleForm = ({
               render={({ field }) => (
                 <FormItem>
                   <div className="flex mb-2 justify-between">
-                    <FormLabel>Radio Choice</FormLabel>
+                    <FormLabel>Radio</FormLabel>
+                    <Popover>
+                      <PopoverTrigger>
+                        <InfoIcon className="h-4 w-4 text-muted-foreground" />
+                      </PopoverTrigger>
+                      <PopoverContent className="w-80" align="end">
+                        This is the content in the popover.
+                      </PopoverContent>
+                    </Popover>
                   </div>
                   <FormControl>
                     <RadioGroup
@@ -214,7 +222,7 @@ export const MySampleForm = ({
             )}
             {!loading && !confirmed && (
               <Button type="submit" className="w-full" disabled={disabled}>
-                {formConfig.submitButtonText || 'Create Proposal'}
+                {formConfig.submitButtonText || 'Submit'}
               </Button>
             )}
             {confirmed && (
