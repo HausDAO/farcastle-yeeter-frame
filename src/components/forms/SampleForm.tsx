@@ -23,6 +23,8 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "../ui/button";
 import { Spinner } from "../ui/spinner";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import { InfoIcon } from "lucide-react";
 
 const formSchema = z.object({
   title: z.string().min(2, {
@@ -76,6 +78,14 @@ export const SampleForm = ({
               <FormItem>
                 <div className="flex mb-2 justify-between">
                   <FormLabel>Title</FormLabel>
+                  <Popover>
+                    <PopoverTrigger>
+                      <InfoIcon className="h-4 w-4 text-muted-foreground" />
+                    </PopoverTrigger>
+                    <PopoverContent className="w-80" align="end">
+                      some content
+                    </PopoverContent>
+                  </Popover>
                 </div>
                 <FormControl>
                   <Input
