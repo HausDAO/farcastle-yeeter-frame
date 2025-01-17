@@ -1,10 +1,11 @@
-import React from "react";
-import { Label } from "../ui/label";
+import React from 'react';
+import { Label } from '../ui/label';
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover";
+} from '@/components/ui/popover';
+import { InfoIcon } from 'lucide-react';
 
 type FieldWrapperProps = {
   children: React.ReactNode;
@@ -25,20 +26,22 @@ export const FieldWrapper = ({
   children,
 }: FieldWrapperProps) => {
   return (
-    <>
-      <div className="my-3 mx-1">
-        <div className="flex justify-between">
-          {label && <Label htmlFor={id}>{label}</Label>}
-          {info && (
-            <Popover>
-              <PopoverTrigger className="text-sm">{info.label}</PopoverTrigger>
-              <PopoverContent>{info.content}</PopoverContent>
-            </Popover>
-          )}
-        </div>
-        {children}
-        {error && <p className="mt-1 text-red-600 text-xs">{error}</p>}
+    <div>
+      <div className="flex mb-2 justify-between">
+        {label && <Label htmlFor={id}>{label}</Label>}
+        {info && (
+          <Popover>
+            <PopoverTrigger>
+              <InfoIcon className="h-4 w-4 text-muted-foreground" />
+            </PopoverTrigger>
+            <PopoverContent className="w-80" align="end">
+              {info.content}
+            </PopoverContent>
+          </Popover>
+        )}
       </div>
-    </>
+      {children}
+      {error && <p className="mt-2 text-destructive text-sm">{error}</p>}
+    </div>
   );
 };
