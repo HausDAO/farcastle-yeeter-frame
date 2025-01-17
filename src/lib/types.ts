@@ -220,11 +220,3 @@ export type WaitForReceipt = {
     topics: `0x${string}`[];
   }[];
 };
-
-export type FormComponentProps = {
-  isConfirmed: boolean;
-  formValues: FormValues;
-  validValues: boolean;
-  setFormValues: Dispatch<FormValues>;
-  setValidValues: Dispatch<boolean>;
-};

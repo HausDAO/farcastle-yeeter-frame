@@ -36,7 +36,7 @@ export default function DaoHome() {
 
       <div className="mb-4">
         <Link href={`/dao/${params.chainid}/${params.daoid}/SAMPLE`}>
-          <Button>FIELD SAMPLE</Button>
+          <Button>SAMPLER</Button>
         </Link>
       </div>
     </div>
