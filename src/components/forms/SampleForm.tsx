@@ -1,12 +1,12 @@
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from '@/components/ui/select';
 import {
   Form,
   FormControl,
@@ -14,28 +14,28 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Label } from "@/components/ui/label";
-import { z } from "zod";
-import { FormComponentProps } from "../app/FormSwitcher";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Button } from "../ui/button";
-import { Spinner } from "../ui/spinner";
-import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
-import { InfoIcon } from "lucide-react";
+} from '@/components/ui/form';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { Label } from '@/components/ui/label';
+import { z } from 'zod';
+import { FormComponentProps } from '../app/FormSwitcher';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Button } from '../ui/button';
+import { Spinner } from '../ui/spinner';
+import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
+import { InfoIcon } from 'lucide-react';
 
 const formSchema = z.object({
   title: z.string().min(2, {
-    message: "Title must be at least 2 characters.",
+    message: 'Title must be at least 2 characters.',
   }),
   description: z.string(),
   model: z.string({
-    required_error: "Please select an model.",
+    required_error: 'Please select an model.',
   }),
-  choice: z.enum(["all", "some", "none"], {
-    required_error: "You need to select a choice.",
+  choice: z.enum(['all', 'some', 'none'], {
+    required_error: 'You need to select a choice.',
   }),
 });
 
@@ -49,9 +49,9 @@ export const SampleForm = ({
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      title: "",
-      description: "",
-      model: "",
+      title: '',
+      description: '',
+      model: '',
     },
   });
 
@@ -59,8 +59,8 @@ export const SampleForm = ({
     const preparedValues = {
       ...values,
     };
-    console.log("values", values);
-    console.log("preparedValues", preparedValues);
+    console.log('values', values);
+    console.log('preparedValues', preparedValues);
     console.log(handleSubmit);
     // handleSubmit(preparedValues);
   };
@@ -69,7 +69,10 @@ export const SampleForm = ({
   return (
     <>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="space-y-8 bg-green-500"
+        >
           <FormField
             control={form.control}
             name="title"
@@ -187,7 +190,7 @@ export const SampleForm = ({
           )}
           {!loading && !confirmed && (
             <Button type="submit" className="w-full" disabled={disabled}>
-              {formConfig.submitButtonText || "Create Proposal"}
+              {formConfig.submitButtonText || 'Create Proposal'}
             </Button>
           )}
           {confirmed && (
