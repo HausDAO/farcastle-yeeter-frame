@@ -12,6 +12,7 @@ export default {
     fontFamily: {
       display: ['VT323', 'monospace'],
       fraktur: ['FetteUNZFraktur', 'serif'],
+      mulish: ['Mulish', 'sans-serif'],
     },
     extend: {
       colors: {
