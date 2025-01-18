@@ -2,13 +2,13 @@
 
 import React from 'react';
 
-import { MySampleForm } from '@/components/forms/MySampleForm';
+import { SampleForm } from '@/components/forms/SampleForm';
 import { BaalContractBase } from '@/lib/tx-prepper/tx-prepper';
 
 export default function SamplePage() {
   return (
     <div className="w-full h-full space-y-4 pt-1 grow">
-      <MySampleForm
+      <SampleForm
         formConfig={{
           id: 'sample',
           tx: {
