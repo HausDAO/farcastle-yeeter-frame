@@ -34,8 +34,8 @@ function Header() {
   return (
     <div className="w-full flex flex-row items-center justify-between p-4">
       <div className="opacity-0 h-[30px] w-[30px]" />
-      <div className="text-xl font-fraktur pt-[2px] leading-[30px] h-[30px] text-primary">
-        Proposals
+      <div className="text-2xl font-fraktur pt-[2px] leading-[30px] h-[30px] text-primary">
+        proposals
       </div>
       <HeaderLogoSvg className="opacity-100" onClick={onLogoClick} />
     </div>
