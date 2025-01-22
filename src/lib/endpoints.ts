@@ -33,3 +33,21 @@ const SUBGRAPH_IDS: KeychainList = {
     "0x2105": `7yh4eHJ4qpHEiLPAk9BXhL5YgYrTrRE6gWy8x4oHyAqW`,
   },
 };
+
+export const getGnosisUrl = ({ chainid }: { chainid: string }): string => {
+  const gnosisUrl = GNOSIS_API[chainid];
+  if (!gnosisUrl) {
+    console.log("invalid chainid");
+  }
+  return gnosisUrl;
+};
+
+const GNOSIS_API: KEYCHAIN = {
+  "0x1": "https://safe-transaction-mainnet.safe.global/api/v1",
+  "0x64": "https://safe-transaction-gnosis-chain.safe.global/api/v1",
+  "0x89": "https://safe-transaction-polygon.safe.global/api/v1",
+  "0xa": "https://safe-transaction-optimism.safe.global/api/v1",
+  "0xa4b1": "https://safe-transaction-arbitrum.safe.global/api/v1",
+  "0xaa36a7": "https://safe-transaction-sepolia.safe.global/api/v1",
+  "0x2105": "https://safe-transaction-base.safe.global/api/v1",
+};

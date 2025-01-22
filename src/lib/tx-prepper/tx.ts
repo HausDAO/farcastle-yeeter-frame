@@ -146,6 +146,18 @@ export const TX: Record<string, TXLego> = {
         args: [
           nestInArray(".formValues.recipient"),
           nestInArray(".formValues.sharesRequested"),
+        ],
+      },
+      {
+        contract: {
+          type: "static",
+          contractName: "Current DAO (Baal)",
+          abi: LOCAL_ABI.BAAL,
+          targetAddress: ".daoId",
+        },
+        method: "mintLoot",
+        args: [
+          nestInArray(".formValues.recipient"),
           nestInArray(".formValues.lootRequested"),
         ],
       },
