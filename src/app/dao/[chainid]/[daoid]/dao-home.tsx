@@ -4,11 +4,13 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { useFrameSDK } from "@/providers/FramesSDKProvider";
+import { useDao } from "@/hooks/useDao";
 
 export default function DaoHome() {
   const { isLoaded } = useFrameSDK();
 
   const params = useParams<{ chainid: string; daoid: string }>();
+  const { dao } = useDao({ chainid: params.chainid, daoid: params.daoid });
 
   if (!isLoaded) {
     return <div>Loading...</div>;
@@ -16,6 +18,11 @@ export default function DaoHome() {
 
   return (
     <div className="w-[300px] mx-auto py-4 px-2">
+      {dao && (
+        <p className="my-3 text-primary font-semibold text-lg">
+          Create a proposal in {dao?.name}
+        </p>
+      )}
       <div className="mb-4">
         <Link href={`/dao/${params.chainid}/${params.daoid}/POST_SIGNAL`}>
           <Button>Propose Signal</Button>
@@ -23,15 +30,19 @@ export default function DaoHome() {
       </div>
 
       <div className="mb-4">
-        {/* <Link
+        <Link
           href={`/dao/${params.chainid}/${params.daoid}/REQUEST_MEMBERSHIP`}
-        > */}
-        <Button disabled={true}>Request Fundings</Button>
-        {/* </Link> */}
+        >
+          <Button>Request Membership</Button>
+        </Link>
       </div>
 
       <div className="mb-4">
-        <Button disabled={true}>Request Membership</Button>
+        {/* <Link
+          href={`/dao/${params.chainid}/${params.daoid}/REQUEST_MEMBERSHIP`}
+          > */}
+        <Button disabled={true}>Request Fundings</Button>
+        {/* </Link> */}
       </div>
 
       <div className="mb-4">

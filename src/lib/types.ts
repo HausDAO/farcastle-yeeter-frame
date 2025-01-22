@@ -220,3 +220,17 @@ export type WaitForReceipt = {
     topics: `0x${string}`[];
   }[];
 };
+
+export type TokenInfo = {
+  decimals: number;
+  symbol: string;
+  name: string;
+  logoUri: string | null;
+};
+export type TokenBalance = {
+  token: TokenInfo | null;
+  tokenAddress: string | null;
+  balance: string;
+  ethValue: string;
+  timestamp: string;
+};
