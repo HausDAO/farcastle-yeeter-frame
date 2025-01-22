@@ -3,18 +3,10 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "../ui/textarea";
+import { Form } from "@/components/ui/form";
 import { FormComponentProps } from "../app/FormSwitcher";
 import { FormActionButtons } from "../app/FormActionButtons";
+import { ProposalMetaFields } from "../app/ProposalMetaFields";
 
 const formSchema = z.object({
   title: z.string().min(2, {
@@ -56,66 +48,8 @@ export const Signal = ({
         onSubmit={form.handleSubmit(onSubmit)}
         className="w-full px-4 space-y-4"
       >
-        <FormField
-          control={form.control}
-          name="title"
-          disabled={disabled}
-          render={({ field }) => (
-            <FormItem>
-              <div className="flex mb-2 justify-between">
-                <FormLabel>Title</FormLabel>
-              </div>
-              <FormControl>
-                <Input
-                  id="title"
-                  placeholder="Simple Input Placeholder"
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="description"
-          disabled={disabled}
-          render={({ field }) => (
-            <FormItem>
-              <div className="flex mb-2 justify-between">
-                <FormLabel>Description</FormLabel>
-              </div>
-              <FormControl>
-                <Textarea
-                  id="description"
-                  placeholder="Add a proposal description"
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="link"
-          disabled={disabled}
-          render={({ field }) => (
-            <FormItem>
-              <div className="flex mb-2 justify-between">
-                <FormLabel>Link</FormLabel>
-              </div>
-              <FormControl>
-                <Input
-                  id="link"
-                  placeholder="Url for more content"
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        <ProposalMetaFields disabled={disabled} />
+
         <FormActionButtons
           submitButtonText={submitButtonText}
           loading={loading}
