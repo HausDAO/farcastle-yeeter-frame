@@ -22,7 +22,7 @@ const formSchema = z.object({
     message: "Title must be at least 2 characters.",
   }),
   description: z.string(),
-  link: z.string().url(),
+  link: z.string().url().optional().or(z.literal("")),
 });
 
 export const Signal = ({
@@ -53,7 +53,10 @@ export const Signal = ({
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="w-full px-4 space-y-4"
+      >
         <FormField
           control={form.control}
           name="title"

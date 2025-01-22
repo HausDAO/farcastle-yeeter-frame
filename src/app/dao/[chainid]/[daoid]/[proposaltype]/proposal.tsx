@@ -140,33 +140,37 @@ export default function Proposal() {
               handleSubmit={handleSend}
             />
           </div>
+
+          <div className="flex flex-col gap-2 w-full space-y-4 pb-4 px-4 mt-3">
+            {isSendTxError && renderError(sendTxError)}
+
+            {!isConnected && (
+              <>
+                <Button onClick={() => connect({ connector: connector })}>
+                  Connect
+                </Button>
+              </>
+            )}
+
+            {isConnected && !validChain && (
+              <Button
+                onClick={() =>
+                  switchChain({ chainId: getWagmiChainObj(daochain).id })
+                }
+              >
+                Switch to {getWagmiChainObj(daochain).name}
+              </Button>
+            )}
+
+            {propid && (
+              <Button onClick={openProposalCastUrl}>Cast Proposal</Button>
+            )}
+
+            {hash && (
+              <Button onClick={openUrl}>View Tx on Block Explorer</Button>
+            )}
+          </div>
         </Card>
-      </div>
-
-      <div className="flex flex-col gap-2">
-        {isSendTxError && renderError(sendTxError)}
-
-        {!isConnected && (
-          <>
-            <Button onClick={() => connect({ connector: connector })}>
-              Connect
-            </Button>
-          </>
-        )}
-
-        {isConnected && !validChain && (
-          <Button
-            onClick={() =>
-              switchChain({ chainId: getWagmiChainObj(daochain).id })
-            }
-          >
-            Switch to {getWagmiChainObj(daochain).name}
-          </Button>
-        )}
-
-        {propid && <Button onClick={openProposalCastUrl}>Cast Proposal</Button>}
-
-        {hash && <Button onClick={openUrl}>View Tx on Block Explorer</Button>}
       </div>
     </>
   );
