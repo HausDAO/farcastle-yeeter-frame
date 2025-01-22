@@ -1,7 +1,6 @@
 import { FormConfig } from "@/lib/form-configs";
 import { Signal } from "../forms/Signal";
 import { SampleForm } from "../forms/SampleForm";
-import { Tuna } from "../forms/Tuna";
 import { ArbitraryState } from "@/lib/tx-prepper/prepper-types";
 import { RequestMembership } from "../forms/RequestMembership";
 // import { RequestMembership } from "../forms/RequestMembership";
@@ -26,16 +25,6 @@ export const FormSwitcher = ({
       case "SAMPLE":
         return (
           <SampleForm
-            formConfig={formConfig}
-            confirmed={confirmed}
-            loading={loading}
-            invalidConnection={invalidConnection}
-            handleSubmit={handleSubmit}
-          />
-        );
-      case "TUNA":
-        return (
-          <Tuna
             formConfig={formConfig}
             confirmed={confirmed}
             loading={loading}

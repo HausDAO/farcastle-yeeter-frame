@@ -26,6 +26,7 @@ import { Button } from "../ui/button";
 import { Spinner } from "../ui/spinner";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { InfoIcon } from "lucide-react";
+import { FormActionButtons } from "../app/FormActionButtons";
 
 const formSchema = z.object({
   title: z.string().min(2, {
@@ -203,23 +204,12 @@ export const SampleForm = ({
           )}
         />
 
-        <div className="mt-8">
-          {loading && (
-            <Button type="submit" disabled={loading} className="w-full">
-              <Spinner />
-            </Button>
-          )}
-          {!loading && !confirmed && (
-            <Button type="submit" className="w-full" disabled={disabled}>
-              {formConfig.submitButtonText || "Submit"}
-            </Button>
-          )}
-          {confirmed && (
-            <Button type="submit" disabled={true} className="w-full">
-              Success
-            </Button>
-          )}
-        </div>
+        <FormActionButtons
+          submitButtonText={"Create Proposal"}
+          loading={loading}
+          confirmed={confirmed}
+          disabled={disabled}
+        />
       </form>
     </Form>
   );

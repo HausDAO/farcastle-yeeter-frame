@@ -3,7 +3,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -13,12 +12,12 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Spinner } from "../ui/spinner";
 import { Textarea } from "../ui/textarea";
 import { FormComponentProps } from "../app/FormSwitcher";
 import { useParams } from "next/navigation";
 import { useDao } from "@/hooks/useDao";
 import { useDaoTokenBalances } from "@/hooks/useDaoTokenBalances";
+import { FormActionButtons } from "../app/FormActionButtons";
 
 const formSchema = z.object({
   title: z.string().min(2, {
@@ -130,21 +129,12 @@ export const RequestFunding = ({
             </FormItem>
           )}
         />
-        {loading && (
-          <Button type="submit" disabled={loading} className="w-full">
-            <Spinner />
-          </Button>
-        )}
-        {!loading && !confirmed && (
-          <Button type="submit" className="w-full" disabled={disabled}>
-            {submitButtonText || "Create Proposal"}
-          </Button>
-        )}
-        {confirmed && (
-          <Button type="submit" disabled={true} className="w-full">
-            Success
-          </Button>
-        )}
+        <FormActionButtons
+          submitButtonText={submitButtonText}
+          loading={loading}
+          confirmed={confirmed}
+          disabled={disabled}
+        />
       </form>
     </Form>
   );
