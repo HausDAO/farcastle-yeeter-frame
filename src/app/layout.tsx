@@ -1,37 +1,37 @@
-import "./globals.css";
+import './globals.css';
 
-import type { Metadata } from "next";
+import type { Metadata } from 'next';
 
-import { Header } from "@/components/ui/header";
-import { Providers } from "@/providers/Providers";
+import { Header } from '@/components/ui/header';
+import { Providers } from '@/providers/Providers';
 
 const frame = {
-  version: "next",
-  imageUrl: `https://zoo.farcastle.net/image.png`,
+  version: 'next',
+  imageUrl: `https://proposals.farcastle.net/image.png`,
   button: {
-    title: "Farcastle Proposals",
+    title: 'Make Proposal',
     action: {
-      type: "launch_frame",
-      name: "Farcastle Proposals",
-      url: "https://zoo.farcastle.net",
-      iconImageUrl: `https://zoo.farcastle.net/icon.png`,
-      splashImageUrl: `https://zoo.farcastle.net/splash.png`,
-      splashBackgroundColor: "#341A34",
+      type: 'launch_frame',
+      name: 'Proposals',
+      url: 'https://proposals.farcastle.net',
+      iconImageUrl: `https://proposals.farcastle.net/icon.png`,
+      splashImageUrl: `https://proposals.farcastle.net/splash.png`,
+      splashBackgroundColor: '#341A34',
     },
   },
 };
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
-    metadataBase: new URL("https://zoo.farcastle.net"),
-    title: "Farcastle Proposals",
+    metadataBase: new URL('https://proposals.farcastle.net'),
+    title: 'Proposals',
     openGraph: {
-      title: "Farcastle Proposals",
-      description: "collection of cursed creatures",
-      images: `https://zoo.farcastle.net/image.png`,
+      title: 'Farcastle Proposals',
+      description: 'the actions of organizations',
+      images: `https://proposals.farcastle.net/image.png`,
     },
     other: {
-      "fc:frame": JSON.stringify(frame),
+      'fc:frame': JSON.stringify(frame),
     },
   };
 }
