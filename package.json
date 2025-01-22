@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "pages:build": "next build",
+    "pages:build": "rm -rf .next && next build && cp -r .next/static .next/standalone/static",
     "preview": "bun run pages:build && wrangler pages dev",
     "deploy": "bun run pages:build && wrangler pages deploy"
   },
