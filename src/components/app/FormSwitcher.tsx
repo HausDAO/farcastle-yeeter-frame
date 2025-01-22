@@ -3,6 +3,7 @@ import { Signal } from "../forms/Signal";
 import { SampleForm } from "../forms/SampleForm";
 import { Tuna } from "../forms/Tuna";
 import { ArbitraryState } from "@/lib/tx-prepper/prepper-types";
+import { RequestMembership } from "../forms/RequestMembership";
 // import { RequestMembership } from "../forms/RequestMembership";
 
 export type FormComponentProps = {
@@ -52,16 +53,16 @@ export const FormSwitcher = ({
             handleSubmit={handleSubmit}
           />
         );
-      // case "REQUEST_MEMBERSHIP":
-      //   return (
-      //     <RequestMembership
-      //       isConfirmed={isConfirmed}
-      //       formValues={formValues}
-      //       validValues={validValues}
-      //       setFormValues={setFormValues}
-      //       setValidValues={setValidValues}
-      //     />
-      //   );
+      case "REQUEST_MEMBERSHIP":
+        return (
+          <RequestMembership
+            formConfig={formConfig}
+            confirmed={confirmed}
+            loading={loading}
+            invalidConnection={invalidConnection}
+            handleSubmit={handleSubmit}
+          />
+        );
 
       default:
         return null;
