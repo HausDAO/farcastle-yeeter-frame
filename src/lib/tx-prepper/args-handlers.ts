@@ -1,12 +1,14 @@
-import { encodeMulti, MetaTransaction } from "ethers-multisend";
-import { processContractLego } from "./contracts";
+import { encodeMulti, MetaTransaction } from 'ethers-multisend';
+import { CONTRACT_KEYCHAINS } from './contract-keychains';
+import { processContractLego } from './contracts';
 import {
   encodeExecFromModule,
   encodeFunction,
   encodeMultiAction,
   encodeValues,
   txActionToMetaTx,
-} from "./encoders";
+} from './encoders';
+import { GAS_BUFFER_MULTIPLIER, gasEstimateFromActions } from './gas-estimate';
 import {
   ABI,
   ArbitraryState,
@@ -23,10 +25,8 @@ import {
   TXLego,
   ValidArgType,
   ValidNetwork,
-} from "./prepper-types";
-import { checkArgType, isSearchArg } from "./typeguards";
-import { CONTRACT_KEYCHAINS } from "./contract-keychains";
-import { GAS_BUFFER_MULTIPLIER, gasEstimateFromActions } from "./gas-estimate";
+} from './prepper-types';
+import { checkArgType, isSearchArg } from './typeguards';
 
 export const searchArg = ({
   appState,
@@ -88,7 +88,7 @@ export const processArgs = async ({
   if (args) {
     return await Promise.all(
       args?.map(
-        async (arg) =>
+        async arg =>
           await processArg({
             arg,
             chainId,
@@ -100,7 +100,7 @@ export const processArgs = async ({
     );
   }
   throw new Error(
-    "TX Lego must have a valid arg type, use either a string alias for an argument callback or an array of valid arguments"
+    'TX Lego must have a valid arg type, use either a string alias for an argument callback or an array of valid arguments'
   );
 };
 
@@ -120,15 +120,15 @@ export const processArg = async ({
   if (isSearchArg(arg)) {
     return searchArg({ appState, searchString: arg, shouldThrow: true });
   }
-  if (arg?.type === "static") {
+  if (arg?.type === 'static') {
     return arg.value;
   }
-  if (arg?.type === "template") {
+  if (arg?.type === 'template') {
     // appState variables should be enclosed in curly braces e.g. `Send {.formValues.value} ETH`
     const fragments = arg.value.split(/{|}/g);
     return fragments
       .map((f: string) =>
-        f[0] === "."
+        f[0] === '.'
           ? searchArg({
               appState,
               searchString: f as StringSearch,
@@ -136,15 +136,15 @@ export const processArg = async ({
             })
           : f
       )
-      .join("");
+      .join('');
   }
-  if (arg?.type === "singleton") {
+  if (arg?.type === 'singleton') {
     return handleKeychainArg({ chainId, keychain: arg.keychain });
   }
-  if (arg?.type === "nestedArray") {
+  if (arg?.type === 'nestedArray') {
     return Promise.all(
       arg.args.map(
-        async (arg) =>
+        async arg =>
           await processArg({
             arg,
             chainId,
@@ -155,7 +155,7 @@ export const processArg = async ({
       )
     );
   }
-  if (arg?.type === "multicall" || arg.type === "encodeMulticall") {
+  if (arg?.type === 'multicall' || arg.type === 'encodeMulticall') {
     const actions = await handleMulticallArg({
       arg,
       chainId,
@@ -169,7 +169,7 @@ export const processArg = async ({
 
     return result;
   }
-  if (arg?.type === "encodeCall") {
+  if (arg?.type === 'encodeCall') {
     const result = await handleEncodeCallArg({
       arg,
       chainId,
@@ -178,7 +178,7 @@ export const processArg = async ({
     });
     return result;
   }
-  if (arg?.type === "argEncode") {
+  if (arg?.type === 'argEncode') {
     const result = await handleArgEncode({
       arg,
       chainId,
@@ -187,7 +187,7 @@ export const processArg = async ({
     });
     return result;
   }
-  if (arg?.type === "estimateGas") {
+  if (arg?.type === 'estimateGas') {
     const result = await handleGasEstimate({
       arg,
       chainId,
@@ -197,11 +197,11 @@ export const processArg = async ({
     });
     return result;
   }
-  if (arg?.type === "proposalExpiry") {
+  if (arg?.type === 'proposalExpiry') {
     // TODO: Implement proposal expiration arg
-    return "0";
+    return '0';
   }
-  if (arg?.type === "JSONDetails") {
+  if (arg?.type === 'JSONDetails') {
     const result = await handleDetailsJSON({
       arg,
       chainId,
@@ -211,18 +211,18 @@ export const processArg = async ({
     });
     return result;
   }
-  console.log("**DEBUG**");
-  console.log("arg", arg);
+  console.log('**DEBUG**');
+  console.log('arg', arg);
   throw new Error(`ArgType not found.`);
 };
 
 export const checkHasCondition = (pathString: StringSearch) =>
-  pathString.includes("||");
+  pathString.includes('||');
 export const handleConditionalPath = (pathString: StringSearch) => {
   const paths = pathString
     .trim()
-    .split("||")
-    .map((str) => str.trim())
+    .split('||')
+    .map(str => str.trim())
     .filter(Boolean);
 
   return paths;
@@ -235,10 +235,10 @@ export const searchApp = (
 ) => {
   const result = deepSearch(appState, pathString);
 
-  if (result == null) {
+  if (result === null) {
     if (shouldThrow) {
-      console.log("**Application State**", appState);
-      console.log("result", result);
+      console.log('**Application State**', appState);
+      console.log('result', result);
       throw new Error(`Could not find ${pathString}`);
     } else {
       return false;
@@ -297,7 +297,7 @@ export const handleMulticallArg = async ({
   appState: ArbitraryState;
 }) => {
   const encodedActions = await Promise.all(
-    arg.actions.map(async (action) => {
+    arg.actions.map(async action => {
       const { contract, method, args, value, operations, data } = action;
       const processedContract = await processContractLego({
         contract,
@@ -341,7 +341,7 @@ export const handleMulticallArg = async ({
 
       const processedArgs = await Promise.all(
         args.map(
-          async (arg) =>
+          async arg =>
             await processArg({
               arg,
               chainId,
@@ -389,7 +389,7 @@ export const handleEncodeCallArg = async ({
 
   const processedArgs = await Promise.all(
     args.map(
-      async (arg) =>
+      async arg =>
         await processArg({
           arg,
           chainId,
@@ -405,7 +405,7 @@ export const handleEncodeCallArg = async ({
     processedArgs
   );
 
-  if (typeof encodedData !== "string") {
+  if (typeof encodedData !== 'string') {
     throw new Error(encodedData.message);
   }
 
@@ -419,18 +419,18 @@ export const handleEncodeMulticallArg = async ({
   arg: MulticallArg | EncodeMulticall;
   actions: MetaTransaction[];
 }) => {
-  if (arg.type === "encodeMulticall") {
+  if (arg.type === 'encodeMulticall') {
     const result = encodeMulti(actions);
 
-    if (typeof result !== "string") {
-      throw new Error("Could not encode generic multicall");
+    if (typeof result !== 'string') {
+      throw new Error('Could not encode generic multicall');
     }
     return result;
   }
 
   const result = encodeMultiAction(actions);
 
-  if (typeof result !== "string") {
+  if (typeof result !== 'string') {
     throw new Error(result.message);
   }
   return result;
@@ -454,7 +454,7 @@ export const handleArgEncode = async ({
 
   const processedArgs = await Promise.all(
     args.map(
-      async (arg) =>
+      async arg =>
         await processArg({
           arg,
           chainId,
@@ -463,7 +463,7 @@ export const handleArgEncode = async ({
         })
     )
   );
-  console.log("processedArgs", processedArgs);
+  console.log('processedArgs', processedArgs);
 
   return encodeValues(solidityTypes, processedArgs);
 };
@@ -481,14 +481,14 @@ export const handleGasEstimate = async ({
   appState: ArbitraryState;
   localABIs?: Record<string, ABI>;
 }) => {
-  if (!safeId) throw new Error("Safe ID is required to estimate gas");
+  if (!safeId) throw new Error('Safe ID is required to estimate gas');
 
   const actions = await handleMulticallArg({
     localABIs,
     chainId,
     appState,
     arg: {
-      type: "multicall",
+      type: 'multicall',
       actions: arg.actions,
       formActions: arg.formActions,
     },
@@ -499,7 +499,7 @@ export const handleGasEstimate = async ({
   const metaTx = {
     to: CONTRACT_KEYCHAINS.GNOSIS_MULTISEND[chainId],
     data: encodeMultiAction(actions),
-    value: "0",
+    value: '0',
     operation: 1,
   } as MetaTransaction;
   const gasEstimate = await gasEstimateFromActions({
@@ -550,7 +550,7 @@ export const handleDetailsJSON = async ({
     })
   );
   if (!detailsList) {
-    console.log("arg", arg);
+    console.log('arg', arg);
     throw new Error(`Error Compiling JSON Details`);
   }
 
@@ -565,7 +565,7 @@ export const deepSearch = (
   appState: ArbitraryState,
   pathString: StringSearch
 ): unknown => {
-  const path = pathString.trim().split(".").filter(Boolean);
+  const path = pathString.trim().split('.').filter(Boolean);
   let state = { ...appState };
   for (let i = 0, len = path.length; i < len; i++) {
     state = state?.[path?.[i]];
@@ -585,7 +585,7 @@ const handleMulticallFormActions = ({
       })
     : [];
   if (!validTxs.length) {
-    throw new Error("No actions found");
+    throw new Error('No actions found');
   }
   const sortedTxs = validTxs.sort((actionA: string, actionB: string) =>
     Number(appState.formValues.tx[actionA].index) >

@@ -1,11 +1,8 @@
-import { Dispatch } from "react";
-import { FormValues } from "./form-configs";
-
 export type SubgraphQueryOrderPaginationOptions = {
   skip?: number;
   first?: number;
   orderBy?: string;
-  orderDirection?: "asc" | "desc";
+  orderDirection?: 'asc' | 'desc';
 };
 
 export type YeeterItem = {

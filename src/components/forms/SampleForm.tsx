@@ -1,13 +1,3 @@
-import { Card } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import {
   Form,
   FormControl,
@@ -15,36 +5,42 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Label } from "@/components/ui/label";
-import { z } from "zod";
-import { FormComponentProps } from "../app/FormSwitcher";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Button } from "../ui/button";
-import { Spinner } from "../ui/spinner";
-import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
-import { InfoIcon } from "lucide-react";
-import { FormActionButtons } from "../app/FormActionButtons";
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { Textarea } from '@/components/ui/textarea';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { InfoIcon } from 'lucide-react';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+import { FormActionButtons } from '../app/FormActionButtons';
+import { FormComponentProps } from '../app/FormSwitcher';
+import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
 
 const formSchema = z.object({
   title: z.string().min(2, {
-    message: "Try harder",
+    message: 'Try harder',
   }),
   description: z.string().min(1, {
-    message: "Write something",
+    message: 'Write something',
   }),
   model: z.string().min(1, {
-    message: "Make a selection",
+    message: 'Make a selection',
   }),
-  choice: z.enum(["all", "some", "none"], {
-    required_error: "Choose an option",
+  choice: z.enum(['all', 'some', 'none'], {
+    required_error: 'Choose an option',
   }),
 });
 
 export const SampleForm = ({
-  formConfig,
   handleSubmit,
   loading,
   confirmed,
@@ -53,9 +49,9 @@ export const SampleForm = ({
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      title: "",
-      description: "",
-      model: "",
+      title: '',
+      description: '',
+      model: '',
     },
   });
 
@@ -63,8 +59,8 @@ export const SampleForm = ({
     const preparedValues = {
       ...values,
     };
-    console.log("values", values);
-    console.log("preparedValues", preparedValues);
+    console.log('values', values);
+    console.log('preparedValues', preparedValues);
     console.log(handleSubmit);
     // handleSubmit(preparedValues);
   };
@@ -205,7 +201,7 @@ export const SampleForm = ({
         />
 
         <FormActionButtons
-          submitButtonText={"Create Proposal"}
+          submitButtonText={'Create Proposal'}
           loading={loading}
           confirmed={confirmed}
           disabled={disabled}
