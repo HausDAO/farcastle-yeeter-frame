@@ -5,11 +5,12 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "clean": "rm -rf .next/cache",
     "start": "next start",
     "lint": "next lint",
-    "pages:build": "rm -rf .next && next build",
-    "preview": "bun run pages:build && wrangler pages dev",
-    "deploy": "bun run pages:build && wrangler pages deploy"
+    "pages:build": "rm -rf .next && next build && rm -rf .next/cache",
+    "pages:deploy": "npx @cloudflare/next-on-pages deploy .next",
+    "preview": "bun run pages:build && wrangler pages dev"
   },
   "dependencies": {
     "@farcaster/frame-sdk": "^0.0.16",
