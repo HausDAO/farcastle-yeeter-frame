@@ -95,6 +95,9 @@ export default function Proposal() {
       localABIs: {},
     };
 
+    // TODO: is safeID and chainID needed at both levels?
+    // how to swap txes for fundung?
+
     const txPrep = await prepareTX({
       tx: formConfig.tx,
       chainId: daochain as ValidNetwork,
