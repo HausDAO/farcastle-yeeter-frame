@@ -27,6 +27,8 @@ export const useDao = ({
 }) => {
   const { config } = useDaoHooksConfig();
 
+  console.log("config", config);
+
   if (!config || !config.graphKey) {
     throw new Error("DaoHooksContext must be used within a DaoHooksProvider");
   }

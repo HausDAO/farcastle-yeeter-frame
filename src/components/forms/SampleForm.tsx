@@ -1,4 +1,3 @@
-import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import {
@@ -22,8 +21,6 @@ import { z } from "zod";
 import { FormComponentProps } from "../app/FormSwitcher";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button } from "../ui/button";
-import { Spinner } from "../ui/spinner";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { InfoIcon } from "lucide-react";
 import { FormActionButtons } from "../app/FormActionButtons";
@@ -44,7 +41,6 @@ const formSchema = z.object({
 });
 
 export const SampleForm = ({
-  formConfig,
   handleSubmit,
   loading,
   confirmed,

@@ -235,7 +235,7 @@ export const searchApp = (
 ) => {
   const result = deepSearch(appState, pathString);
 
-  if (result == null) {
+  if (result === null) {
     if (shouldThrow) {
       console.log("**Application State**", appState);
       console.log("result", result);
