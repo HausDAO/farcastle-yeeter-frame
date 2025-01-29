@@ -4,6 +4,7 @@ import Proposal from "./proposal";
 const appUrl = process.env.NEXT_PUBLIC_URL;
 
 export const revalidate = 300;
+export const runtime = "edge";
 
 type Props = {
   params: Promise<{ chainid: string; daoid: string; proposaltype: string }>;

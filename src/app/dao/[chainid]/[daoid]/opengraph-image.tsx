@@ -1,5 +1,7 @@
 import { ImageResponse } from "next/og";
 
+export const runtime = "edge";
+
 export const alt = "Farcastle DAO Proposals";
 export const size = {
   width: 600,
