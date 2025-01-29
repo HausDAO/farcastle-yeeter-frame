@@ -1,5 +1,5 @@
 {
-  "name": "scores-frame",
+  "name": "farcastle-proposals-frame",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -8,9 +8,9 @@
     "clean": "rm -rf .next/cache",
     "start": "next start",
     "lint": "next lint",
-    "pages:build": "rm -rf .next && next build && rm -rf .next/cache",
-    "pages:deploy": "npx @cloudflare/next-on-pages deploy .next",
-    "preview": "bun run pages:build && wrangler pages dev"
+    "pages:build": "npx @cloudflare/next-on-pages",
+    "preview": "bun run pages:build && wrangler pages dev",
+    "deploy": "bun run pages:build && wrangler pages deploy"
   },
   "dependencies": {
     "@farcaster/frame-sdk": "^0.0.16",
