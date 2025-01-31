@@ -15,10 +15,6 @@ export const useDaoTokenBalances = ({
 }) => {
   const { config } = useDaoHooksConfig();
 
-  if (!config || !config.graphKey) {
-    throw new Error("DaoHooksContext must be used within a DaoHooksProvider");
-  }
-
   const gnosisUrl = getGnosisUrl({
     chainid: chainid || "",
   });
@@ -28,6 +24,7 @@ export const useDaoTokenBalances = ({
       `get-dao-token-balances${chainid}-${safeAddress}`,
       { chainid, safeAddress },
     ],
+    enabled: Boolean(chainid && safeAddress && config?.graphKey),
     queryFn: async (): Promise<{
       tokens: TokenBalance[];
     }> => {
@@ -44,7 +41,6 @@ export const useDaoTokenBalances = ({
 
       return { tokens: balances };
     },
-    enabled: !!safeAddress && !!chainid,
   });
 
   return {
