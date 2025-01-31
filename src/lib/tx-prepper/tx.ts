@@ -163,4 +163,65 @@ export const TX: Record<string, TXLego> = {
       },
     ],
   }),
+  REQUEST_FUNDING: buildMultiCallTX({
+    id: "REQUEST_FUNDING",
+    JSONDetails: {
+      type: "JSONDetails",
+      jsonSchema: {
+        title: ".formValues.title",
+        description: ".formValues.description",
+        contentURI: `.formValues.link`,
+        contentURIType: { type: "static", value: "url" },
+        proposalType: {
+          type: "static",
+          value: ProposalTypeIds.TransferErc20,
+        },
+      },
+    },
+    actions: [
+      {
+        contract: {
+          type: "static",
+          contractName: "Current DAO (Baal)",
+          abi: LOCAL_ABI.BAAL,
+          targetAddress: ".daoId",
+        },
+        method: "transfer",
+        args: [".formValues.recipient", ".formValues.paymentTokenAmt"],
+      },
+    ],
+  }),
+  ISSUE_NETWORK_TOKEN: buildMultiCallTX({
+    id: "ISSUE_NETWORK_TOKEN",
+    JSONDetails: {
+      type: "JSONDetails",
+      jsonSchema: {
+        title: ".formValues.title",
+        description: ".formValues.description",
+        contentURI: `.formValues.link`,
+        contentURIType: { type: "static", value: "url" },
+        proposalType: {
+          type: "static",
+          value: ProposalTypeIds.TransferNetworkToken,
+        },
+      },
+    },
+    actions: [
+      {
+        contract: {
+          type: "static",
+          contractName: "NETWORK",
+          abi: LOCAL_ABI.ERC20,
+          targetAddress: ".formValues.recipient",
+        },
+        method: "noMethod",
+        args: [],
+        value: ".formValues.paymentAmount",
+        data: {
+          type: "static",
+          value: "0x",
+        },
+      },
+    ],
+  }),
 };
