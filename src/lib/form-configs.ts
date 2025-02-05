@@ -16,11 +16,6 @@ export const FORM_CONFIGS: Record<string, FormConfig> = {
     id: "SAMPLE",
     tx: TX.POST_SIGNAL,
   },
-  TUNA: {
-    title: "Request Tuna",
-    id: "TUNA",
-    tx: TX.POST_SIGNAL,
-  },
   POST_SIGNAL: {
     title: "Propose Signal",
     id: "POST_SIGNAL",
@@ -29,6 +24,11 @@ export const FORM_CONFIGS: Record<string, FormConfig> = {
   REQUEST_MEMBERSHIP: {
     title: "Request Membership",
     id: "REQUEST_MEMBERSHIP",
+    tx: TX.REQUEST_MEMBERSHIP,
+  },
+  REQUEST_FUNDING: {
+    title: "Request Fundung",
+    id: "REQUEST_FUNDING",
     tx: TX.REQUEST_MEMBERSHIP,
   },
 };

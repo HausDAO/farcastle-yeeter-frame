@@ -1,18 +1,18 @@
-import { useQuery } from '@tanstack/react-query';
-import { GraphQLClient } from 'graphql-request';
+import { useQuery } from "@tanstack/react-query";
+import { GraphQLClient } from "graphql-request";
 
-import { getGraphUrl } from '@/lib/endpoints';
-import { FIND_DAO } from '@/lib/graph-queries';
-import { DaoItem, DaoProfile, RecordItem } from '@/lib/types';
-import { useDaoHooksConfig } from '@/providers/DaoHooksProvider';
+import { getGraphUrl } from "@/lib/endpoints";
+import { FIND_DAO } from "@/lib/graph-queries";
+import { DaoItem, DaoProfile, RecordItem } from "@/lib/types";
+import { useDaoHooksConfig } from "@/providers/DaoHooksProvider";
 
 export const addParsedContent = <T>(record?: RecordItem): T | undefined => {
-  if (record?.contentType === 'json') {
+  if (record?.contentType === "json") {
     try {
       const obj = JSON.parse(record.content);
       return obj;
     } catch (e) {
-      console.log('err', e);
+      console.log("err", e);
       return;
     }
   }
@@ -25,8 +25,9 @@ export const useDao = ({
   chainid?: string;
   daoid?: string;
 }) => {
-  // All hooks must be called at the top level
   const { config } = useDaoHooksConfig();
+
+  console.log("useDao config", config);
   const { data, ...rest } = useQuery<{ dao: DaoItem }>({
     queryKey: [`get-dao-${chainid}-${daoid}`],
     enabled: Boolean(chainid && daoid && config?.graphKey),
@@ -37,7 +38,7 @@ export const useDao = ({
       const dhUrl = getGraphUrl({
         chainid,
         graphKey: config.graphKey,
-        subgraphKey: 'DAOHAUS',
+        subgraphKey: "DAOHAUS",
       });
       const graphQLClient = new GraphQLClient(dhUrl);
       const daores = (await graphQLClient.request(FIND_DAO, { daoid })) as {

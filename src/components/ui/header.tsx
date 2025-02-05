@@ -42,7 +42,10 @@ function Header() {
       <div className="text-3xl font-fraktur pt-[2px] leading-[30px] h-[30px] text-primary">
         proposals
       </div>
-      <HeaderLogoSvg className="opacity-100" onClick={onLogoClick} />
+      <HeaderLogoSvg
+        className="opacity-100 hover:cursor-pointer"
+        onClick={onLogoClick}
+      />
     </div>
   );
 }
