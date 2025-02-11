@@ -19,6 +19,8 @@ import { ProposalMetaFields } from "../app/ProposalMetaFields";
 import { Input } from "@/components/ui/input";
 import { getRequiredFieldsList } from "@/lib/tx-prepper/form-helpers";
 import { ProposalFormLabel } from "../app/ProposalFormLabel";
+import { TokenRequestSelect } from "../app/TokenRequestSelect";
+import { parseUnits } from "viem";
 
 const formSchema = yup.object().shape({
   title: yup.string().required(),
@@ -58,15 +60,15 @@ export const RequestFunding = ({
     safeAddress: dao?.safeAddress,
   });
 
-  console.log("tokens", tokens);
-
   const onSubmit = (values: yup.InferType<typeof formSchema>) => {
     const txKey =
       values.tokenAddress === "0x0" ? "REQUEST_FUNDING_ETH" : "REQUEST_FUNDING";
     const preparedValues = {
       ...values,
+      tokenAmount: parseUnits(values.tokenAmount || "0", 18).toString(),
       txKey,
     };
+
     handleSubmit(preparedValues);
   };
 
@@ -106,47 +108,7 @@ export const RequestFunding = ({
           )}
         />
 
-        <FormField
-          control={form.control}
-          name="tokenAddress"
-          disabled={disabled}
-          render={({ field }) => (
-            <FormItem>
-              <ProposalFormLabel
-                label="Token Address"
-                id="tokenAddress"
-                requiredFields={requiredFields}
-              />
-              <FormControl>
-                <Input
-                  id="tokenAddress"
-                  placeholder="Token contract address"
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="tokenAmount"
-          disabled={disabled}
-          render={({ field }) => (
-            <FormItem>
-              <ProposalFormLabel
-                label="Funding Amount"
-                id="tokenAmount"
-                requiredFields={requiredFields}
-              />
-              <FormControl>
-                <Input id="tokenAmount" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        <TokenRequestSelect disabled={disabled} tokens={tokens} />
 
         <FormActionButtons
           submitButtonText={submitButtonText}

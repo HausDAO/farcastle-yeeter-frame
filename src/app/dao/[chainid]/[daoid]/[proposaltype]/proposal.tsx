@@ -175,9 +175,7 @@ export default function Proposal() {
               <Button onClick={openProposalCastUrl}>Cast Proposal</Button>
             )}
 
-            {hash && (
-              <Button onClick={openUrl}>View Tx on Block Explorer</Button>
-            )}
+            {hash && <Button onClick={openUrl}>View on Block Explorer</Button>}
           </div>
         </Card>
       </div>

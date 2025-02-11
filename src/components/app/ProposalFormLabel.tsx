@@ -8,7 +8,7 @@ export const ProposalFormLabel = ({
   requiredFields,
   popoverContent,
 }: {
-  label: string;
+  label?: string;
   id: string;
   requiredFields: string[];
   popoverContent?: string;
@@ -17,7 +17,7 @@ export const ProposalFormLabel = ({
     <FormLabel>
       <div className="flex mb-2 justify-between">
         <div>
-          {label}
+          {label && label}
           {requiredFields.includes(id) && (
             <span className="text-red-500 text-sm ml-1">*</span>
           )}
