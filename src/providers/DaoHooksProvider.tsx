@@ -20,10 +20,13 @@ export const DaoHooksProvider = (
   parameters: React.PropsWithChildren<DaoHooksProviderProps>
 ) => {
   const { children, keyConfig } = parameters;
-
   const [config, setConfig] = useState<DaoHooksConfig>(keyConfig);
-
   const value = useMemo(() => ({ config, setConfig }), [config]);
+
+  // Skip provider during SSR if no key is available
+  if (typeof window === "undefined" && !keyConfig.graphKey) {
+    return <>{children}</>;
+  }
 
   return (
     <DaoHooksContext.Provider value={value}>
