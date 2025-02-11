@@ -21,10 +21,9 @@ import { ArbitraryState, ValidNetwork } from "@/lib/tx-prepper/prepper-types";
 import { useFrameSDK } from "@/providers/FramesSDKProvider";
 import { useDaoRecord } from "@/providers/DaoRecordProvider";
 import { WaitForReceipt } from "@/lib/types";
-import { proposalCastUrl } from "@/lib/formatters";
+import { proposalCastUrl, truncateError } from "@/lib/formatters";
 import { FormSwitcher } from "@/components/app/FormSwitcher";
 import { Card } from "@/components/ui/card";
-// import { FormSwitcher } from "@/forms/FormSwitcher";
 
 const getPropidFromReceipt = (receipt: WaitForReceipt): number | null => {
   if (!receipt || !receipt.logs[0].topics[1]) return null;
@@ -89,17 +88,20 @@ export default function Proposal() {
         ...values,
       },
       senderAddress: address,
-      chainId: daochain,
-      safeId: daosafe,
+      // TODO: is safeID and chainID needed at both levels?
+      // chainId: daochain,
+      // safeId: daosafe,
       daoId: daoid,
       localABIs: {},
     };
 
-    // TODO: is safeID and chainID needed at both levels?
-    // how to swap txes for fundung?
+    let tx = formConfig.tx;
+    if (formConfig.txToggle && values.txKey) {
+      tx = formConfig.txToggle[values.txKey];
+    }
 
     const txPrep = await prepareTX({
-      tx: formConfig.tx,
+      tx,
       chainId: daochain as ValidNetwork,
       safeId: daosafe,
       appState: wholeState,
@@ -115,7 +117,11 @@ export default function Proposal() {
 
   const renderError = (error: Error | null) => {
     if (!error) return null;
-    return <div className="text-red-500 text-xs mt-1">{error.message}</div>;
+    return (
+      <div className="text-red-500 text-xs mt-1">
+        Error: {truncateError(error.message)}
+      </div>
+    );
   };
 
   if (!isLoaded) {

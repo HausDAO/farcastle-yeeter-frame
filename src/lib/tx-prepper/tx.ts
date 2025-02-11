@@ -191,7 +191,7 @@ export const TX: Record<string, TXLego> = {
       },
     ],
   }),
-  ISSUE_NETWORK_TOKEN: buildMultiCallTX({
+  REQUEST_FUNDING_ETH: buildMultiCallTX({
     id: "ISSUE_NETWORK_TOKEN",
     JSONDetails: {
       type: "JSONDetails",

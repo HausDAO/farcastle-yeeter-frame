@@ -3,7 +3,6 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
@@ -17,28 +16,22 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { InfoIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 import { FormActionButtons } from "../app/FormActionButtons";
 import { FormComponentProps } from "../app/FormSwitcher";
-import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import { ProposalFormLabel } from "../app/ProposalFormLabel";
+import { getRequiredFieldsList } from "@/lib/tx-prepper/form-helpers";
 
-const formSchema = z.object({
-  title: z.string().min(2, {
-    message: "Try harder",
-  }),
-  description: z.string().min(1, {
-    message: "Write something",
-  }),
-  model: z.string().min(1, {
-    message: "Make a selection",
-  }),
-  choice: z.enum(["all", "some", "none"], {
-    required_error: "Choose an option",
-  }),
+const formSchema = yup.object().shape({
+  title: yup.string().required(),
+  description: yup.string(),
+  link: yup.string().url(),
+  model: yup.string().min(1),
+  choice: yup.string().oneOf(["all", "some", "none"]),
 });
+const requiredFields = getRequiredFieldsList(formSchema);
 
 export const SampleForm = ({
   handleSubmit,
@@ -46,8 +39,8 @@ export const SampleForm = ({
   confirmed,
   invalidConnection,
 }: FormComponentProps) => {
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<yup.InferType<typeof formSchema>>({
+    resolver: yupResolver(formSchema),
     defaultValues: {
       title: "",
       description: "",
@@ -55,7 +48,7 @@ export const SampleForm = ({
     },
   });
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
+  const onSubmit = (values: yup.InferType<typeof formSchema>) => {
     const preparedValues = {
       ...values,
     };
@@ -79,17 +72,12 @@ export const SampleForm = ({
           disabled={disabled}
           render={({ field }) => (
             <FormItem>
-              <div className="flex mb-2 justify-between">
-                <FormLabel>Input</FormLabel>
-                <Popover>
-                  <PopoverTrigger>
-                    <InfoIcon className="h-4 w-4 text-muted-foreground" />
-                  </PopoverTrigger>
-                  <PopoverContent className="w-80" align="end">
-                    This is the content in the popover.
-                  </PopoverContent>
-                </Popover>
-              </div>
+              <ProposalFormLabel
+                label="Input"
+                id="title"
+                requiredFields={requiredFields}
+                popoverContent=" This is the content in the popover."
+              />
               <FormControl>
                 <Input id="title" placeholder="Input Placeholder" {...field} />
               </FormControl>
@@ -103,17 +91,12 @@ export const SampleForm = ({
           disabled={disabled}
           render={({ field }) => (
             <FormItem>
-              <div className="flex mb-2 justify-between">
-                <FormLabel>Text Area</FormLabel>
-                <Popover>
-                  <PopoverTrigger>
-                    <InfoIcon className="h-4 w-4 text-muted-foreground" />
-                  </PopoverTrigger>
-                  <PopoverContent className="w-80" align="end">
-                    This is the content in the popover.
-                  </PopoverContent>
-                </Popover>
-              </div>
+              <ProposalFormLabel
+                label="Text Area"
+                id="description"
+                requiredFields={requiredFields}
+                popoverContent=" This is the content in the popover."
+              />
               <FormControl>
                 <Textarea
                   id="description"
@@ -131,17 +114,12 @@ export const SampleForm = ({
           disabled={disabled}
           render={({ field }) => (
             <FormItem>
-              <div className="flex mb-2 justify-between">
-                <FormLabel>Select</FormLabel>
-                <Popover>
-                  <PopoverTrigger>
-                    <InfoIcon className="h-4 w-4 text-muted-foreground" />
-                  </PopoverTrigger>
-                  <PopoverContent className="w-80" align="end">
-                    This is the content in the popover.
-                  </PopoverContent>
-                </Popover>
-              </div>
+              <ProposalFormLabel
+                label="Select"
+                id="model"
+                requiredFields={requiredFields}
+                popoverContent=" This is the content in the popover."
+              />
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
                   <SelectTrigger>
@@ -164,17 +142,12 @@ export const SampleForm = ({
           disabled={disabled}
           render={({ field }) => (
             <FormItem>
-              <div className="flex mb-2 justify-between">
-                <FormLabel>Radio</FormLabel>
-                <Popover>
-                  <PopoverTrigger>
-                    <InfoIcon className="h-4 w-4 text-muted-foreground" />
-                  </PopoverTrigger>
-                  <PopoverContent className="w-80" align="end">
-                    This is the content in the popover.
-                  </PopoverContent>
-                </Popover>
-              </div>
+              <ProposalFormLabel
+                label="Radio"
+                id="choice"
+                requiredFields={requiredFields}
+                popoverContent=" This is the content in the popover."
+              />
               <FormControl>
                 <RadioGroup
                   onValueChange={field.onChange}

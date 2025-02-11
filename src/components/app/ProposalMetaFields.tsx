@@ -1,15 +1,16 @@
 import { useFormContext } from "react-hook-form";
-import {
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "../ui/form";
+import { FormControl, FormField, FormItem, FormMessage } from "../ui/form";
 import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
+import { ProposalFormLabel } from "./ProposalFormLabel";
 
-export const ProposalMetaFields = ({ disabled }: { disabled: boolean }) => {
+export const ProposalMetaFields = ({
+  disabled,
+  requiredFields,
+}: {
+  disabled: boolean;
+  requiredFields: string[];
+}) => {
   const form = useFormContext();
   return (
     <>
@@ -19,15 +20,13 @@ export const ProposalMetaFields = ({ disabled }: { disabled: boolean }) => {
         disabled={disabled}
         render={({ field }) => (
           <FormItem>
-            <div className="flex mb-2 justify-between">
-              <FormLabel>Title</FormLabel>
-            </div>
+            <ProposalFormLabel
+              label="Title"
+              id="title"
+              requiredFields={requiredFields}
+            />
             <FormControl>
-              <Input
-                id="title"
-                placeholder="Simple Input Placeholder"
-                {...field}
-              />
+              <Input id="title" placeholder="Proposal Title" {...field} />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -39,13 +38,15 @@ export const ProposalMetaFields = ({ disabled }: { disabled: boolean }) => {
         disabled={disabled}
         render={({ field }) => (
           <FormItem>
-            <div className="flex mb-2 justify-between">
-              <FormLabel>Description</FormLabel>
-            </div>
+            <ProposalFormLabel
+              label="Description"
+              id="description"
+              requiredFields={requiredFields}
+            />
             <FormControl>
               <Textarea
                 id="description"
-                placeholder="Add a proposal description"
+                placeholder="Proposal description"
                 {...field}
               />
             </FormControl>
@@ -59,9 +60,11 @@ export const ProposalMetaFields = ({ disabled }: { disabled: boolean }) => {
         disabled={disabled}
         render={({ field }) => (
           <FormItem>
-            <div className="flex mb-2 justify-between">
-              <FormLabel>Link</FormLabel>
-            </div>
+            <ProposalFormLabel
+              label="Link"
+              id="link"
+              requiredFields={requiredFields}
+            />
             <FormControl>
               <Input id="link" placeholder="Url for more content" {...field} />
             </FormControl>

@@ -8,6 +8,7 @@ export type FormConfig = {
   submitButtonText?: string;
   id: string;
   tx: TXLego;
+  txToggle?: Record<string, TXLego>;
 };
 
 export const FORM_CONFIGS: Record<string, FormConfig> = {
@@ -29,7 +30,11 @@ export const FORM_CONFIGS: Record<string, FormConfig> = {
   REQUEST_FUNDING: {
     title: "Request Fundung",
     id: "REQUEST_FUNDING",
-    tx: TX.REQUEST_MEMBERSHIP,
+    tx: TX.REQUEST_FUNDING,
+    txToggle: {
+      REQUEST_FUNDING: TX.REQUEST_FUNDING,
+      REQUEST_FUNDING_ETH: TX.REQUEST_FUNDING_ETH,
+    },
   },
 };
 

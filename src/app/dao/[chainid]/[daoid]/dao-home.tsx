@@ -38,11 +38,9 @@ export default function DaoHome() {
       </div>
 
       <div className="mb-4">
-        {/* <Link
-          href={`/dao/${params.chainid}/${params.daoid}/REQUEST_MEMBERSHIP`}
-          > */}
-        <Button disabled={true}>Request Fundings</Button>
-        {/* </Link> */}
+        <Link href={`/dao/${params.chainid}/${params.daoid}/REQUEST_FUNDING`}>
+          <Button>Request Funding</Button>
+        </Link>
       </div>
 
       <div className="mb-4">
