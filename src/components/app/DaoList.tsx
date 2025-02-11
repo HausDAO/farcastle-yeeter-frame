@@ -1,10 +1,10 @@
-import { useFrameSDK } from "@/providers/FramesSDKProvider";
-import { Button } from "../ui/button";
-import { useAccount, useConnect } from "wagmi";
 import { useDaosForAddress } from "@/hooks/useDaosForAddress";
+import { useFrameSDK } from "@/providers/FramesSDKProvider";
+import { useAccount, useConnect } from "wagmi";
+import { Button } from "../ui/button";
 
-import { toHex } from "viem";
 import Link from "next/link";
+import { toHex } from "viem";
 
 export const DaoList = () => {
   const { connector } = useFrameSDK();
@@ -35,9 +35,12 @@ export const DaoList = () => {
 
           <div className="flex flex-row flex-wrap items-center justify-center gap-2 w-96">
             {isFetched &&
-              daos?.map((dao) => {
+              daos?.map(dao => {
                 return (
-                  <Link href={`/dao/${toHex(chain?.id || "0")}/${dao.id}`}>
+                  <Link
+                    key={dao.id}
+                    href={`/dao/${toHex(chain?.id || "0")}/${dao.id}`}
+                  >
                     <Button size="sm" variant="secondary">
                       {dao.name}
                     </Button>
