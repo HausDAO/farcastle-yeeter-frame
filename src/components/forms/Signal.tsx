@@ -1,20 +1,20 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 import { Form } from "@/components/ui/form";
 import { FormComponentProps } from "../app/FormSwitcher";
 import { FormActionButtons } from "../app/FormActionButtons";
 import { ProposalMetaFields } from "../app/ProposalMetaFields";
+import { getRequiredFieldsList } from "@/lib/tx-prepper/form-helpers";
 
-const formSchema = z.object({
-  title: z.string().min(2, {
-    message: "Title must be at least 2 characters.",
-  }),
-  description: z.string(),
-  link: z.string().url().optional().or(z.literal("")),
+const formSchema = yup.object().shape({
+  title: yup.string().required(),
+  description: yup.string(),
+  link: yup.string().url(),
 });
+const requiredFields = getRequiredFieldsList(formSchema);
 
 export const Signal = ({
   formConfig,
@@ -24,8 +24,9 @@ export const Signal = ({
   invalidConnection,
 }: FormComponentProps) => {
   const { submitButtonText } = formConfig;
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+
+  const form = useForm<yup.InferType<typeof formSchema>>({
+    resolver: yupResolver(formSchema),
     defaultValues: {
       title: "",
       description: "",
@@ -33,7 +34,7 @@ export const Signal = ({
     },
   });
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
+  const onSubmit = (values: yup.InferType<typeof formSchema>) => {
     const preparedValues = {
       ...values,
     };
@@ -48,7 +49,10 @@ export const Signal = ({
         onSubmit={form.handleSubmit(onSubmit)}
         className="w-full px-4 space-y-4"
       >
-        <ProposalMetaFields disabled={disabled} />
+        <ProposalMetaFields
+          disabled={disabled}
+          requiredFields={requiredFields}
+        />
 
         <FormActionButtons
           submitButtonText={submitButtonText}

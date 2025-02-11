@@ -1,14 +1,13 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
@@ -16,17 +15,18 @@ import { FormComponentProps } from "../app/FormSwitcher";
 import { parseUnits } from "viem";
 import { FormActionButtons } from "../app/FormActionButtons";
 import { ProposalMetaFields } from "../app/ProposalMetaFields";
+import { getRequiredFieldsList } from "@/lib/tx-prepper/form-helpers";
+import { ProposalFormLabel } from "../app/ProposalFormLabel";
 
-const formSchema = z.object({
-  title: z.string().min(2, {
-    message: "Title must be at least 2 characters.",
-  }),
-  description: z.string(),
-  link: z.string().url().optional().or(z.literal("")),
-  sharesRequested: z.string(),
-  lootRequested: z.string(),
-  recipient: z.string(),
+const formSchema = yup.object().shape({
+  title: yup.string().required(),
+  description: yup.string(),
+  link: yup.string().url(),
+  sharesRequested: yup.string().required(),
+  lootRequested: yup.string().required(),
+  recipient: yup.string().min(42).required(),
 });
+const requiredFields = getRequiredFieldsList(formSchema);
 
 export const RequestMembership = ({
   formConfig,
@@ -36,8 +36,8 @@ export const RequestMembership = ({
   invalidConnection,
 }: FormComponentProps) => {
   const { submitButtonText } = formConfig;
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<yup.InferType<typeof formSchema>>({
+    resolver: yupResolver(formSchema),
     defaultValues: {
       title: "",
       description: "",
@@ -48,11 +48,11 @@ export const RequestMembership = ({
     },
   });
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
+  const onSubmit = (values: yup.InferType<typeof formSchema>) => {
     const preparedValues = {
       ...values,
-      sharesRequested: parseUnits(values.sharesRequested, 18).toString(),
-      lootRequested: parseUnits(values.lootRequested, 18).toString(),
+      sharesRequested: parseUnits(values.sharesRequested || "0", 18).toString(),
+      lootRequested: parseUnits(values.lootRequested || "0", 18).toString(),
     };
     handleSubmit(preparedValues);
   };
@@ -65,7 +65,10 @@ export const RequestMembership = ({
         onSubmit={form.handleSubmit(onSubmit)}
         className="w-full px-4 space-y-4"
       >
-        <ProposalMetaFields disabled={disabled} />
+        <ProposalMetaFields
+          disabled={disabled}
+          requiredFields={requiredFields}
+        />
 
         <FormField
           control={form.control}
@@ -73,9 +76,11 @@ export const RequestMembership = ({
           disabled={disabled}
           render={({ field }) => (
             <FormItem>
-              <div className="flex mb-2 justify-between">
-                <FormLabel>Recipient</FormLabel>
-              </div>
+              <ProposalFormLabel
+                label="Recipient"
+                id="recipient"
+                requiredFields={requiredFields}
+              />
               <FormControl>
                 <Input id="recipient" placeholder="Address" {...field} />
               </FormControl>
@@ -89,9 +94,11 @@ export const RequestMembership = ({
           disabled={disabled}
           render={({ field }) => (
             <FormItem>
-              <div className="flex mb-2 justify-between">
-                <FormLabel>Voting Tokens</FormLabel>
-              </div>
+              <ProposalFormLabel
+                label="Voting Tokens"
+                id="sharesRequested"
+                requiredFields={requiredFields}
+              />
               <FormControl>
                 <Input id="sharesRequested" {...field} />
               </FormControl>
@@ -105,9 +112,11 @@ export const RequestMembership = ({
           disabled={disabled}
           render={({ field }) => (
             <FormItem>
-              <div className="flex mb-2 justify-between">
-                <FormLabel>Non-Voting Tokens</FormLabel>
-              </div>
+              <ProposalFormLabel
+                label="Non-Voting Tokens"
+                id="lootRequested"
+                requiredFields={requiredFields}
+              />
               <FormControl>
                 <Input id="lootRequested" {...field} />
               </FormControl>

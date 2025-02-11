@@ -182,16 +182,16 @@ export const TX: Record<string, TXLego> = {
       {
         contract: {
           type: "static",
-          contractName: "Current DAO (Baal)",
-          abi: LOCAL_ABI.BAAL,
-          targetAddress: ".daoId",
+          contractName: "ERC20",
+          abi: LOCAL_ABI.ERC20,
+          targetAddress: ".formValues.tokenAddress",
         },
         method: "transfer",
-        args: [".formValues.recipient", ".formValues.paymentTokenAmt"],
+        args: [".formValues.recipient", ".formValues.tokenAmount"],
       },
     ],
   }),
-  ISSUE_NETWORK_TOKEN: buildMultiCallTX({
+  REQUEST_FUNDING_ETH: buildMultiCallTX({
     id: "ISSUE_NETWORK_TOKEN",
     JSONDetails: {
       type: "JSONDetails",
@@ -216,7 +216,7 @@ export const TX: Record<string, TXLego> = {
         },
         method: "noMethod",
         args: [],
-        value: ".formValues.paymentAmount",
+        value: ".formValues.tokenAmount",
         data: {
           type: "static",
           value: "0x",

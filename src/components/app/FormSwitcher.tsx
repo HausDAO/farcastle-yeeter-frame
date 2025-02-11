@@ -3,6 +3,7 @@ import { Signal } from "../forms/Signal";
 import { SampleForm } from "../forms/SampleForm";
 import { ArbitraryState } from "@/lib/tx-prepper/prepper-types";
 import { RequestMembership } from "../forms/RequestMembership";
+import { RequestFunding } from "../forms/RequestFunding";
 // import { RequestMembership } from "../forms/RequestMembership";
 
 export type FormComponentProps = {
@@ -45,6 +46,16 @@ export const FormSwitcher = ({
       case "REQUEST_MEMBERSHIP":
         return (
           <RequestMembership
+            formConfig={formConfig}
+            confirmed={confirmed}
+            loading={loading}
+            invalidConnection={invalidConnection}
+            handleSubmit={handleSubmit}
+          />
+        );
+      case "REQUEST_FUNDING":
+        return (
+          <RequestFunding
             formConfig={formConfig}
             confirmed={confirmed}
             loading={loading}
