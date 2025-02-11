@@ -1,3 +1,5 @@
+"use client";
+
 import { useDaosForAddress } from "@/hooks/useDaosForAddress";
 import { useFrameSDK } from "@/providers/FramesSDKProvider";
 import { useAccount, useConnect } from "wagmi";
