@@ -29,7 +29,7 @@ export const DaoList = () => {
       {isConnected && (
         <>
           <div className="font-semibold text-xl text-center">
-            Your DAOs on {chain?.name}
+            Your {chain?.name} DAOs
           </div>
           {isLoading && <p>loading...</p>}
 
