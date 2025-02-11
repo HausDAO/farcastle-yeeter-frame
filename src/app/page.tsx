@@ -1,5 +1,6 @@
 "use client";
 
+import { DaoList } from "@/components/app/DaoList";
 import { Button } from "@/components/ui/button";
 import { DAO_CONFIG, HOLLOW_SERVANTS_DAO_ID } from "@/lib/constants";
 import Link from "next/link";
@@ -18,6 +19,9 @@ export default function Home() {
         <Link href={`/dao/${DAO_CHAIN}/${DAO_ID}`}>
           <Button>Proceed with caution</Button>
         </Link>
+        <div className="mt-10">
+          <DaoList />
+        </div>
       </div>
     </div>
   );
