@@ -31,7 +31,7 @@ export const DaoList = () => {
       {!isConnected && (
         <>
           <Button onClick={() => connect({ connector: connector })}>
-            Connect
+            Reveal Realms
           </Button>
         </>
       )}
