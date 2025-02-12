@@ -1,11 +1,13 @@
 "use client";
 
 import { useDaosForAddress } from "@/hooks/useDaosForAddress";
+import { DaoItem } from "@/lib/types";
 import { useFrameSDK } from "@/providers/FramesSDKProvider";
 import { useEffect, useState } from "react";
 import { toHex } from "viem";
 import { useAccount, useConnect } from "wagmi";
 import { Button } from "../ui/button";
+import { LoadingSpinner } from "../ui/loading";
 import { DaoListCard } from "./DaoListCard";
 
 export const DaoList = () => {
@@ -38,14 +40,14 @@ export const DaoList = () => {
 
       {isConnected && (
         <>
-          <div className="font-semibold text-xl text-center">
+          <div className="font-semibold text-xl text-center mb-4">
             Your {chain?.name} DAOs
           </div>
-          {isLoading && <p>loading...</p>}
+          {isLoading && <LoadingSpinner />}
 
           <div className="flex flex-col flex-wrap items-center justify-center gap-2 w-96">
             {isFetched &&
-              daos?.map((dao) => {
+              daos?.map((dao: DaoItem) => {
                 return (
                   <DaoListCard
                     key={dao.id}

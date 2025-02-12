@@ -1,19 +1,27 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
+import { LoadingSpinner } from "@/components/ui/loading";
+import { useDao } from "@/hooks/useDao";
+import { useFrameSDK } from "@/providers/FramesSDKProvider";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { Button } from "@/components/ui/button";
-import { useFrameSDK } from "@/providers/FramesSDKProvider";
-import { useDao } from "@/hooks/useDao";
 
 export default function DaoHome() {
   const { isLoaded } = useFrameSDK();
 
   const params = useParams<{ chainid: string; daoid: string }>();
-  const { dao } = useDao({ chainid: params.chainid, daoid: params.daoid });
+  const { dao, isLoading: isDaoLoading } = useDao({
+    chainid: params.chainid,
+    daoid: params.daoid,
+  });
 
-  if (!isLoaded) {
-    return <div>Loading...</div>;
+  if (!isLoaded || isDaoLoading) {
+    return (
+      <div className="h-full w-full flex items-center justify-center">
+        <LoadingSpinner />
+      </div>
+    );
   }
 
   return (

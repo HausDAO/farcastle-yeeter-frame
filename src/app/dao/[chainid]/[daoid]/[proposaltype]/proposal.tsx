@@ -1,29 +1,30 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
 import sdk from "@farcaster/frame-sdk";
+import { useCallback, useEffect, useState } from "react";
 import {
   useAccount,
-  useWaitForTransactionReceipt,
-  useConnect,
-  useWriteContract,
   useChainId,
+  useConnect,
   useSwitchChain,
+  useWaitForTransactionReceipt,
+  useWriteContract,
 } from "wagmi";
 
-import { fromHex } from "viem";
-import { Button } from "@/components/ui/button";
-import { prepareTX } from "@/lib/tx-prepper/tx-prepper";
-import { getExplorerUrl, getWagmiChainObj } from "@/lib/constants";
-import { useParams } from "next/navigation";
-import { FORM_CONFIGS, FormConfig, validFormId } from "@/lib/form-configs";
-import { ArbitraryState, ValidNetwork } from "@/lib/tx-prepper/prepper-types";
-import { useFrameSDK } from "@/providers/FramesSDKProvider";
-import { useDaoRecord } from "@/providers/DaoRecordProvider";
-import { WaitForReceipt } from "@/lib/types";
-import { proposalCastUrl, truncateError } from "@/lib/formatters";
 import { FormSwitcher } from "@/components/app/FormSwitcher";
+import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { LoadingSpinner } from "@/components/ui/loading";
+import { getExplorerUrl, getWagmiChainObj } from "@/lib/constants";
+import { FORM_CONFIGS, FormConfig, validFormId } from "@/lib/form-configs";
+import { proposalCastUrl, truncateError } from "@/lib/formatters";
+import { ArbitraryState, ValidNetwork } from "@/lib/tx-prepper/prepper-types";
+import { prepareTX } from "@/lib/tx-prepper/tx-prepper";
+import { WaitForReceipt } from "@/lib/types";
+import { useDaoRecord } from "@/providers/DaoRecordProvider";
+import { useFrameSDK } from "@/providers/FramesSDKProvider";
+import { useParams } from "next/navigation";
+import { fromHex } from "viem";
 
 const getPropidFromReceipt = (receipt: WaitForReceipt): number | null => {
   if (!receipt || !receipt.logs[0].topics[1]) return null;
@@ -125,7 +126,11 @@ export default function Proposal() {
   };
 
   if (!isLoaded) {
-    return <div>Loading...</div>;
+    return (
+      <div className="h-full w-full flex items-center justify-center">
+        <LoadingSpinner />
+      </div>
+    );
   }
 
   if (!formConfig) return null;
