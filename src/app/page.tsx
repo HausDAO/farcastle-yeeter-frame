@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import { DAO_CONFIG, HOLLOW_SERVANTS_DAO_ID } from "@/lib/constants";
 import { default as dynamicImport } from "next/dynamic";
