@@ -2,7 +2,7 @@
 
 import { useParams } from "next/navigation";
 import { createContext, useContext, useEffect, useState } from "react";
-import { getLocalDaoConfig, WAGMI_CHAIN_OBJS } from "@/lib/constants";
+import { WAGMI_CHAIN_OBJS } from "@/lib/constants";
 import { useDao } from "@/hooks/useDao";
 
 interface DaoRecordContextValue {
@@ -30,12 +30,9 @@ export function DaoRecordProvider({ children }: { children: React.ReactNode }) {
   const params = useParams<{ chainid: string; daoid: string }>();
 
   useEffect(() => {
-    const localDaoConfig = getLocalDaoConfig();
-    setDaoid(params.daoid || localDaoConfig?.DAO_ID);
-    setDaochain(params.chainid || localDaoConfig?.DAO_CHAIN);
-    setDaochainid(
-      WAGMI_CHAIN_OBJS[params.chainid]?.id || localDaoConfig?.DAO_CHAIN_ID
-    );
+    setDaoid(params.daoid);
+    setDaochain(params.chainid);
+    setDaochainid(WAGMI_CHAIN_OBJS[params.chainid]?.id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params]);
 

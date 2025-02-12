@@ -7,14 +7,17 @@ import { Form } from "@/components/ui/form";
 import { FormComponentProps } from "../app/FormSwitcher";
 import { FormActionButtons } from "../app/FormActionButtons";
 import { ProposalMetaFields } from "../app/ProposalMetaFields";
-import { getRequiredFieldsList } from "@/lib/tx-prepper/form-helpers";
+import {
+  getMetaFieldsList,
+  getRequiredFieldsList,
+} from "@/lib/tx-prepper/form-helpers";
 
 const formSchema = yup.object().shape({
   title: yup.string().required(),
   description: yup.string(),
-  link: yup.string().url(),
 });
 const requiredFields = getRequiredFieldsList(formSchema);
+const metaFields = getMetaFieldsList(formSchema);
 
 export const Signal = ({
   formConfig,
@@ -30,7 +33,6 @@ export const Signal = ({
     defaultValues: {
       title: "",
       description: "",
-      link: "",
     },
   });
 
@@ -52,6 +54,7 @@ export const Signal = ({
         <ProposalMetaFields
           disabled={disabled}
           requiredFields={requiredFields}
+          metaFields={metaFields}
         />
 
         <FormActionButtons

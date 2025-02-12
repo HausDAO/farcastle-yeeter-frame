@@ -15,18 +15,21 @@ import { FormComponentProps } from "../app/FormSwitcher";
 import { parseUnits } from "viem";
 import { FormActionButtons } from "../app/FormActionButtons";
 import { ProposalMetaFields } from "../app/ProposalMetaFields";
-import { getRequiredFieldsList } from "@/lib/tx-prepper/form-helpers";
+import {
+  getMetaFieldsList,
+  getRequiredFieldsList,
+} from "@/lib/tx-prepper/form-helpers";
 import { ProposalFormLabel } from "../app/ProposalFormLabel";
 
 const formSchema = yup.object().shape({
   title: yup.string().required(),
   description: yup.string(),
-  link: yup.string().url(),
   sharesRequested: yup.string().required(),
   lootRequested: yup.string().required(),
   recipient: yup.string().min(42).required(),
 });
 const requiredFields = getRequiredFieldsList(formSchema);
+const metaFields = getMetaFieldsList(formSchema);
 
 export const RequestMembership = ({
   formConfig,
@@ -41,7 +44,6 @@ export const RequestMembership = ({
     defaultValues: {
       title: "",
       description: "",
-      link: "",
       sharesRequested: "0",
       lootRequested: "0",
       recipient: "",
@@ -68,6 +70,7 @@ export const RequestMembership = ({
         <ProposalMetaFields
           disabled={disabled}
           requiredFields={requiredFields}
+          metaFields={metaFields}
         />
 
         <FormField
