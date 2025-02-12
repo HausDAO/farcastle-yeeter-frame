@@ -1,22 +1,22 @@
 "use client";
 
+import farcasterFrame from "@farcaster/frame-wagmi-connector";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { createConfig, http, WagmiProvider } from "wagmi";
 import {
-  base,
-  sepolia,
-  mainnet,
-  polygon,
-  gnosis,
-  optimism,
   arbitrum,
+  base,
+  gnosis,
+  mainnet,
+  optimism,
+  polygon,
+  sepolia,
 } from "wagmi/chains";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import farcasterFrame from "@farcaster/frame-wagmi-connector";
 
 import { injected } from "wagmi/connectors";
-import { FrameSDKProvider } from "./FramesSDKProvider";
-import { DaoRecordProvider } from "./DaoRecordProvider";
 import { DaoHooksProvider } from "./DaoHooksProvider";
+import { DaoRecordProvider } from "./DaoRecordProvider";
+import { FrameSDKProvider } from "./FramesSDKProvider";
 
 // import { AuthedPrefetchesProvider } from "./AuthedPrefetchesProvider";
 

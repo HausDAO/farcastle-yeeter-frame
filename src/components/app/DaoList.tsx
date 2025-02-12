@@ -1,12 +1,20 @@
-import { useFrameSDK } from "@/providers/FramesSDKProvider";
-import { Button } from "../ui/button";
-import { useAccount, useConnect } from "wagmi";
-import { useDaosForAddress } from "@/hooks/useDaosForAddress";
+"use client";
 
-import { toHex } from "viem";
+import { useDaosForAddress } from "@/hooks/useDaosForAddress";
+import { useFrameSDK } from "@/providers/FramesSDKProvider";
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import { toHex } from "viem";
+import { useAccount, useConnect } from "wagmi";
+import { Button } from "../ui/button";
 
 export const DaoList = () => {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   const { connector } = useFrameSDK();
   const { connect } = useConnect();
   const { address, isConnected, chain } = useAccount();
@@ -15,6 +23,8 @@ export const DaoList = () => {
     chainid: toHex(chain?.id || "0"),
     address,
   });
+
+  if (!mounted) return null;
 
   return (
     <>
@@ -35,9 +45,12 @@ export const DaoList = () => {
 
           <div className="flex flex-row flex-wrap items-center justify-center gap-2 w-96">
             {isFetched &&
-              daos?.map((dao) => {
+              daos?.map(dao => {
                 return (
-                  <Link href={`/dao/${toHex(chain?.id || "0")}/${dao.id}`}>
+                  <Link
+                    key={dao.id}
+                    href={`/dao/${toHex(chain?.id || "0")}/${dao.id}`}
+                  >
                     <Button size="sm" variant="secondary">
                       {dao.name}
                     </Button>
