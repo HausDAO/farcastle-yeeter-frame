@@ -32,8 +32,6 @@ export const TX: Record<string, TXLego> = {
       jsonSchema: {
         title: `.formValues.title`,
         description: `.formValues.description`,
-        contentURI: `.formValues.link`,
-        contentURIType: { type: "static", value: "url" },
         proposalType: { type: "static", value: ProposalTypeIds.Signal },
       },
     },
@@ -56,65 +54,9 @@ export const TX: Record<string, TXLego> = {
               queryType: { type: "static", value: "list" },
               title: `.formValues.title`,
               description: `.formValues.description`,
-              link: `.formValues.link`,
             },
           },
           { type: "static", value: POSTER_TAGS.daoDatabaseProposal },
-        ],
-      },
-    ],
-  }),
-  SIGNAL_SHARES: buildMultiCallTX({
-    id: "SIGNAL_SHARES",
-    JSONDetails: {
-      type: "JSONDetails",
-      jsonSchema: {
-        title: `.formValues.title`,
-        description: `.formValues.description`,
-        contentURI: `.formValues.link`,
-        contentURIType: { type: "static", value: "url" },
-        proposalType: {
-          type: "static",
-          value: ProposalTypeIds.IssueSharesLoot,
-        },
-      },
-    },
-    actions: [
-      {
-        contract: {
-          type: "static",
-          contractName: "Poster",
-          abi: LOCAL_ABI.POSTER,
-          targetAddress: CONTRACT_KEYCHAINS.POSTER,
-        },
-        method: "post",
-        operations: { type: "static", value: 0 },
-        args: [
-          {
-            type: "JSONDetails",
-            jsonSchema: {
-              daoId: ".daoId",
-              table: { type: "static", value: "signal" },
-              queryType: { type: "static", value: "list" },
-              title: `.formValues.title`,
-              description: `.formValues.description`,
-              link: `.formValues.link`,
-            },
-          },
-          { type: "static", value: POSTER_TAGS.daoDatabaseProposal },
-        ],
-      },
-      {
-        contract: {
-          type: "static",
-          contractName: "Current DAO (Baal)",
-          abi: LOCAL_ABI.BAAL,
-          targetAddress: ".daoId",
-        },
-        method: "mintShares",
-        args: [
-          nestInArray(".formValues.recipient"),
-          nestInArray(".formValues.sharesRequested"),
         ],
       },
     ],
@@ -126,8 +68,6 @@ export const TX: Record<string, TXLego> = {
       jsonSchema: {
         title: `.formValues.title`,
         description: `.formValues.description`,
-        contentURI: `.formValues.link`,
-        contentURIType: { type: "static", value: "url" },
         proposalType: {
           type: "static",
           value: ProposalTypeIds.IssueSharesLoot,

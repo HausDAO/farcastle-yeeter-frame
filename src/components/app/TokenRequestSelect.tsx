@@ -16,6 +16,9 @@ import {
   SelectValue,
 } from "../ui/select";
 import { TokenBalance } from "@/lib/types";
+import { useEffect, useState } from "react";
+import { formatEther } from "viem";
+import { Button } from "../ui/button";
 
 const TokenItem = ({ token }: { token: TokenBalance }) => {
   const value = token.tokenAddress || "0x0";
@@ -31,6 +34,38 @@ export const TokenRequestSelect = ({
   tokens?: TokenBalance[];
 }) => {
   const form = useFormContext();
+  const [tokenBalance, setTokenBalance] = useState<string | undefined>();
+  const [tokenBalanceText, setTokenBalanceText] = useState<
+    string | undefined
+  >();
+
+  const selectedTokenAddress = form.watch("tokenAddress");
+
+  useEffect(() => {
+    if (selectedTokenAddress) {
+      if (selectedTokenAddress === "0x0") {
+        const nativeToken = tokens?.find(
+          (token) => token.tokenAddress === null
+        );
+        setTokenBalance(nativeToken?.balance);
+        setTokenBalanceText(
+          `${formatEther(BigInt(nativeToken?.balance || "0"))} ETH`
+        );
+      } else {
+        const targetToken = tokens?.find(
+          (token) => token.tokenAddress === selectedTokenAddress
+        );
+        setTokenBalance(targetToken?.balance);
+        setTokenBalanceText(
+          `${formatEther(BigInt(targetToken?.balance || "0"))} ${targetToken?.token?.symbol}`
+        );
+      }
+    }
+  }, [selectedTokenAddress, tokens]);
+
+  const handleMax = () => {
+    form.setValue("tokenAmount", formatEther(BigInt(tokenBalance || "0")));
+  };
 
   return (
     <div className="mt-3">
@@ -48,6 +83,11 @@ export const TokenRequestSelect = ({
               <FormControl>
                 <Input id="tokenAmount" placeholder="Amount" {...field} />
               </FormControl>
+              {tokenBalance && (
+                <Button size="sm" onClick={handleMax}>
+                  Max
+                </Button>
+              )}
               <FormMessage />
             </FormItem>
           )}
@@ -73,6 +113,9 @@ export const TokenRequestSelect = ({
                     ))}
                 </SelectContent>
               </Select>
+              {tokenBalanceText && (
+                <p className="text-xs">{tokenBalanceText}</p>
+              )}
               <FormMessage />
             </FormItem>
           )}

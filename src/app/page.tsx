@@ -5,7 +5,7 @@ import { default as dynamicImport } from "next/dynamic";
 import Image from "next/image";
 
 const DaoList = dynamicImport(
-  () => import("@/components/app/DaoList").then(mod => mod.DaoList),
+  () => import("@/components/app/DaoList").then((mod) => mod.DaoList),
   {
     ssr: false,
   }
