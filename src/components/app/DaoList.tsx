@@ -2,7 +2,6 @@
 
 import { useDaosForAddress } from "@/hooks/useDaosForAddress";
 import { useFrameSDK } from "@/providers/FramesSDKProvider";
-import Link from "next/link";
 import { useEffect, useState } from "react";
 import { toHex } from "viem";
 import { useAccount, useConnect } from "wagmi";
