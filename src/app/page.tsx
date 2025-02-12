@@ -1,10 +1,17 @@
 "use client";
 
-import { DaoList } from "@/components/app/DaoList";
 import { Button } from "@/components/ui/button";
 import { DAO_CONFIG, HOLLOW_SERVANTS_DAO_ID } from "@/lib/constants";
+import dynamic from "next/dynamic";
 import Link from "next/link";
-import React from "react";
+
+const DaoList = dynamic(
+  () =>
+    import("@/components/app/DaoList").then(mod => ({ default: mod.DaoList })),
+  {
+    loading: () => <div>Loading DAOs...</div>,
+  }
+);
 
 const { DAO_ID, DAO_CHAIN } = DAO_CONFIG[HOLLOW_SERVANTS_DAO_ID];
 
