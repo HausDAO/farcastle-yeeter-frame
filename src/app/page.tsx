@@ -7,6 +7,8 @@ import Link from "next/link";
 
 const { DAO_ID, DAO_CHAIN } = DAO_CONFIG[HOLLOW_SERVANTS_DAO_ID];
 
+export const dynamic = "force-dynamic";
+
 export default function Page() {
   return (
     <div className="w-full h-full space-y-4 pb-4 px-4">
