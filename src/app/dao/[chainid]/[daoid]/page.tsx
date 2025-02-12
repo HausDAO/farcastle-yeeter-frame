@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import DaoHome from "./dao-home";
 
+export const runtime = "edge"; // Required for Cloudflare Pages
 const appUrl = process.env.NEXT_PUBLIC_URL;
 
 export const revalidate = 300;
@@ -39,7 +40,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-("use client");
 export default function Page() {
   return <DaoHome />;
 }
