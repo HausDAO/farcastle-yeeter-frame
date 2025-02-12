@@ -39,14 +39,10 @@ export const TokenRequestSelect = ({
     string | undefined
   >();
 
-  console.log("form", form);
   const selectedTokenAddress = form.watch("tokenAddress");
 
   useEffect(() => {
     if (selectedTokenAddress) {
-      console.log("selectedTokenAddress", selectedTokenAddress);
-      console.log("tokens", tokens);
-
       if (selectedTokenAddress === "0x0") {
         const nativeToken = tokens?.find(
           (token) => token.tokenAddress === null
