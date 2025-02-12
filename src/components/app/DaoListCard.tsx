@@ -19,8 +19,8 @@ export const DaoListCard = ({
   if (isLoading || !dao) return;
 
   console.log("dao", dao);
-  // const imgSrc = dao.profile?.avatarImg || "/castle.svg";
-  const imgSrc = "/castle.svg";
+  const imgSrc = dao.profile?.avatarImg || "/castle.svg";
+  // const imgSrc = "/castle.svg";
 
   return (
     <Link key={daoid} href={`/dao/${chainid}/${daoid}`}>
