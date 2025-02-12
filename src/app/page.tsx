@@ -11,8 +11,6 @@ const DaoList = dynamicImport(
   }
 );
 
-// const { DAO_ID, DAO_CHAIN } = DAO_CONFIG[HOLLOW_SERVANTS_DAO_ID];
-
 export const dynamic = "force-dynamic";
 
 export default function Page() {
@@ -29,9 +27,6 @@ export default function Page() {
           </div>
 
           <div className="flex flex-col w-full px-4 mt-8">
-            {/* <Link href={`/dao/${DAO_CHAIN}/${DAO_ID}`}>
-              <Button>Proceed with caution</Button>
-            </Link> */}
             <DaoList />
           </div>
         </div>
