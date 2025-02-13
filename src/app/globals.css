@@ -33,7 +33,7 @@
   body {
     @apply bg-background text-foreground;
     font-family:
-      'Mulish',
+      "Mulish",
       ui-sans-serif,
       system-ui,
       sans-serif,
@@ -87,9 +87,10 @@
 }
 
 @font-face {
-  font-family: 'FetteUNZFraktur';
-  src: url('/fonts/FetteUNZFraktur.woff') format('woff');
+  font-family: "FetteUNZFraktur";
+  src: url("/fonts/FetteUNZFraktur.woff") format("woff");
   font-weight: normal;
   font-style: normal;
   font-display: swap;
+  text-rendering: optimizeLegibility;
 }
