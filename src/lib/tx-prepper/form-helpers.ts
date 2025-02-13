@@ -10,3 +10,11 @@ export const getRequiredFieldsList = (formSchema: yup.AnyObject) =>
     }
     return acc;
   }, []);
+
+export const getMetaFieldsList = (formSchema: yup.AnyObject) => {
+  return {
+    title: !!formSchema.fields.title,
+    description: !!formSchema.fields.description,
+    link: !!formSchema.fields.link,
+  };
+};

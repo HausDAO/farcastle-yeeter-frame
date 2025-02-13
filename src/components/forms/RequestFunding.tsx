@@ -17,7 +17,10 @@ import { useDaoTokenBalances } from "@/hooks/useDaoTokenBalances";
 import { FormActionButtons } from "../app/FormActionButtons";
 import { ProposalMetaFields } from "../app/ProposalMetaFields";
 import { Input } from "@/components/ui/input";
-import { getRequiredFieldsList } from "@/lib/tx-prepper/form-helpers";
+import {
+  getMetaFieldsList,
+  getRequiredFieldsList,
+} from "@/lib/tx-prepper/form-helpers";
 import { ProposalFormLabel } from "../app/ProposalFormLabel";
 import { TokenRequestSelect } from "../app/TokenRequestSelect";
 import { parseUnits } from "viem";
@@ -31,6 +34,7 @@ const formSchema = yup.object().shape({
   tokenAmount: yup.string().required(),
 });
 const requiredFields = getRequiredFieldsList(formSchema);
+const metaFields = getMetaFieldsList(formSchema);
 
 export const RequestFunding = ({
   formConfig,
@@ -83,6 +87,7 @@ export const RequestFunding = ({
         <ProposalMetaFields
           disabled={disabled}
           requiredFields={requiredFields}
+          metaFields={metaFields}
         />
 
         <FormField

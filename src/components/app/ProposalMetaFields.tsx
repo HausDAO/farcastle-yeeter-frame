@@ -4,74 +4,92 @@ import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
 import { ProposalFormLabel } from "./ProposalFormLabel";
 
+type FieldIds = {
+  title?: boolean;
+  description?: boolean;
+  link?: boolean;
+};
+
 export const ProposalMetaFields = ({
   disabled,
   requiredFields,
+  metaFields,
 }: {
   disabled: boolean;
   requiredFields: string[];
+  metaFields: FieldIds;
 }) => {
   const form = useFormContext();
   return (
     <>
-      <FormField
-        control={form.control}
-        name="title"
-        disabled={disabled}
-        render={({ field }) => (
-          <FormItem>
-            <ProposalFormLabel
-              label="Title"
-              id="title"
-              requiredFields={requiredFields}
-            />
-            <FormControl>
-              <Input id="title" placeholder="Proposal Title" {...field} />
-            </FormControl>
-            <FormMessage />
-          </FormItem>
-        )}
-      />
-      <FormField
-        control={form.control}
-        name="description"
-        disabled={disabled}
-        render={({ field }) => (
-          <FormItem>
-            <ProposalFormLabel
-              label="Description"
-              id="description"
-              requiredFields={requiredFields}
-            />
-            <FormControl>
-              <Textarea
-                id="description"
-                placeholder="Proposal description"
-                {...field}
+      {metaFields.title && (
+        <FormField
+          control={form.control}
+          name="title"
+          disabled={disabled}
+          render={({ field }) => (
+            <FormItem>
+              <ProposalFormLabel
+                label="Title"
+                id="title"
+                requiredFields={requiredFields}
               />
-            </FormControl>
-            <FormMessage />
-          </FormItem>
-        )}
-      />
-      <FormField
-        control={form.control}
-        name="link"
-        disabled={disabled}
-        render={({ field }) => (
-          <FormItem>
-            <ProposalFormLabel
-              label="Link"
-              id="link"
-              requiredFields={requiredFields}
-            />
-            <FormControl>
-              <Input id="link" placeholder="Url for more content" {...field} />
-            </FormControl>
-            <FormMessage />
-          </FormItem>
-        )}
-      />
+              <FormControl>
+                <Input id="title" placeholder="Proposal Title" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+      )}
+      {metaFields.description && (
+        <FormField
+          control={form.control}
+          name="description"
+          disabled={disabled}
+          render={({ field }) => (
+            <FormItem>
+              <ProposalFormLabel
+                label="Description"
+                id="description"
+                requiredFields={requiredFields}
+              />
+              <FormControl>
+                <Textarea
+                  id="description"
+                  placeholder="Proposal description"
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+      )}
+      {metaFields.link && (
+        <FormField
+          control={form.control}
+          name="link"
+          disabled={disabled}
+          render={({ field }) => (
+            <FormItem>
+              <ProposalFormLabel
+                label="Link"
+                id="link"
+                requiredFields={requiredFields}
+              />
+              <FormControl>
+                <Input
+                  id="link"
+                  placeholder="Url for more content"
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+      )}
     </>
   );
 };

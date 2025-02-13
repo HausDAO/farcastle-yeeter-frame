@@ -1,12 +1,14 @@
 "use client";
 
 import { useDaosForAddress } from "@/hooks/useDaosForAddress";
+import { DaoItem } from "@/lib/types";
 import { useFrameSDK } from "@/providers/FramesSDKProvider";
-import Link from "next/link";
 import { useEffect, useState } from "react";
 import { toHex } from "viem";
 import { useAccount, useConnect } from "wagmi";
 import { Button } from "../ui/button";
+import { LoadingSpinner } from "../ui/loading";
+import { DaoListCard } from "./DaoListCard";
 
 export const DaoList = () => {
   const [mounted, setMounted] = useState(false);
@@ -31,30 +33,27 @@ export const DaoList = () => {
       {!isConnected && (
         <>
           <Button onClick={() => connect({ connector: connector })}>
-            Connect
+            Reveal Realms
           </Button>
         </>
       )}
 
       {isConnected && (
         <>
-          <div className="font-semibold text-xl text-center">
+          <div className="font-semibold text-xl text-center mb-4">
             Your {chain?.name} DAOs
           </div>
-          {isLoading && <p>loading...</p>}
+          {isLoading && <LoadingSpinner />}
 
-          <div className="flex flex-row flex-wrap items-center justify-center gap-2 w-96">
+          <div className="flex flex-col flex-wrap items-center justify-center gap-2 w-96">
             {isFetched &&
-              daos?.map(dao => {
+              daos?.map((dao: DaoItem) => {
                 return (
-                  <Link
+                  <DaoListCard
                     key={dao.id}
-                    href={`/dao/${toHex(chain?.id || "0")}/${dao.id}`}
-                  >
-                    <Button size="sm" variant="secondary">
-                      {dao.name}
-                    </Button>
-                  </Link>
+                    daoid={dao.id}
+                    chainid={`${toHex(chain?.id || "0")}`}
+                  />
                 );
               })}
           </div>
