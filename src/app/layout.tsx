@@ -56,6 +56,13 @@ export default function RootLayout({
           href="https://fonts.googleapis.com/css2?family=VT323&display=swap"
           rel="stylesheet"
         />
+        <link
+          rel="preload"
+          href="/fonts/FetteUNZFraktur.woff"
+          as="font"
+          type="font/woff"
+          crossOrigin="anonymous"
+        />
       </head>
       <body className="antialiased scrollbar-vert">
         <Providers>
