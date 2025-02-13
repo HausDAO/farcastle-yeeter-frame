@@ -60,7 +60,7 @@ export default function RootLayout({
       <body className="antialiased scrollbar-vert">
         <Providers>
           <Header />
-          {children}
+          <div className="mt-1">{children}</div>
         </Providers>
       </body>
     </html>
