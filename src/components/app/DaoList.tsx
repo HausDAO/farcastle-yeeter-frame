@@ -18,7 +18,7 @@ export const DaoList = () => {
   if (isLoading) return <LoadingSpinner />;
 
   return (
-    <div className="flex flex-col flex-wrap items-center justify-center gap-2 w-96">
+    <div className="flex flex-col flex-wrap items-center justify-center gap-2 w-full">
       {isFetched &&
         daos?.map((dao: DaoItem) => {
           return (
