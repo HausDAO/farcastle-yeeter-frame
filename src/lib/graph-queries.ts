@@ -361,6 +361,32 @@ export const LIST_ALL_DAO_PROPOSALS = gql`
   }
 `;
 
+export const LIST_ACTIVE_DAO_PROPOSALS = gql`
+  query proposal(
+    $skip: Int!
+    $first: Int!
+    $orderBy: String!
+    $orderDirection: String!
+    $daoid: String!
+  ) {
+    proposals(
+      skip: $skip
+      first: $first
+      orderBy: $orderBy
+      orderDescription: $orderDescription,
+      where: { 
+        dao: $daoid           
+        cancelled: false
+        sponsored: true
+        processed: false
+        actionFailed: false 
+      }
+    ) {
+      ${proposalFields}
+    }
+  }
+`;
+
 const memberFields = `
   id
   createdAt

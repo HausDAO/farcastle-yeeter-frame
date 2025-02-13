@@ -18,8 +18,6 @@ import { DaoHooksProvider } from "./DaoHooksProvider";
 import { DaoRecordProvider } from "./DaoRecordProvider";
 import { FrameSDKProvider } from "./FramesSDKProvider";
 
-// import { AuthedPrefetchesProvider } from "./AuthedPrefetchesProvider";
-
 export const config = createConfig({
   chains: [base, sepolia, mainnet, polygon, gnosis, optimism, arbitrum],
   transports: {
@@ -47,9 +45,7 @@ function Providers({ children }: React.PropsWithChildren) {
       <QueryClientProvider client={queryClient}>
         <FrameSDKProvider>
           <DaoHooksProvider keyConfig={daoHooksConfig}>
-            {/* <AuthedPrefetchesProvider> */}
             <DaoRecordProvider>{children}</DaoRecordProvider>
-            {/* </AuthedPrefetchesProvider> */}
           </DaoHooksProvider>
         </FrameSDKProvider>
       </QueryClientProvider>
