@@ -12,18 +12,19 @@ interface DaoListCardProps {
 }
 
 export const DaoListCard = ({ daoid, chainid }: DaoListCardProps) => {
-  const { dao, isLoading } = useDao({
+  const { dao, isLoading: daoLoading } = useDao({
     chainid,
     daoid,
   });
-  const { proposals } = useActiveDaoProposals({
+  const { proposals, isLoading: proposalsLoading } = useActiveDaoProposals({
     chainid,
     daoid,
   });
 
-  if (isLoading || !dao) return null;
+  if (daoLoading || !dao || proposalsLoading) return null;
 
   const imgSrc = dao.profile?.avatarImg || "/castle.svg";
+  const proposalCount = proposals?.length || 0;
 
   return (
     <Link href={`/dao/${chainid}/${daoid}`} className="w-full">
@@ -38,8 +39,8 @@ export const DaoListCard = ({ daoid, chainid }: DaoListCardProps) => {
               {dao.name.length > 25 ? `${dao.name.slice(0, 25)}...` : dao.name}
             </span>
             <span className="text-muted text-sm">
-              {proposals?.length || 0} Active Proposal
-              {(proposals?.length || 0) !== 1 && "s"}
+              {proposalCount} Active Proposal
+              {proposalCount !== 1 && "s"}
             </span>
           </div>
         </div>
