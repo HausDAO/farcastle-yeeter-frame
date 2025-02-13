@@ -37,11 +37,11 @@ export const config = createConfig({
 
 const queryClient = new QueryClient();
 
-const daoHooksConfig = {
-  graphKey: process.env.NEXT_PUBLIC_GRAPH_KEY || "",
-};
-
 function Providers({ children }: React.PropsWithChildren) {
+  const daoHooksConfig = {
+    graphKey: process.env.NEXT_PUBLIC_GRAPH_KEY || "",
+  };
+
   return (
     <WagmiProvider config={config}>
       <QueryClientProvider client={queryClient}>
