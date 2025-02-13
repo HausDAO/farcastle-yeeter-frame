@@ -2,6 +2,7 @@
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card } from "@/components/ui/card";
+import { useActiveDaoProposals } from "@/hooks/useActiveDaoProposals";
 import { useDao } from "@/hooks/useDao";
 import Link from "next/link";
 
@@ -12,6 +13,10 @@ interface DaoListCardProps {
 
 export const DaoListCard = ({ daoid, chainid }: DaoListCardProps) => {
   const { dao, isLoading } = useDao({
+    chainid,
+    daoid,
+  });
+  const { proposals } = useActiveDaoProposals({
     chainid,
     daoid,
   });
@@ -32,7 +37,9 @@ export const DaoListCard = ({ daoid, chainid }: DaoListCardProps) => {
             <span className="text-foreground font-medium truncate">
               {dao.name.length > 25 ? `${dao.name.slice(0, 25)}...` : dao.name}
             </span>
-            <span className="text-muted text-sm"># Active Proposals</span>
+            <span className="text-muted text-sm">
+              {proposals?.length || 0} Active Proposals
+            </span>
           </div>
         </div>
       </Card>

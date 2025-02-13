@@ -2,7 +2,7 @@ export type SubgraphQueryOrderPaginationOptions = {
   skip?: number;
   first?: number;
   orderBy?: string;
-  orderDirection?: 'asc' | 'desc';
+  orderDirection?: "asc" | "desc";
 };
 
 export type YeeterItem = {
@@ -133,6 +133,7 @@ export type ProposalItem = {
   proposalType: string;
   contentURI: string;
   contentURIType: string;
+  currentlyPassing: boolean;
   sponsorTxHash: string;
   sponsored: boolean;
   selfSponsor: boolean;
