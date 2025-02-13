@@ -38,7 +38,8 @@ export const DaoListCard = ({ daoid, chainid }: DaoListCardProps) => {
               {dao.name.length > 25 ? `${dao.name.slice(0, 25)}...` : dao.name}
             </span>
             <span className="text-muted text-sm">
-              {proposals?.length || 0} Active Proposals
+              {proposals?.length || 0} Active Proposal
+              {(proposals?.length || 0) !== 1 && "s"}
             </span>
           </div>
         </div>
