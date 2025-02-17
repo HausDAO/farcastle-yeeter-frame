@@ -4,6 +4,7 @@ import { useDaosForAddress } from "@/hooks/useDaosForAddress";
 import { DaoItem } from "@/lib/types";
 import { toHex } from "viem";
 import { useAccount } from "wagmi";
+import { Card } from "../ui/card";
 import { LoadingSpinner } from "../ui/loading";
 import { DaoListCard } from "./DaoListCard";
 
@@ -16,6 +17,20 @@ export const DaoList = () => {
   });
 
   if (isLoading) return <LoadingSpinner />;
+
+  if (isFetched && (!daos || daos.length === 0)) {
+    return (
+      <div className="flex flex-col flex-wrap items-center justify-center gap-2 w-full">
+        <Card className="w-full bg-background border hover:bg-card transition-colors rounded-none">
+          <div className="flex justify-center p-4">
+            <span className="text-primary font-display text-xl uppercase">
+              You serve no castle in this realm
+            </span>
+          </div>
+        </Card>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col flex-wrap items-center justify-center gap-2 w-full">
