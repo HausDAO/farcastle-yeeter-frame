@@ -26,13 +26,15 @@ export default function DaoHome() {
 
   return (
     <div className="w-full">
-      <div className="text-muted font-display text-3xl uppercase mb-4 text-center">
+      <div className="text-muted font-display text-3xl uppercase text-center">
         Make Proposal
       </div>
       {dao && (
-        <p className="my-3 text-primary font-semibold text-lg text-center">
-          {dao?.name}
-        </p>
+        <div className="flex flex-col items-center">
+          <span className="text-foreground font-medium truncate">
+            {dao.name.length > 25 ? `${dao.name.slice(0, 25)}...` : dao.name}
+          </span>
+        </div>
       )}
       <div className="mt-4 w-full px-4">
         <Link
