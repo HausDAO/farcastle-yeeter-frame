@@ -25,35 +25,39 @@ export default function DaoHome() {
   }
 
   return (
-    <div className="w-[300px] mx-auto py-4 px-2">
+    <div className="w-full">
+      <div className="text-muted font-display text-3xl uppercase mb-4 text-center">
+        Make Proposal
+      </div>
       {dao && (
-        <p className="my-3 text-primary font-semibold text-lg">
-          Create a proposal in {dao?.name}
+        <p className="my-3 text-primary font-semibold text-lg text-center">
+          {dao?.name}
         </p>
       )}
-      <div className="mb-4">
-        <Link href={`/dao/${params.chainid}/${params.daoid}/POST_SIGNAL`}>
-          <Button>Propose Signal</Button>
+      <div className="mt-4 w-full px-4">
+        <Link
+          href={`/dao/${params.chainid}/${params.daoid}/POST_SIGNAL`}
+          className="w-full"
+        >
+          <Button className="w-full">Signal</Button>
         </Link>
       </div>
 
-      <div className="mb-4">
+      <div className="mt-4 w-full px-4">
+        <Link
+          href={`/dao/${params.chainid}/${params.daoid}/REQUEST_FUNDING`}
+          className="w-full"
+        >
+          <Button className="w-full">Funding</Button>
+        </Link>
+      </div>
+
+      <div className="mt-4 w-full px-4">
         <Link
           href={`/dao/${params.chainid}/${params.daoid}/REQUEST_MEMBERSHIP`}
+          className="w-full"
         >
-          <Button>Request Membership</Button>
-        </Link>
-      </div>
-
-      <div className="mb-4">
-        <Link href={`/dao/${params.chainid}/${params.daoid}/REQUEST_FUNDING`}>
-          <Button>Request Funding</Button>
-        </Link>
-      </div>
-
-      <div className="mb-4">
-        <Link href={`/dao/${params.chainid}/${params.daoid}/SAMPLE`}>
-          <Button>SAMPLER</Button>
+          <Button className="w-full">Membership</Button>
         </Link>
       </div>
     </div>

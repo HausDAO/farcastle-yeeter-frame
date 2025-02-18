@@ -1,3 +1,4 @@
+import { Card } from "@/components/ui/card";
 import { Metadata } from "next";
 import DaoHome from "./dao-home";
 
@@ -41,5 +42,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default function Page() {
-  return <DaoHome />;
+  return (
+    <div className="w-full h-full pb-4 px-4">
+      <Card className="flex flex-col items-center px-4 pt-4 pb-8 rounded-none">
+        <DaoHome />
+      </Card>
+    </div>
+  );
 }
