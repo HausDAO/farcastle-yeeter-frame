@@ -1,6 +1,6 @@
+import { InfoIcon } from "lucide-react";
 import { FormLabel } from "../ui/form";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
-import { InfoIcon } from "lucide-react";
 
 export const ProposalFormLabel = ({
   label,
@@ -15,11 +15,13 @@ export const ProposalFormLabel = ({
 }) => {
   return (
     <FormLabel>
-      <div className="flex mb-2 justify-between">
-        <div>
+      <div className="flex mb-2 justify-between items-start">
+        <div className="text-xl uppercase font-display text-primary leading-none">
           {label && label}
           {requiredFields.includes(id) && (
-            <span className="text-red-500 text-sm ml-1">*</span>
+            <span className="text-destructive text-sm relative -top-1 ml-0.5 leading-none">
+              *
+            </span>
           )}
         </div>
         {popoverContent && (

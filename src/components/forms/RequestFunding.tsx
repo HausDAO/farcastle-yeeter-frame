@@ -1,8 +1,5 @@
 "use client";
 
-import { useForm } from "react-hook-form";
-import * as yup from "yup";
-import { yupResolver } from "@hookform/resolvers/yup";
 import {
   Form,
   FormControl,
@@ -10,28 +7,34 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
-import { FormComponentProps } from "../app/FormSwitcher";
-import { useParams } from "next/navigation";
+import { Input } from "@/components/ui/input";
 import { useDao } from "@/hooks/useDao";
 import { useDaoTokenBalances } from "@/hooks/useDaoTokenBalances";
-import { FormActionButtons } from "../app/FormActionButtons";
-import { ProposalMetaFields } from "../app/ProposalMetaFields";
-import { Input } from "@/components/ui/input";
 import {
   getMetaFieldsList,
   getRequiredFieldsList,
 } from "@/lib/tx-prepper/form-helpers";
-import { ProposalFormLabel } from "../app/ProposalFormLabel";
-import { TokenRequestSelect } from "../app/TokenRequestSelect";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useParams } from "next/navigation";
+import { useForm } from "react-hook-form";
 import { parseUnits } from "viem";
+import * as yup from "yup";
+import { FormActionButtons } from "../app/FormActionButtons";
+import { FormComponentProps } from "../app/FormSwitcher";
+import { ProposalFormLabel } from "../app/ProposalFormLabel";
+import { ProposalMetaFields } from "../app/ProposalMetaFields";
+import { TokenRequestSelect } from "../app/TokenRequestSelect";
 
 const formSchema = yup.object().shape({
-  title: yup.string().required(),
+  title: yup.string().required("title is required"),
   description: yup.string(),
   link: yup.string().url(),
-  recipient: yup.string().min(42).required(),
-  tokenAddress: yup.string().required(),
-  tokenAmount: yup.string().required(),
+  recipient: yup
+    .string()
+    .min(42, "recipient must be 42 characters")
+    .required("recipient is required"),
+  tokenAddress: yup.string().required("required"),
+  tokenAmount: yup.string().required("required"),
 });
 const requiredFields = getRequiredFieldsList(formSchema);
 const metaFields = getMetaFieldsList(formSchema);
@@ -51,7 +54,7 @@ export const RequestFunding = ({
       description: "",
       link: "",
       recipient: "",
-      tokenAmount: "0",
+      tokenAmount: "",
       tokenAddress: "",
     },
   });
@@ -82,7 +85,7 @@ export const RequestFunding = ({
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="w-full px-4 space-y-4"
+        className="w-full px-4 space-y-8"
       >
         <ProposalMetaFields
           disabled={disabled}
@@ -90,30 +93,28 @@ export const RequestFunding = ({
           metaFields={metaFields}
         />
 
-        <FormField
-          control={form.control}
-          name="recipient"
-          disabled={disabled}
-          render={({ field }) => (
-            <FormItem>
-              <ProposalFormLabel
-                label="Recipient"
-                id="recipient"
-                requiredFields={requiredFields}
-              />
-              <FormControl>
-                <Input
+        <div className="space-y-4 mb-4">
+          <FormField
+            control={form.control}
+            name="recipient"
+            disabled={disabled}
+            render={({ field }) => (
+              <FormItem>
+                <ProposalFormLabel
+                  label="Recipient"
                   id="recipient"
-                  placeholder="Address to receive funds"
-                  {...field}
+                  requiredFields={requiredFields}
                 />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+                <FormControl>
+                  <Input id="recipient" placeholder="Address" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-        <TokenRequestSelect disabled={disabled} tokens={tokens} />
+          <TokenRequestSelect disabled={disabled} tokens={tokens} />
+        </div>
 
         <FormActionButtons
           submitButtonText={submitButtonText}

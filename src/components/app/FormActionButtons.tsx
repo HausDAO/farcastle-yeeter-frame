@@ -21,7 +21,7 @@ export const FormActionButtons = ({
       )}
       {!loading && !confirmed && (
         <Button type="submit" className="w-full" disabled={disabled}>
-          {submitButtonText || "Create Proposal"}
+          {submitButtonText || "Make Proposal"}
         </Button>
       )}
       {confirmed && (

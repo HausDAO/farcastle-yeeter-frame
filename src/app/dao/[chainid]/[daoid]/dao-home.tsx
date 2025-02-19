@@ -1,5 +1,6 @@
 "use client";
 
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { LoadingSpinner } from "@/components/ui/loading";
 import { useDao } from "@/hooks/useDao";
@@ -29,11 +30,24 @@ export default function DaoHome() {
       <div className="text-muted font-display text-3xl uppercase text-center">
         Make Proposal
       </div>
+      <div className="flex justify-center my-2">
+        <Avatar className="h-24 w-24">
+          <AvatarImage
+            src={dao?.profile?.avatarImg || "/gate-purple.svg"}
+            alt={dao?.name}
+          />
+          <AvatarFallback>{dao?.name?.[0]}</AvatarFallback>
+        </Avatar>
+      </div>
       {dao && (
         <div className="flex flex-col items-center">
-          <span className="text-foreground font-medium truncate">
-            {dao.name.length > 25 ? `${dao.name.slice(0, 25)}...` : dao.name}
+          <span className="text-foreground text-xl font-medium truncate">
+            {dao.name.length > 20 ? `${dao.name.slice(0, 20)}...` : dao.name}
           </span>
+          <p className="text-muted-foreground text-base mt-2 px-4">
+            Carve thy will into the stone of fate. Stir the realm, fill the
+            coffers, or beckon new souls into the realm.
+          </p>
         </div>
       )}
       <div className="mt-4 w-full px-4">

@@ -119,7 +119,7 @@ export default function Proposal() {
   const renderError = (error: Error | null) => {
     if (!error) return null;
     return (
-      <div className="text-red-500 text-xs mt-1">
+      <div className="text-destructive text-xs mt-1">
         Error: {truncateError(error.message)}
       </div>
     );
@@ -141,7 +141,7 @@ export default function Proposal() {
     <>
       <div className="w-full h-full space-y-4 pb-4 px-4">
         <Card className="flex flex-col items-center px-4 pt-4 pb-8 rounded-none">
-          <div className="text-muted font-display text-2xl uppercase mb-4">
+          <div className="text-muted font-display text-3xl uppercase mb-4">
             {formConfig.title}
           </div>
 

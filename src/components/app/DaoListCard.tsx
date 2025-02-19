@@ -23,7 +23,7 @@ export const DaoListCard = ({ daoid, chainid }: DaoListCardProps) => {
 
   if (daoLoading || !dao || proposalsLoading) return null;
 
-  const imgSrc = dao.profile?.avatarImg || "/castle.svg";
+  const imgSrc = dao.profile?.avatarImg || "/gate.svg";
   const proposalCount = proposals?.length || 0;
 
   return (

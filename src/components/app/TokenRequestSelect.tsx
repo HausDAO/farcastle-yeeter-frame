@@ -1,12 +1,9 @@
+import { TokenBalance } from "@/lib/types";
+import { useEffect, useState } from "react";
 import { useFormContext } from "react-hook-form";
-import {
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "../ui/form";
-import { ProposalFormLabel } from "./ProposalFormLabel";
+import { formatEther } from "viem";
+import { Button } from "../ui/button";
+import { FormControl, FormField, FormItem, FormMessage } from "../ui/form";
 import { Input } from "../ui/input";
 import {
   Select,
@@ -15,10 +12,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
-import { TokenBalance } from "@/lib/types";
-import { useEffect, useState } from "react";
-import { formatEther } from "viem";
-import { Button } from "../ui/button";
+import { ProposalFormLabel } from "./ProposalFormLabel";
 
 const TokenItem = ({ token }: { token: TokenBalance }) => {
   const value = token.tokenAddress || "0x0";
@@ -44,16 +38,14 @@ export const TokenRequestSelect = ({
   useEffect(() => {
     if (selectedTokenAddress) {
       if (selectedTokenAddress === "0x0") {
-        const nativeToken = tokens?.find(
-          (token) => token.tokenAddress === null
-        );
+        const nativeToken = tokens?.find(token => token.tokenAddress === null);
         setTokenBalance(nativeToken?.balance);
         setTokenBalanceText(
           `${formatEther(BigInt(nativeToken?.balance || "0"))} ETH`
         );
       } else {
         const targetToken = tokens?.find(
-          (token) => token.tokenAddress === selectedTokenAddress
+          token => token.tokenAddress === selectedTokenAddress
         );
         setTokenBalance(targetToken?.balance);
         setTokenBalanceText(
@@ -69,9 +61,11 @@ export const TokenRequestSelect = ({
 
   return (
     <div className="mt-3">
-      <FormLabel>
-        Funding Amount <span className="text-red-500 text-sm ml-1">*</span>
-      </FormLabel>
+      <ProposalFormLabel
+        label="Funding Amount"
+        id="tokenAmount"
+        requiredFields={["tokenAmount"]}
+      />
       <div className="flex flex-row gap-2">
         <FormField
           control={form.control}
@@ -79,12 +73,11 @@ export const TokenRequestSelect = ({
           disabled={disabled}
           render={({ field }) => (
             <FormItem>
-              <ProposalFormLabel id="tokenAmount" requiredFields={[]} />
               <FormControl>
-                <Input id="tokenAmount" placeholder="Amount" {...field} />
+                <Input id="tokenAmount" placeholder="0" {...field} />
               </FormControl>
               {tokenBalance && (
-                <Button size="sm" onClick={handleMax}>
+                <Button size="sm" onClick={handleMax} className="mt-2">
                   Max
                 </Button>
               )}
@@ -99,7 +92,6 @@ export const TokenRequestSelect = ({
           disabled={disabled}
           render={({ field }) => (
             <FormItem>
-              <ProposalFormLabel id="tokenAddress" requiredFields={[]} />
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
                   <SelectTrigger>
@@ -114,7 +106,7 @@ export const TokenRequestSelect = ({
                 </SelectContent>
               </Select>
               {tokenBalanceText && (
-                <p className="text-xs">{tokenBalanceText}</p>
+                <p className="text-xs mt-2">{tokenBalanceText}</p>
               )}
               <FormMessage />
             </FormItem>
