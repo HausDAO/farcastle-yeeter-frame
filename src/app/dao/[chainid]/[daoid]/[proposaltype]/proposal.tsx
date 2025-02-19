@@ -1,6 +1,7 @@
 "use client";
 
 import sdk from "@farcaster/frame-sdk";
+import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
 import {
   useAccount,
@@ -145,16 +146,18 @@ export default function Proposal() {
             {formConfig.title}
           </div>
 
-          <FormSwitcher
-            formConfig={formConfig}
-            confirmed={isConfirmed}
-            loading={isSendTxPending || isConfirming}
-            invalidConnection={!isConnected || !validChain}
-            handleSubmit={handleSend}
-            formElmClass="w-full space-y-4"
-          />
+          {!isConfirmed && (
+            <FormSwitcher
+              formConfig={formConfig}
+              confirmed={isConfirmed}
+              loading={isSendTxPending || isConfirming}
+              invalidConnection={!isConnected || !validChain}
+              handleSubmit={handleSend}
+              formElmClass="w-full space-y-4"
+            />
+          )}
 
-          <div className="flex flex-col gap-2 w-full mt-2">
+          <div className="flex flex-col gap-2 w-full">
             {isSendTxError && renderError(sendTxError)}
 
             {!isConnected && (
@@ -175,11 +178,28 @@ export default function Proposal() {
               </Button>
             )}
 
-            {propid && (
-              <Button onClick={openProposalCastUrl}>Cast Proposal</Button>
+            {isConfirmed && (
+              <div className="flex flex-col items-center gap-8">
+                <Image
+                  src="/heart.svg"
+                  alt="Success"
+                  width={300}
+                  height={254}
+                />
+                <div className="flex flex-col w-full items-center gap-2">
+                  {propid && (
+                    <Button onClick={openProposalCastUrl} className="w-full">
+                      Cast Proposal
+                    </Button>
+                  )}
+                  {hash && (
+                    <Button onClick={openUrl} className="w-full">
+                      View Transaction
+                    </Button>
+                  )}
+                </div>
+              </div>
             )}
-
-            {hash && <Button onClick={openUrl}>View Transaction</Button>}
           </div>
         </Card>
       </div>
