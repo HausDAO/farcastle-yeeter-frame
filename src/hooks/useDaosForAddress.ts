@@ -15,8 +15,10 @@ export const useDaosForAddress = ({
 }) => {
   const { config } = useDaoHooksConfig();
 
-  if (!config?.graphKey || !chainid) {
-    throw new Error("DaoHooksContext must be used within a DaoHooksProvider");
+  if (!config?.graphKey) {
+    console.error(
+      "useDaosForAddress: DaoHooksContext must be used within a DaoHooksProvider"
+    );
   }
 
   type DaosWithMembers = DaoItem &
@@ -26,13 +28,13 @@ export const useDaosForAddress = ({
 
   const { data, ...rest } = useQuery({
     queryKey: [`get-daos-address-${chainid}-${address}`, { chainid, address }],
-    enabled: Boolean(chainid && address && config?.graphKey),
+    enabled: Boolean(chainid && address),
     queryFn: (): Promise<{
       daos: DaosWithMembers[];
     }> => {
       const yeeterUrl = getGraphUrl({
-        chainid,
-        graphKey: config.graphKey,
+        chainid: chainid || "",
+        graphKey: config?.graphKey || "",
         subgraphKey: "DAOHAUS",
       });
 

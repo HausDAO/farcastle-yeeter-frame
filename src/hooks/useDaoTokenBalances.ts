@@ -2,7 +2,6 @@ import { useQuery } from "@tanstack/react-query";
 
 import { TokenBalance } from "@/lib/types";
 import { getGnosisUrl } from "@/lib/endpoints";
-import { useDaoHooksConfig } from "@/providers/DaoHooksProvider";
 
 import { getAddress } from "viem";
 
@@ -13,8 +12,6 @@ export const useDaoTokenBalances = ({
   chainid?: string;
   safeAddress?: string;
 }) => {
-  const { config } = useDaoHooksConfig();
-
   const gnosisUrl = getGnosisUrl({
     chainid: chainid || "",
   });
@@ -24,7 +21,7 @@ export const useDaoTokenBalances = ({
       `get-dao-token-balances${chainid}-${safeAddress}`,
       { chainid, safeAddress },
     ],
-    enabled: Boolean(chainid && safeAddress && config?.graphKey),
+    enabled: Boolean(chainid && safeAddress),
     queryFn: async (): Promise<{
       tokens: TokenBalance[];
     }> => {
