@@ -9,6 +9,7 @@ export type FormComponentProps = {
   confirmed: boolean;
   loading: boolean;
   invalidConnection: boolean;
+  formElmClass: string;
   handleSubmit: (values: ArbitraryState) => Promise<void>;
 };
 
@@ -17,6 +18,7 @@ export const FormSwitcher = ({
   confirmed,
   loading,
   invalidConnection,
+  formElmClass,
   handleSubmit,
 }: FormComponentProps) => {
   const renderForm = () => {
@@ -29,6 +31,7 @@ export const FormSwitcher = ({
             loading={loading}
             invalidConnection={invalidConnection}
             handleSubmit={handleSubmit}
+            formElmClass={formElmClass}
           />
         );
       case "REQUEST_MEMBERSHIP":
@@ -39,6 +42,7 @@ export const FormSwitcher = ({
             loading={loading}
             invalidConnection={invalidConnection}
             handleSubmit={handleSubmit}
+            formElmClass={formElmClass}
           />
         );
       case "REQUEST_FUNDING":
@@ -49,6 +53,7 @@ export const FormSwitcher = ({
             loading={loading}
             invalidConnection={invalidConnection}
             handleSubmit={handleSubmit}
+            formElmClass={formElmClass}
           />
         );
 

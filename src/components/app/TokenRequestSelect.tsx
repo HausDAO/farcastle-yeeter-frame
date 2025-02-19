@@ -38,14 +38,16 @@ export const TokenRequestSelect = ({
   useEffect(() => {
     if (selectedTokenAddress) {
       if (selectedTokenAddress === "0x0") {
-        const nativeToken = tokens?.find(token => token.tokenAddress === null);
+        const nativeToken = tokens?.find(
+          (token) => token.tokenAddress === null
+        );
         setTokenBalance(nativeToken?.balance);
         setTokenBalanceText(
           `${formatEther(BigInt(nativeToken?.balance || "0"))} ETH`
         );
       } else {
         const targetToken = tokens?.find(
-          token => token.tokenAddress === selectedTokenAddress
+          (token) => token.tokenAddress === selectedTokenAddress
         );
         setTokenBalance(targetToken?.balance);
         setTokenBalanceText(
@@ -60,7 +62,7 @@ export const TokenRequestSelect = ({
   };
 
   return (
-    <div className="mt-3">
+    <div>
       <ProposalFormLabel
         label="Funding Amount"
         id="tokenAmount"

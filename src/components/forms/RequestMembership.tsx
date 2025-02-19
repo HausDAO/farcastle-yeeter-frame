@@ -40,6 +40,7 @@ export const RequestMembership = ({
   loading,
   confirmed,
   invalidConnection,
+  formElmClass,
 }: FormComponentProps) => {
   const { submitButtonText } = formConfig;
   const form = useForm<yup.InferType<typeof formSchema>>({
@@ -68,10 +69,7 @@ export const RequestMembership = ({
 
   return (
     <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="w-full px-4 space-y-8"
-      >
+      <form onSubmit={form.handleSubmit(onSubmit)} className={formElmClass}>
         <ProposalMetaFields
           disabled={disabled}
           requiredFields={requiredFields}

@@ -25,6 +25,7 @@ export const Signal = ({
   loading,
   confirmed,
   invalidConnection,
+  formElmClass,
 }: FormComponentProps) => {
   const { submitButtonText } = formConfig;
 
@@ -47,10 +48,7 @@ export const Signal = ({
 
   return (
     <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="w-full px-4 space-y-4"
-      >
+      <form onSubmit={form.handleSubmit(onSubmit)} className={formElmClass}>
         <ProposalMetaFields
           disabled={disabled}
           requiredFields={requiredFields}

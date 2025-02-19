@@ -145,15 +145,14 @@ export default function Proposal() {
             {formConfig.title}
           </div>
 
-          <div className="w-full space-y-4">
-            <FormSwitcher
-              formConfig={formConfig}
-              confirmed={isConfirmed}
-              loading={isSendTxPending || isConfirming}
-              invalidConnection={!isConnected || !validChain}
-              handleSubmit={handleSend}
-            />
-          </div>
+          <FormSwitcher
+            formConfig={formConfig}
+            confirmed={isConfirmed}
+            loading={isSendTxPending || isConfirming}
+            invalidConnection={!isConnected || !validChain}
+            handleSubmit={handleSend}
+            formElmClass="w-full space-y-4"
+          />
 
           <div className="flex flex-col gap-2 w-full space-y-4 pb-4 px-4 mt-3">
             {isSendTxError && renderError(sendTxError)}

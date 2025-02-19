@@ -21,7 +21,7 @@ export const ProposalMetaFields = ({
 }) => {
   const form = useFormContext();
   return (
-    <div className="space-y-4 mb-4">
+    <>
       {metaFields.title && (
         <FormField
           control={form.control}
@@ -86,6 +86,6 @@ export const ProposalMetaFields = ({
           )}
         />
       )}
-    </div>
+    </>
   );
 };
