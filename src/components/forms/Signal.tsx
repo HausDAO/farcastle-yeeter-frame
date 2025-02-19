@@ -1,16 +1,16 @@
 "use client";
 
-import { useForm } from "react-hook-form";
-import * as yup from "yup";
-import { yupResolver } from "@hookform/resolvers/yup";
 import { Form } from "@/components/ui/form";
-import { FormComponentProps } from "../app/FormSwitcher";
-import { FormActionButtons } from "../app/FormActionButtons";
-import { ProposalMetaFields } from "../app/ProposalMetaFields";
 import {
   getMetaFieldsList,
   getRequiredFieldsList,
 } from "@/lib/tx-prepper/form-helpers";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useForm } from "react-hook-form";
+import * as yup from "yup";
+import { FormActionButtons } from "../app/FormActionButtons";
+import { FormComponentProps } from "../app/FormSwitcher";
+import { ProposalMetaFields } from "../app/ProposalMetaFields";
 
 const formSchema = yup.object().shape({
   title: yup.string().required(),

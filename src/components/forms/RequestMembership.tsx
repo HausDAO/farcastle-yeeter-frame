@@ -1,8 +1,5 @@
 "use client";
 
-import * as yup from "yup";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { useForm } from "react-hook-form";
 import {
   Form,
   FormControl,
@@ -11,22 +8,28 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { FormComponentProps } from "../app/FormSwitcher";
-import { parseUnits } from "viem";
-import { FormActionButtons } from "../app/FormActionButtons";
-import { ProposalMetaFields } from "../app/ProposalMetaFields";
 import {
   getMetaFieldsList,
   getRequiredFieldsList,
 } from "@/lib/tx-prepper/form-helpers";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useForm } from "react-hook-form";
+import { parseUnits } from "viem";
+import * as yup from "yup";
+import { FormActionButtons } from "../app/FormActionButtons";
+import { FormComponentProps } from "../app/FormSwitcher";
 import { ProposalFormLabel } from "../app/ProposalFormLabel";
+import { ProposalMetaFields } from "../app/ProposalMetaFields";
 
 const formSchema = yup.object().shape({
-  title: yup.string().required(),
+  title: yup.string().required("title is required"),
   description: yup.string(),
-  sharesRequested: yup.string().required(),
-  lootRequested: yup.string().required(),
-  recipient: yup.string().min(42).required(),
+  sharesRequested: yup.string().required("voting tokens are required"),
+  lootRequested: yup.string().required("non-voting tokens are required"),
+  recipient: yup
+    .string()
+    .min(42, "recipient must be 42 characters")
+    .required("recipient is required"),
 });
 const requiredFields = getRequiredFieldsList(formSchema);
 const metaFields = getMetaFieldsList(formSchema);
@@ -44,11 +47,13 @@ export const RequestMembership = ({
     defaultValues: {
       title: "",
       description: "",
-      sharesRequested: "0",
-      lootRequested: "0",
+      sharesRequested: "",
+      lootRequested: "",
       recipient: "",
     },
   });
+
+  console.log("Form errors:", form.formState.errors);
 
   const onSubmit = (values: yup.InferType<typeof formSchema>) => {
     const preparedValues = {
@@ -65,7 +70,7 @@ export const RequestMembership = ({
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="w-full px-4 space-y-4"
+        className="w-full px-4 space-y-8"
       >
         <ProposalMetaFields
           disabled={disabled}
@@ -103,7 +108,7 @@ export const RequestMembership = ({
                 requiredFields={requiredFields}
               />
               <FormControl>
-                <Input id="sharesRequested" {...field} />
+                <Input id="sharesRequested" placeholder="0" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -121,7 +126,7 @@ export const RequestMembership = ({
                 requiredFields={requiredFields}
               />
               <FormControl>
-                <Input id="lootRequested" {...field} />
+                <Input id="lootRequested" placeholder="0" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>

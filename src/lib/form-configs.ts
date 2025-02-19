@@ -1,5 +1,5 @@
-import { TX } from "./tx-prepper/tx";
 import { TXLego } from "./tx-prepper/prepper-types";
+import { TX } from "./tx-prepper/tx";
 
 export type FormConfig = {
   title?: string;
@@ -11,23 +11,18 @@ export type FormConfig = {
 };
 
 export const FORM_CONFIGS: Record<string, FormConfig> = {
-  SAMPLE: {
-    title: "Sampler Form",
-    id: "SAMPLE",
-    tx: TX.POST_SIGNAL,
-  },
   POST_SIGNAL: {
-    title: "Propose Signal",
+    title: "Signal",
     id: "POST_SIGNAL",
     tx: TX.POST_SIGNAL,
   },
   REQUEST_MEMBERSHIP: {
-    title: "Request Membership",
+    title: "Membership",
     id: "REQUEST_MEMBERSHIP",
     tx: TX.REQUEST_MEMBERSHIP,
   },
   REQUEST_FUNDING: {
-    title: "Request Fundung",
+    title: "Funding",
     id: "REQUEST_FUNDING",
     tx: TX.REQUEST_FUNDING,
     txToggle: {

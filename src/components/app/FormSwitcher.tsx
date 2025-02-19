@@ -1,10 +1,8 @@
 import { FormConfig } from "@/lib/form-configs";
-import { Signal } from "../forms/Signal";
-import { SampleForm } from "../forms/SampleForm";
 import { ArbitraryState } from "@/lib/tx-prepper/prepper-types";
-import { RequestMembership } from "../forms/RequestMembership";
 import { RequestFunding } from "../forms/RequestFunding";
-// import { RequestMembership } from "../forms/RequestMembership";
+import { RequestMembership } from "../forms/RequestMembership";
+import { Signal } from "../forms/Signal";
 
 export type FormComponentProps = {
   formConfig: FormConfig;
@@ -23,16 +21,6 @@ export const FormSwitcher = ({
 }: FormComponentProps) => {
   const renderForm = () => {
     switch (formConfig.id) {
-      case "SAMPLE":
-        return (
-          <SampleForm
-            formConfig={formConfig}
-            confirmed={confirmed}
-            loading={loading}
-            invalidConnection={invalidConnection}
-            handleSubmit={handleSubmit}
-          />
-        );
       case "POST_SIGNAL":
         return (
           <Signal
