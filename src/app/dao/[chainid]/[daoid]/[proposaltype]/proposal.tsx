@@ -154,7 +154,7 @@ export default function Proposal() {
             formElmClass="w-full space-y-4"
           />
 
-          <div className="flex flex-col gap-2 w-full space-y-4 pb-4 px-4 mt-3">
+          <div className="flex flex-col gap-2 w-full mt-2">
             {isSendTxError && renderError(sendTxError)}
 
             {!isConnected && (
@@ -179,7 +179,7 @@ export default function Proposal() {
               <Button onClick={openProposalCastUrl}>Cast Proposal</Button>
             )}
 
-            {hash && <Button onClick={openUrl}>View on Block Explorer</Button>}
+            {hash && <Button onClick={openUrl}>View Transaction</Button>}
           </div>
         </Card>
       </div>
