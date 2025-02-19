@@ -45,6 +45,7 @@ export const RequestFunding = ({
   loading,
   confirmed,
   invalidConnection,
+  formElmClass,
 }: FormComponentProps) => {
   const { submitButtonText } = formConfig;
   const form = useForm<yup.InferType<typeof formSchema>>({
@@ -83,38 +84,33 @@ export const RequestFunding = ({
 
   return (
     <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="w-full px-4 space-y-8"
-      >
+      <form onSubmit={form.handleSubmit(onSubmit)} className={formElmClass}>
         <ProposalMetaFields
           disabled={disabled}
           requiredFields={requiredFields}
           metaFields={metaFields}
         />
 
-        <div className="space-y-4 mb-4">
-          <FormField
-            control={form.control}
-            name="recipient"
-            disabled={disabled}
-            render={({ field }) => (
-              <FormItem>
-                <ProposalFormLabel
-                  label="Recipient"
-                  id="recipient"
-                  requiredFields={requiredFields}
-                />
-                <FormControl>
-                  <Input id="recipient" placeholder="Address" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+        <FormField
+          control={form.control}
+          name="recipient"
+          disabled={disabled}
+          render={({ field }) => (
+            <FormItem>
+              <ProposalFormLabel
+                label="Recipient"
+                id="recipient"
+                requiredFields={requiredFields}
+              />
+              <FormControl>
+                <Input id="recipient" placeholder="Address" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-          <TokenRequestSelect disabled={disabled} tokens={tokens} />
-        </div>
+        <TokenRequestSelect disabled={disabled} tokens={tokens} />
 
         <FormActionButtons
           submitButtonText={submitButtonText}

@@ -27,10 +27,15 @@ export const useDao = ({
 }) => {
   const { config } = useDaoHooksConfig();
 
-  console.log("useDao config", config);
+  if (!config?.graphKey) {
+    console.error(
+      "useDao: DaoHooksContext must be used within a DaoHooksProvider"
+    );
+  }
+
   const { data, ...rest } = useQuery<{ dao: DaoItem }>({
     queryKey: [`get-dao-${chainid}-${daoid}`],
-    enabled: Boolean(chainid && daoid && config?.graphKey),
+    enabled: Boolean(chainid && daoid),
     queryFn: async () => {
       if (!chainid || !daoid || !config?.graphKey) {
         return { dao: undefined as unknown as DaoItem };
