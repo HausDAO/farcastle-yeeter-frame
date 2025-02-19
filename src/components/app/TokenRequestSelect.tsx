@@ -38,16 +38,14 @@ export const TokenRequestSelect = ({
   useEffect(() => {
     if (selectedTokenAddress) {
       if (selectedTokenAddress === "0x0") {
-        const nativeToken = tokens?.find(
-          (token) => token.tokenAddress === null
-        );
+        const nativeToken = tokens?.find(token => token.tokenAddress === null);
         setTokenBalance(nativeToken?.balance);
         setTokenBalanceText(
           `${formatEther(BigInt(nativeToken?.balance || "0"))} ETH`
         );
       } else {
         const targetToken = tokens?.find(
-          (token) => token.tokenAddress === selectedTokenAddress
+          token => token.tokenAddress === selectedTokenAddress
         );
         setTokenBalance(targetToken?.balance);
         setTokenBalanceText(
@@ -74,7 +72,7 @@ export const TokenRequestSelect = ({
           name="tokenAmount"
           disabled={disabled}
           render={({ field }) => (
-            <FormItem>
+            <FormItem className="flex-1">
               <FormControl>
                 <Input id="tokenAmount" placeholder="0" {...field} />
               </FormControl>
@@ -93,11 +91,11 @@ export const TokenRequestSelect = ({
           name="tokenAddress"
           disabled={disabled}
           render={({ field }) => (
-            <FormItem>
+            <FormItem className="flex-1">
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
                   <SelectTrigger>
-                    <SelectValue placeholder="Select Token" />
+                    <SelectValue placeholder="Token" />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent className="bg-card rounded-none">
