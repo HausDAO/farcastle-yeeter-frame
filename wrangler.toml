@@ -1,0 +1,17 @@
+name = "farcastle-proposals-frame"
+compatibility_date = "2024-07-29"
+compatibility_flags = ["nodejs_compat"]
+pages_build_output_dir = ".vercel/output/static"
+
+# Base environment variables (development)
+[vars]
+NEXT_PUBLIC_GRAPH_KEY = ""
+NEXT_PUBLIC_URL = "http://localhost:3000"
+
+# Production environment variables
+[env.production]
+vars = { NEXT_PUBLIC_URL = "https://proposals.farcastle.net/" }
+
+# Make sure secrets are properly handled
+[env.production.vars]
+NEXT_PUBLIC_GRAPH_KEY = ""
