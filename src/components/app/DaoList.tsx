@@ -11,6 +11,8 @@ import { DaoListCard } from "./DaoListCard";
 export const DaoList = () => {
   const { address, chain } = useAccount();
 
+  console.log("DaoList chain", chain);
+
   const { daos, isLoading, isFetched } = useDaosForAddress({
     chainid: toHex(chain?.id || "0"),
     address,

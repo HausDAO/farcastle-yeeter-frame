@@ -32,6 +32,7 @@ export const useDaosForAddress = ({
     queryFn: (): Promise<{
       daos: DaosWithMembers[];
     }> => {
+      console.log("useDaosForAddress chainid", chainid);
       const yeeterUrl = getGraphUrl({
         chainid: chainid || "",
         graphKey: config?.graphKey || "",
