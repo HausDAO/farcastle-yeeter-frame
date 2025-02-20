@@ -51,7 +51,7 @@ export default function Page() {
 
             <div className="relative w-3/4 aspect-square mx-auto">
               <Image
-                src="/gate.svg"
+                src="/gate-dark-purple.svg"
                 alt="Gate"
                 fill
                 priority

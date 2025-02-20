@@ -1,18 +1,18 @@
 {
   "accountAssociation": {
-    "header": "eyJmaWQiOjE0ODYyLCJ0eXBlIjoiY3VzdG9keSIsImtleSI6IjB4Yzg5MTM2MDhBZDdDZDJGODAyMjlmNGNGQjNFMTU4MjU0ODFGZDM5MyJ9",
-    "payload": "eyJkb21haW4iOiJwcm9wb3NhbHMuZGFvaGF1cy5jbHViIn0",
-    "signature": "MHhiYzk5N2FkZjIxMTYyMTBjNDA4ZWEyMmYwYzExMTNjZmM4NmU0ZGFjZTI0NmU4OTBkNGQ5MmFhOTdiNWY5ZjU4NjFlZGYwMjdjNmVjMjU5MWU5YjIwZjA2NGYxMmQ3ZDMxNjYwM2JlNzY1MGYzMTcwNTAwNGY4YjYyODU4NDZkZjFi"
+    "header": "eyJmaWQiOjg2MjA5MiwidHlwZSI6ImN1c3RvZHkiLCJrZXkiOiIweDg4MjhmNzMzODFDNzE3OUM2MjlEZjAzNzk0RGQ2QTUyRTU2Mjg5MjgifQ",
+    "payload": "eyJkb21haW4iOiJwcm9wb3NhbHMuZmFyY2FzdGxlLm5ldCJ9",
+    "signature": "MHgxN2JmN2Y3ZTA4ZmE4NDNjYTFjZTM0OWE3Y2U1NmEyN2JhMTAyOTk1OGMxYTEyYzQyMzk1ZDBjN2E2ODU4NDlkMGM1ZGFhMjMzZTIyNmM4Zjg4ZDE4YWU0Y2Q4ZGRlMzRjODZjNWU4MDQwYzQ4ODlhNjc0NWVjZDlmMjc3NDA1MzFj"
   },
   "frame": {
-    "version": "1.1",
-    "name": "Farcastle Proposals",
-    "iconUrl": "https://proposals.daohaus.club/icon.png",
-    "homeUrl": "https://proposals.daohaus.club/",
-    "imageUrl": "https://proposals.daohaus.club/image.png",
-    "buttonTitle": "Make proposals",
-    "splashImageUrl": "https://proposals.daohaus.club/splash.png",
+    "version": "1",
+    "name": "Proposals",
+    "iconUrl": "https://proposals.farcastle.net/icon.png",
+    "homeUrl": "https://proposals.farcastle.net",
+    "imageUrl": "https://proposals.farcastle.net/image.png",
+    "buttonTitle": "Make Proposal",
+    "splashImageUrl": "https://proposals.farcastle.net/splash.png",
     "splashBackgroundColor": "#341A34",
-    "webhookUrl": "https://proposals.daohaus.club/api/webhook"
+    "webhookUrl": "https://proposals.farcastle.net/api/webhook"
   }
 }

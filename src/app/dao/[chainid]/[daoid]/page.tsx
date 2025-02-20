@@ -44,7 +44,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default function Page() {
   return (
     <div className="w-full h-full pb-4 px-4">
-      <Card className="flex flex-col items-center px-4 pt-4 pb-8 rounded-none">
+      <Card className="flex flex-col items-center pt-4 pb-8 rounded-none">
         <DaoHome />
       </Card>
     </div>
