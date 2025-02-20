@@ -49,5 +49,3 @@ Brewfile.lock.json
 .idea/
 
 .next/cache/
-
-wrangler.toml
