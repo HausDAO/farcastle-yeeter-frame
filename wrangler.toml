@@ -9,9 +9,6 @@ NEXT_PUBLIC_GRAPH_KEY = ""
 NEXT_PUBLIC_URL = "http://localhost:3000"
 
 # Production environment variables
-[env.production]
-vars = { NEXT_PUBLIC_URL = "https://proposals.farcastle.net/" }
-
-# Make sure secrets are properly handled
 [env.production.vars]
+NEXT_PUBLIC_URL = "https://proposals.farcastle.net/"
 NEXT_PUBLIC_GRAPH_KEY = ""
