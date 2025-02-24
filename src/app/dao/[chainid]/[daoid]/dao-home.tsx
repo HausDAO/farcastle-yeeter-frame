@@ -17,6 +17,8 @@ export default function DaoHome() {
     daoid: params.daoid,
   });
 
+  console.log("params", params);
+
   if (!isLoaded || isDaoLoading) {
     return (
       <div className="h-full w-full flex items-center justify-center">
