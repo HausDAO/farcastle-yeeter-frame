@@ -1,7 +1,8 @@
 "use client";
 
+import { NetworkSwitcher } from "@/components/app/NetworkSwitcher";
 import Image from "next/image";
-import { useParams, useRouter, usePathname } from "next/navigation";
+import { useParams, usePathname, useRouter } from "next/navigation";
 import React from "react";
 
 function HeaderLogoSvg({
@@ -41,7 +42,7 @@ function Header() {
 
   return (
     <div className="w-full flex flex-row items-end justify-between p-4">
-      <div className="opacity-0 h-[30px] w-[30px]" />
+      <NetworkSwitcher />
       <div
         className={`text-3xl font-fraktur pt-[2px] leading-[30px] h-[30px] text-primary ${pathname !== "/" ? "hover:cursor-pointer" : ""}`}
         onClick={onTitleClick}

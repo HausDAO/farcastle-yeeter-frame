@@ -173,6 +173,7 @@ export default function Proposal() {
                 onClick={() =>
                   switchChain({ chainId: getWagmiChainObj(daochain).id })
                 }
+                className="mt-4"
               >
                 Switch to {getWagmiChainObj(daochain).name}
               </Button>
