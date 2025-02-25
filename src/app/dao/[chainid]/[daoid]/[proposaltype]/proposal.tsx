@@ -126,6 +126,21 @@ export default function Proposal() {
     );
   };
 
+  const validChain = chainId === daochainid;
+
+  const [shouldSwitch, setShouldSwitch] = useState(false);
+
+  useEffect(() => {
+    if (shouldSwitch) {
+      switchChain({ chainId: getWagmiChainObj(daochain).id });
+      setShouldSwitch(false);
+    }
+  }, [shouldSwitch, switchChain, daochain]);
+
+  const handleChainSwitch = useCallback(() => {
+    setShouldSwitch(true);
+  }, []);
+
   if (!isLoaded) {
     return (
       <div className="h-full w-full flex items-center justify-center">
@@ -135,8 +150,6 @@ export default function Proposal() {
   }
 
   if (!formConfig) return null;
-
-  const validChain = chainId === daochainid;
 
   return (
     <>
@@ -161,21 +174,8 @@ export default function Proposal() {
             {isSendTxError && renderError(sendTxError)}
 
             {!isConnected && (
-              <>
-                <Button onClick={() => connect({ connector: connector })}>
-                  Connect
-                </Button>
-              </>
-            )}
-
-            {isConnected && !validChain && (
-              <Button
-                onClick={() =>
-                  switchChain({ chainId: getWagmiChainObj(daochain).id })
-                }
-                className="mt-4"
-              >
-                Switch to {getWagmiChainObj(daochain).name}
+              <Button onClick={() => connect({ connector: connector })}>
+                Connect
               </Button>
             )}
 
@@ -200,6 +200,12 @@ export default function Proposal() {
                   )}
                 </div>
               </div>
+            )}
+
+            {isConnected && !validChain && (
+              <Button onClick={handleChainSwitch} className="mt-2">
+                Switch to {getWagmiChainObj(daochain).name}
+              </Button>
             )}
           </div>
         </Card>
