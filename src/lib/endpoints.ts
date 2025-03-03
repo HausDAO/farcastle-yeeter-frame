@@ -7,7 +7,6 @@ export const getGraphUrl = ({
   graphKey: string;
   subgraphKey: string;
 }): string => {
-  console.log("getGraphUrl chainid", chainid);
   const subgraphHash = SUBGRAPH_IDS[subgraphKey][chainid];
   if (!subgraphHash) {
     console.log("invalid chainid or subgraphkey");
@@ -35,20 +34,24 @@ const SUBGRAPH_IDS: KeychainList = {
   },
 };
 
-export const getGnosisUrl = ({ chainid }: { chainid: string }): string => {
-  const gnosisUrl = GNOSIS_API[chainid];
-  if (!gnosisUrl) {
+export const getTokenIndexerUrl = ({
+  chainid,
+}: {
+  chainid: string;
+}): string => {
+  const url = SEQUENCE_API[chainid];
+  if (!url) {
     console.log("invalid chainid");
   }
-  return gnosisUrl;
+  return url;
 };
 
-const GNOSIS_API: KEYCHAIN = {
-  "0x1": "https://safe-transaction-mainnet.safe.global/api/v1",
-  "0x64": "https://safe-transaction-gnosis-chain.safe.global/api/v1",
-  "0x89": "https://safe-transaction-polygon.safe.global/api/v1",
-  "0xa": "https://safe-transaction-optimism.safe.global/api/v1",
-  "0xa4b1": "https://safe-transaction-arbitrum.safe.global/api/v1",
-  "0xaa36a7": "https://safe-transaction-sepolia.safe.global/api/v1",
-  "0x2105": "https://safe-transaction-base.safe.global/api/v1",
+const SEQUENCE_API: KEYCHAIN = {
+  "0x1": "https://mainnet-indexer.sequence.app",
+  "0x64": "https://gnosis-indexer.sequence.app",
+  "0x89": "https://polygon-indexer.sequence.app",
+  "0xa": "https://optimism-indexer.sequence.app",
+  "0xa4b1": "https://arbitrum-indexer.sequence.app",
+  "0xaa36a7": "https://sepolia-indexer.sequence.app",
+  "0x2105": "https://base-indexer.sequence.app",
 };

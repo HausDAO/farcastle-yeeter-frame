@@ -33,8 +33,6 @@ export const useDao = ({
     );
   }
 
-  console.log("useDao chainid daoid", chainid, daoid);
-
   const { data, ...rest } = useQuery<{ dao: DaoItem }>({
     queryKey: [`get-dao-${chainid}-${daoid}`],
     enabled: Boolean(chainid && daoid),

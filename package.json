@@ -13,6 +13,7 @@
     "deploy": "bun run pages:build && wrangler pages deploy"
   },
   "dependencies": {
+    "0xsequence": "^2.2.14",
     "@farcaster/frame-sdk": "^0.0.16",
     "@farcaster/frame-wagmi-connector": "^0.0.14",
     "@hookform/resolvers": "^3.10.0",
