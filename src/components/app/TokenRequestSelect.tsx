@@ -13,19 +13,31 @@ import {
   SelectValue,
 } from "../ui/select";
 import { ProposalFormLabel } from "./ProposalFormLabel";
+import { WAGMI_CHAIN_OBJS } from "@/lib/constants";
 
-const TokenItem = ({ token }: { token: TokenBalance }) => {
+const TokenItem = ({
+  token,
+  chainid,
+}: {
+  token: TokenBalance;
+  chainid: string;
+}) => {
+  if (!chainid) return;
   const value = token.tokenAddress || "0x0";
-  const label = token.token ? token.token.symbol : "ETH";
+  const label = token.token
+    ? token.token.symbol
+    : WAGMI_CHAIN_OBJS[chainid].nativeCurrency.symbol;
   return <SelectItem value={value}>{label}</SelectItem>;
 };
 
 export const TokenRequestSelect = ({
   disabled,
   tokens,
+  chainid,
 }: {
   disabled: boolean;
   tokens?: TokenBalance[];
+  chainid: string;
 }) => {
   const form = useFormContext();
   const [tokenBalance, setTokenBalance] = useState<string | undefined>();
@@ -38,14 +50,18 @@ export const TokenRequestSelect = ({
   useEffect(() => {
     if (selectedTokenAddress) {
       if (selectedTokenAddress === "0x0") {
-        const nativeToken = tokens?.find(token => token.tokenAddress === null);
+        const nativeToken = tokens?.find(
+          (token) => token.tokenAddress === null
+        );
+
+        console.log("nativeToken", nativeToken);
         setTokenBalance(nativeToken?.balance);
         setTokenBalanceText(
-          `${formatEther(BigInt(nativeToken?.balance || "0"))} ETH`
+          `${formatEther(BigInt(nativeToken?.balance || "0"))} ${WAGMI_CHAIN_OBJS[chainid].nativeCurrency.symbol}`
         );
       } else {
         const targetToken = tokens?.find(
-          token => token.tokenAddress === selectedTokenAddress
+          (token) => token.tokenAddress === selectedTokenAddress
         );
         setTokenBalance(targetToken?.balance);
         setTokenBalanceText(
@@ -53,7 +69,7 @@ export const TokenRequestSelect = ({
         );
       }
     }
-  }, [selectedTokenAddress, tokens]);
+  }, [selectedTokenAddress, tokens, chainid]);
 
   const handleMax = () => {
     form.setValue("tokenAmount", formatEther(BigInt(tokenBalance || "0")));
@@ -101,7 +117,7 @@ export const TokenRequestSelect = ({
                 <SelectContent className="bg-card rounded-none">
                   {tokens &&
                     tokens.map((token, i) => (
-                      <TokenItem token={token} key={i} />
+                      <TokenItem token={token} key={i} chainid={chainid} />
                     ))}
                 </SelectContent>
               </Select>

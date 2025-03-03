@@ -110,7 +110,11 @@ export const RequestFunding = ({
           )}
         />
 
-        <TokenRequestSelect disabled={disabled} tokens={tokens} />
+        <TokenRequestSelect
+          disabled={disabled}
+          tokens={tokens}
+          chainid={params.chainid}
+        />
 
         <FormActionButtons
           submitButtonText={submitButtonText}

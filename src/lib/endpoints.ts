@@ -26,6 +26,7 @@ const SUBGRAPH_IDS: KeychainList = {
     "0x2105": `6vyAqRpCyrhLsfd6TfYAssvKywKhxJykkDbPxJZ4ZcEr`,
   },
   DAOHAUS: {
+    "0x1": "HouDe2pTdyKM9CTG1aodnPPPhm7U148BCH7eJ4HHwpdQ",
     "0xaa36a7": `3k93SNY5Y1r4YYWEuPY9mpCm2wnGoYDKRtk82QZJ3Kvw`,
     "0x64": `6x9FK3iuhVFaH9sZ39m8bKB5eckax8sjxooBPNKWWK8r`,
     "0xa": `CgH5vtz9CJPdcSmD3XEh8fCVDjQjnRwrSawg71T1ySXW`,
