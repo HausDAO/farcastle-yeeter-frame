@@ -1,9 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
-
+import { SequenceIndexer } from "@0xsequence/indexer";
 import { TokenBalance } from "@/lib/types";
-import { getGnosisUrl } from "@/lib/endpoints";
-
-import { getAddress } from "viem";
+import { getTokenIndexerUrl } from "@/lib/endpoints";
 
 export const useDaoTokenBalances = ({
   chainid,
@@ -12,7 +10,7 @@ export const useDaoTokenBalances = ({
   chainid?: string;
   safeAddress?: string;
 }) => {
-  const gnosisUrl = getGnosisUrl({
+  const url = getTokenIndexerUrl({
     chainid: chainid || "",
   });
 
@@ -21,22 +19,46 @@ export const useDaoTokenBalances = ({
       `get-dao-token-balances${chainid}-${safeAddress}`,
       { chainid, safeAddress },
     ],
-    enabled: Boolean(chainid && safeAddress),
+    enabled: Boolean(chainid && safeAddress && url),
     queryFn: async (): Promise<{
       tokens: TokenBalance[];
     }> => {
-      let balances = [] as TokenBalance[];
-      try {
-        const res = await fetch(
-          `${gnosisUrl}/safes/${getAddress(safeAddress || "")}/balances/?exclude_spam=true`
-        );
+      const key = process.env.NEXT_PUBLIC_SEQUENCE_KEY;
 
-        balances = await res.json();
-      } catch (err) {
-        console.log("token fetch error", err);
-      }
+      const indexer = new SequenceIndexer(url, key);
 
-      return { tokens: balances };
+      const tokenBalances = await indexer.getTokenBalances({
+        accountAddress: safeAddress,
+        includeMetadata: true,
+        includeCollectionTokens: false,
+        metadataOptions: { verifiedOnly: true },
+      });
+
+      const balance = await indexer.getEtherBalance({
+        accountAddress: safeAddress,
+      });
+
+      const transformedTokenBalances = tokenBalances.balances.map(
+        (tokenBal) => {
+          return {
+            token: {
+              decimals: tokenBal.contractInfo?.decimals,
+              symbol: tokenBal.contractInfo?.symbol,
+              name: tokenBal.contractInfo?.name,
+              logoUri: tokenBal.contractInfo?.logoURI,
+            },
+            tokenAddress: tokenBal.contractAddress,
+            balance: tokenBal.balance,
+          };
+        }
+      );
+
+      const nativeBalance = {
+        tokenAddress: null,
+        balance: balance.balance.balanceWei,
+      };
+
+      return { tokens: [nativeBalance, ...transformedTokenBalances] };
     },
   });
 
