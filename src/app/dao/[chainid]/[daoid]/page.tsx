@@ -2,38 +2,37 @@ import { Card } from "@/components/ui/card";
 import { Metadata } from "next";
 import DaoHome from "./dao-home";
 
-export const runtime = "edge"; // Required for Cloudflare Pages
-const appUrl = process.env.NEXT_PUBLIC_URL;
-
-export const revalidate = 300;
-
 type Props = {
   params: Promise<{ chainid: string; daoid: string }>;
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  console.log("meta params", params);
+
   const { chainid, daoid } = await params;
 
   const frame = {
     version: "next",
-    imageUrl: `${appUrl}/opengraph-image`,
+    imageUrl: `https://proposals.farcastle.net/image.png`,
     button: {
-      title: "Launch",
+      title: "Make Proposal (DAO)",
       action: {
         type: "launch_frame",
-        name: "#3 Farcastle DAO Proposals",
-        url: `${appUrl}/dao/${chainid}/${daoid}`,
-        splashImageUrl: `${appUrl}/splash.png`,
-        splashBackgroundColor: "#17151F",
+        name: "Proposals (DAO)",
+        url: `https://proposals.farcastle.net/dao/${chainid}/${daoid}`,
+        iconImageUrl: `https://proposals.farcastle.net/icon.png`,
+        splashImageUrl: `https://proposals.farcastle.net/splash.png`,
+        splashBackgroundColor: "#341A34",
       },
     },
   };
-
   return {
-    title: "#1 Farcastle DAO Proposals",
+    metadataBase: new URL("https://proposals.farcastle.net"),
+    title: "Proposals (DAO)",
     openGraph: {
-      title: "#2 Farcastle DAO Proposals",
-      description: "Farcastle DAO Proposals",
+      title: "Farcastle Proposals (DAO)",
+      description: "the actions of organizations",
+      images: `https://proposals.farcastle.net/image.png`,
     },
     other: {
       "fc:frame": JSON.stringify(frame),
@@ -41,7 +40,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default function Page() {
+export default function Page({ params }: Props) {
+  console.log("page params", params);
+
   return (
     <div className="w-full h-full pb-4 px-4">
       <Card className="flex flex-col items-center pt-4 pb-8 rounded-none">
