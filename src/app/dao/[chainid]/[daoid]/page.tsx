@@ -13,7 +13,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const frame = {
     version: "next",
-    imageUrl: `${appUrl}/opengraph-image`,
+    imageUrl: `${appUrl}/dao/${chainid}/${daoid}/opengraph-image`,
     button: {
       title: "Make Proposal",
       action: {
