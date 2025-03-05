@@ -5,17 +5,19 @@ import type { Metadata } from "next";
 import { Header } from "@/components/ui/header";
 import { Providers } from "@/providers/Providers";
 
+const appUrl = process.env.NEXT_PUBLIC_URL;
+
 const frame = {
   version: "next",
-  imageUrl: `https://proposals.farcastle.net/image.png`,
+  imageUrl: `${appUrl}/image.png`,
   button: {
     title: "Make Proposal",
     action: {
       type: "launch_frame",
       name: "Proposals",
-      url: "https://proposals.farcastle.net",
-      iconImageUrl: `https://proposals.farcastle.net/icon.png`,
-      splashImageUrl: `https://proposals.farcastle.net/splash.png`,
+      url: `${appUrl}`,
+      iconImageUrl: `${appUrl}/icon.png`,
+      splashImageUrl: `${appUrl}/splash.png`,
       splashBackgroundColor: "#341A34",
     },
   },
@@ -23,12 +25,12 @@ const frame = {
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
-    metadataBase: new URL("https://proposals.farcastle.net"),
+    metadataBase: new URL(`${appUrl}`),
     title: "Proposals",
     openGraph: {
       title: "Farcastle Proposals",
       description: "the actions of organizations",
-      images: `https://proposals.farcastle.net/image.png`,
+      images: `${appUrl}/image.png`,
     },
     other: {
       "fc:frame": JSON.stringify(frame),
