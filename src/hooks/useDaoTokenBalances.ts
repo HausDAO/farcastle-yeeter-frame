@@ -31,7 +31,7 @@ export const useDaoTokenBalances = ({
         accountAddress: safeAddress,
         includeMetadata: true,
         includeCollectionTokens: false,
-        metadataOptions: { verifiedOnly: true },
+        // metadataOptions: { verifiedOnly: true },
       });
 
       const balance = await indexer.getEtherBalance({
