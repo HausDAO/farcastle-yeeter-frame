@@ -204,6 +204,15 @@ export const FIND_DAO = gql`
   }
 `;
 
+export const FIND_DAO_LITE = gql`
+  query dao($daoid: String!) {
+    dao(id: $daoid) {
+      id
+      name
+    }
+  }
+`;
+
 export const LIST_ALL_DAOS = gql`
   query dao(
     $skip: Int!

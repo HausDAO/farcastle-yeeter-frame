@@ -2,37 +2,37 @@ import { Card } from "@/components/ui/card";
 import { Metadata } from "next";
 import DaoHome from "./dao-home";
 
+const appUrl = process.env.NEXT_PUBLIC_URL;
+
 type Props = {
   params: Promise<{ chainid: string; daoid: string }>;
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  console.log("meta params", params);
-
   const { chainid, daoid } = await params;
 
   const frame = {
     version: "next",
-    imageUrl: `https://proposals.farcastle.net/image.png`,
+    imageUrl: `${appUrl}/opengraph-image`,
     button: {
-      title: "Make Proposal (DAO)",
+      title: "Make Proposal",
       action: {
         type: "launch_frame",
-        name: "Proposals (DAO)",
-        url: `https://proposals.farcastle.net/dao/${chainid}/${daoid}`,
-        iconImageUrl: `https://proposals.farcastle.net/icon.png`,
-        splashImageUrl: `https://proposals.farcastle.net/splash.png`,
+        name: "Proposals",
+        url: `${appUrl}/dao/${chainid}/${daoid}`,
+        iconImageUrl: `${appUrl}/icon.png`,
+        splashImageUrl: `${appUrl}/splash.png`,
         splashBackgroundColor: "#341A34",
       },
     },
   };
   return {
-    metadataBase: new URL("https://proposals.farcastle.net"),
-    title: "Proposals (DAO)",
+    metadataBase: new URL(`${appUrl}`),
+    title: "Proposals",
     openGraph: {
-      title: "Farcastle Proposals (DAO)",
+      title: "Farcastle Proposals",
       description: "the actions of organizations",
-      images: `https://proposals.farcastle.net/image.png`,
+      images: `${appUrl}/image.png`,
     },
     other: {
       "fc:frame": JSON.stringify(frame),
@@ -40,9 +40,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default function Page({ params }: Props) {
-  console.log("page params", params);
-
+export default function Page() {
   return (
     <div className="w-full h-full pb-4 px-4">
       <Card className="flex flex-col items-center pt-4 pb-8 rounded-none">

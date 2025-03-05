@@ -1,10 +1,8 @@
 import { Metadata } from "next";
 import Proposal from "./proposal";
+import { FORM_CONFIGS } from "@/lib/form-configs";
 
 const appUrl = process.env.NEXT_PUBLIC_URL;
-
-export const revalidate = 300;
-export const runtime = "edge";
 
 type Props = {
   params: Promise<{ chainid: string; daoid: string; proposaltype: string }>;
@@ -13,14 +11,18 @@ type Props = {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { chainid, daoid, proposaltype } = await params;
 
+  const proposalTitle = FORM_CONFIGS[proposaltype]
+    ? `Make ${FORM_CONFIGS[proposaltype].title} Proposal`
+    : "Make Proposal";
+
   const frame = {
     version: "next",
-    imageUrl: `${appUrl}/opengraph-image`,
+    imageUrl: `${appUrl}/image.png`,
     button: {
-      title: "Launch",
+      title: proposalTitle,
       action: {
         type: "launch_frame",
-        name: "Farcastle DAO Proposals",
+        name: "Farcastle Proposals",
         url: `${appUrl}/dao/${chainid}/${daoid}/${proposaltype}`,
         splashImageUrl: `${appUrl}/splash.png`,
         splashBackgroundColor: "#17151F",
