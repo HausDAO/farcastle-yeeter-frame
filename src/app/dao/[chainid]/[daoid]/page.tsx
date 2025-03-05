@@ -27,7 +27,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     },
   };
   return {
-    metadataBase: new URL(`${appUrl}`),
     title: "Proposals",
     openGraph: {
       title: "Farcastle Proposals",
