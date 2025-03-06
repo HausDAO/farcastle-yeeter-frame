@@ -1,4 +1,6 @@
 import { ImageResponse } from 'next/og';
+import { getGraphUrl } from "@/lib/endpoints";
+import { GraphQLClient } from "graphql-request";
 
 export const runtime = 'edge';
 export const contentType = 'image/png';
@@ -8,33 +10,31 @@ export const size = {
 };
 
 export default async function Image({ params }: { params: { chainid: string; daoid: string } }) {
-  const graphUrl = "https://gateway-arbitrum.network.thegraph.com/api/88c2a93b547a89caea1d25a496ba6631/subgraphs/id/CgH5vtz9CJPdcSmD3XEh8fCVDjQjnRwrSawg71T1ySXW";
-  const baseUrl = process.env.NEXT_PUBLIC_URL || 'https://proposals.farcastle.net/';
+  const dhUrl = getGraphUrl({
+    chainid: params.chainid,
+    graphKey: process.env.NEXT_PUBLIC_GRAPH_KEY || "",
+    subgraphKey: "DAOHAUS",
+  });
+  
+  const baseUrl = process.env.NEXT_PUBLIC_URL || 'https://proposals.farcastle.net';
   let imgSrc = `${baseUrl}/fallback.svg`;
 
   try {
-    const response = await fetch(graphUrl, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        query: `
-          query findDao($id: String!) {
-            dao(id: $id) {
-              id
-              name
-              records(where: {table: "daoProfile"}) {
-                content
-              }
-            }
+    const graphQLClient = new GraphQLClient(dhUrl);
+    const { dao } = await graphQLClient.request(`
+      query findDao($daoid: String!) {
+        dao(id: $daoid) {
+          id
+          name
+          records(where: {table: "daoProfile"}) {
+            content
           }
-        `,
-        variables: { id: params.daoid }
-      }),
-    });
+        }
+      }
+    `, { daoid: params.daoid }) as { dao: { records: { content: string }[] } };
 
-    const data = await response.json();
-    if (data?.data?.dao?.records?.[0]?.content) {
-      const profile = JSON.parse(data.data.dao.records[0].content);
+    if (dao?.records?.[0]?.content) {
+      const profile = JSON.parse(dao.records[0].content);
       if (profile.avatarImg) {
         imgSrc = profile.avatarImg;
       }
