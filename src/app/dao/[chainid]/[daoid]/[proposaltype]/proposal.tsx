@@ -174,7 +174,7 @@ export default function Proposal() {
             {isSendTxError && renderError(sendTxError)}
 
             {!isConnected && (
-              <Button onClick={() => connect({ connector: connector })}>
+              <Button onClick={() => connect({ connector: connector })} className="mt-2">
                 Connect
               </Button>
             )}
