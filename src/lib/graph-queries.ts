@@ -209,6 +209,9 @@ export const FIND_DAO_LITE = gql`
     dao(id: $daoid) {
       id
       name
+      rawProfile: records(where: { table: "daoProfile" }) {
+        content
+      }
     }
   }
 `;
