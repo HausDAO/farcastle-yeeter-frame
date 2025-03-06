@@ -101,7 +101,7 @@ export const RequestMembership = ({
           render={({ field }) => (
             <FormItem>
               <ProposalFormLabel
-                label="Voting Tokens"
+                label="Share Tokens"
                 id="sharesRequested"
                 requiredFields={requiredFields}
               />
@@ -119,7 +119,7 @@ export const RequestMembership = ({
           render={({ field }) => (
             <FormItem>
               <ProposalFormLabel
-                label="Non-Voting Tokens"
+                label="Loot Tokens"
                 id="lootRequested"
                 requiredFields={requiredFields}
               />
