@@ -33,7 +33,7 @@ export default function DaoHome() {
       <div className="flex justify-center my-2">
         <Avatar className="h-24 w-24">
           <AvatarImage
-            src={dao?.profile?.avatarImg || "/gate-purple.svg"}
+            src={dao?.profile?.avatarImg || "/gate-dark-purple.svg"}
             alt={dao?.name}
           />
           <AvatarFallback>{dao?.name?.[0]}</AvatarFallback>
