@@ -30,7 +30,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title: "Proposals",
     openGraph: {
       title: "Farcastle Proposals",
-      description: "the actions of organizations",
+      description: "Shape the fate of the realm",
       images: `${appUrl}/image.png`,
     },
     other: {
