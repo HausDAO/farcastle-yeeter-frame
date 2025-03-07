@@ -71,8 +71,7 @@ export const TokenRequestSelect = ({
     }
   }, [selectedTokenAddress, tokens, chainid]);
 
-  const handleMax = (e: MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    e.preventDefault();
+  const handleMax = () => {
     form.setValue("tokenAmount", formatEther(BigInt(tokenBalance || "0")));
   };
 
