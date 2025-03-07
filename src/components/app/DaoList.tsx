@@ -21,7 +21,7 @@ export const DaoList = () => {
   if (isFetched && (!daos || daos.length === 0)) {
     return (
       <div className="flex flex-col flex-wrap items-center justify-center gap-2 w-full">
-        <Card className="w-full bg-background border hover:bg-card transition-colors rounded-none">
+        <Card className="w-full bg-background border rounded-none">
           <div className="flex justify-center p-4">
             <span className="text-primary font-display text-xl uppercase">
               You serve no castle in this realm
