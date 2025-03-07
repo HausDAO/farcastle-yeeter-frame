@@ -71,7 +71,8 @@ export const TokenRequestSelect = ({
     }
   }, [selectedTokenAddress, tokens, chainid]);
 
-  const handleMax = () => {
+  const handleMax = (e: MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.preventDefault();
     form.setValue("tokenAmount", formatEther(BigInt(tokenBalance || "0")));
   };
 
@@ -93,7 +94,12 @@ export const TokenRequestSelect = ({
                 <Input id="tokenAmount" placeholder="0" {...field} />
               </FormControl>
               {tokenBalance && (
-                <Button size="sm" onClick={handleMax} className="mt-2">
+                <Button
+                  size="sm"
+                  onClick={handleMax}
+                  className="mt-2"
+                  type="button"
+                >
                   Max
                 </Button>
               )}
