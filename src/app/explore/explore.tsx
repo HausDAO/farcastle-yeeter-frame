@@ -1,30 +1,13 @@
 "use client";
 
+import { YeeterList } from "@/components/app/YeeterList";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { useFrameSDK } from "@/providers/FramesSDKProvider";
-import { default as dynamicImport } from "next/dynamic";
 import Image from "next/image";
-import Link from "next/link";
-import { useEffect, useState } from "react";
 import { useAccount, useConnect } from "wagmi";
 
-const YeeterList = dynamicImport(
-  () => import("@/components/app/YeeterList").then((mod) => mod.YeeterList),
-  {
-    ssr: false,
-  }
-);
-
-export const dynamic = "force-dynamic";
-
-export default function Page() {
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
+export default function Explore() {
   const { connector } = useFrameSDK();
   const { connect } = useConnect();
   const { isConnected, chain } = useAccount();
@@ -38,8 +21,6 @@ export default function Page() {
     // Polygon: "Polymorphic",
     Sepolia: "Sepolic",
   };
-
-  if (!mounted) return null;
 
   return (
     <div className="w-full h-full pb-4 px-4">
@@ -72,19 +53,12 @@ export default function Page() {
 
         {isConnected && (
           <>
-            <div className="flex flex-col w-full gap-3">
-              <div className="mt-4 w-full px-4">
-                <Link href={`/explore`} className="w-full">
-                  <Button className="w-full">Explore Fundraises</Button>
-                </Link>
-              </div>
-
-              <div className="mt-2 w-full px-4">
-                <Link href={`/launch`} className="w-full">
-                  <Button className="w-full">Create a Fundraiser</Button>
-                </Link>
-              </div>
+            <div className="text-muted font-display text-3xl uppercase mb-4">
+              {chainNames[chain?.name as keyof typeof chainNames] ||
+                chain?.name}{" "}
+              Fundraisers
             </div>
+            <YeeterList />
           </>
         )}
       </Card>
