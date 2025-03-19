@@ -47,7 +47,7 @@ function Header() {
         className={`text-3xl font-fraktur pt-[2px] leading-[30px] h-[30px] text-primary ${pathname !== "/" ? "hover:cursor-pointer" : ""}`}
         onClick={onTitleClick}
       >
-        proposals
+        onboarder
       </div>
       <HeaderLogoSvg
         className="opacity-100 hover:cursor-pointer"

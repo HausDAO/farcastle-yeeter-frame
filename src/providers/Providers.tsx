@@ -7,9 +7,9 @@ import {
   arbitrum,
   base,
   gnosis,
-  mainnet,
+  // mainnet,
   optimism,
-  polygon,
+  // polygon,
   sepolia,
 } from "wagmi/chains";
 
@@ -19,13 +19,14 @@ import { DaoRecordProvider } from "./DaoRecordProvider";
 import { FrameSDKProvider } from "./FramesSDKProvider";
 
 export const config = createConfig({
-  chains: [base, sepolia, mainnet, polygon, gnosis, optimism, arbitrum],
+  // chains: [base, sepolia, mainnet, polygon, gnosis, optimism, arbitrum],
+  chains: [base, sepolia, gnosis, optimism, arbitrum],
   transports: {
     // Configure dedicated RPC providers when using in production
     [base.id]: http(),
     [sepolia.id]: http(),
-    [mainnet.id]: http(),
-    [polygon.id]: http(),
+    // [mainnet.id]: http(),
+    // [polygon.id]: http(),
     [gnosis.id]: http(),
     [optimism.id]: http(),
     [arbitrum.id]: http(),

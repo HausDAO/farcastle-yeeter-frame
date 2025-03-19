@@ -8,8 +8,8 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useAccount, useConnect } from "wagmi";
 
-const DaoList = dynamicImport(
-  () => import("@/components/app/DaoList").then(mod => mod.DaoList),
+const YeeterList = dynamicImport(
+  () => import("@/components/app/YeeterList").then((mod) => mod.YeeterList),
   {
     ssr: false,
   }
@@ -29,12 +29,12 @@ export default function Page() {
   const { isConnected, chain } = useAccount();
 
   const chainNames = {
-    Ethereum: "Ethereal",
+    // Ethereum: "Ethereal",
     "OP Mainnet": "Optimistic",
     Base: "Based",
     Gnosis: "Gnostic",
     "Arbitrum One": "Arbitral",
-    Polygon: "Polymorphic",
+    // Polygon: "Polymorphic",
     Sepolia: "Sepolic",
   };
 
@@ -74,9 +74,9 @@ export default function Page() {
             <div className="text-muted font-display text-3xl uppercase mb-4">
               {chainNames[chain?.name as keyof typeof chainNames] ||
                 chain?.name}{" "}
-              Castles
+              Fundraisers
             </div>
-            <DaoList />
+            <YeeterList />
           </>
         )}
       </Card>

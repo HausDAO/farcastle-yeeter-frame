@@ -11,10 +11,10 @@ const frame = {
   version: "next",
   imageUrl: `${appUrl}/image.png`,
   button: {
-    title: "Make Proposal",
+    title: "Open Fundraiser",
     action: {
       type: "launch_frame",
-      name: "Proposals",
+      name: "Fundraiser",
       url: `${appUrl}`,
       iconImageUrl: `${appUrl}/icon.png`,
       splashImageUrl: `${appUrl}/splash.png`,
@@ -26,9 +26,9 @@ const frame = {
 export async function generateMetadata(): Promise<Metadata> {
   return {
     metadataBase: new URL(`${appUrl}`),
-    title: "Proposals",
+    title: "Fundraiser",
     openGraph: {
-      title: "Farcastle Proposals",
+      title: "Farcastle Fundraiser",
       description: "Shape the fate of the realm",
       images: `${appUrl}/image.png`,
     },

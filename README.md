@@ -1,6 +1,6 @@
-# Farcastle Proposals
+# Farcastle Fundraiser
 
-Farcaster Frame for creating moloch v3 dao proposals.
+Farcaster Frame for creating yeeters.
 
 ---
 
