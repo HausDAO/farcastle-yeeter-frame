@@ -1,25 +1,25 @@
 import { Card } from "@/components/ui/card";
 import { Metadata } from "next";
-import DaoHome from "./dao-home";
+import YeeterHome from "./yeeter-home";
 
 const appUrl = process.env.NEXT_PUBLIC_URL;
 
 type Props = {
-  params: Promise<{ chainid: string; daoid: string }>;
+  params: Promise<{ chainid: string; yeeterid: string }>;
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { chainid, daoid } = await params;
+  const { chainid, yeeterid } = await params;
 
   const frame = {
     version: "next",
-    imageUrl: `${appUrl}/dao/${chainid}/${daoid}/opengraph-image`,
+    imageUrl: `${appUrl}/dao/${chainid}/${yeeterid}/opengraph-image`,
     button: {
-      title: "Make Proposal",
+      title: "View Fundraiser",
       action: {
         type: "launch_frame",
-        name: "Proposals",
-        url: `${appUrl}/dao/${chainid}/${daoid}`,
+        name: "Fundraiser",
+        url: `${appUrl}/dao/${chainid}/${yeeterid}`,
         iconImageUrl: `${appUrl}/icon.png`,
         splashImageUrl: `${appUrl}/splash.png`,
         splashBackgroundColor: "#341A34",
@@ -27,10 +27,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     },
   };
   return {
-    title: "Proposals",
+    title: "Fundraiser",
     openGraph: {
-      title: "Farcastle Proposals",
-      description: "Shape the fate of the realm",
+      title: "Farcastle Fundraiser",
+      description: "Enrich the realm",
       images: `${appUrl}/image.png`,
     },
     other: {
@@ -43,7 +43,7 @@ export default function Page() {
   return (
     <div className="w-full h-full pb-4 px-4">
       <Card className="flex flex-col items-center pt-4 pb-8 rounded-none">
-        <DaoHome />
+        <YeeterHome />
       </Card>
     </div>
   );

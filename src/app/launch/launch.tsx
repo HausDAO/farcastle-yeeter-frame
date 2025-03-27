@@ -56,6 +56,8 @@ export default function Launch() {
   const handleSend = async (values: ArbitraryState) => {
     const now = nowInSeconds();
 
+    console.log("values", values);
+
     const args = {
       chainId: toHex(chainId),
       formValues: {
