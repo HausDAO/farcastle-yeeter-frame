@@ -1,10 +1,10 @@
 import { GraphQLClient } from "graphql-request";
 
 import { useQuery } from "@tanstack/react-query";
-import { LIST_YEETS_FOR_ADDRESS } from "../utils/graphQueries";
-import { YeeterItem, YeetsItem } from "../utils/types";
+import { LIST_YEETS_FOR_ADDRESS } from "../lib/graph-queries";
+import { YeeterItem, YeetsItem } from "../lib/types";
 import { useContext } from "react";
-import { getGraphUrl } from "../utils/endpoints";
+import { getGraphUrl } from "../lib/endpoints";
 import { DaoHooksContext } from "../providers/DaoHooksProvider";
 
 export const useYeetersForAddress = ({

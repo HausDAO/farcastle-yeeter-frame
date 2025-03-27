@@ -37,6 +37,8 @@ function Header() {
   const onTitleClick = React.useCallback(() => {
     if (params.chainid && params.daoid) {
       router.push(`/dao/${params.chainid}/${params.daoid}`);
+    } else {
+      router.push("/");
     }
   }, [router, params]);
 

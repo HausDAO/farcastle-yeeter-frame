@@ -1,15 +1,9 @@
-export type SubgraphQueryOrderPaginationOptions = {
-  skip?: number;
-  first?: number;
-  orderBy?: string;
-  orderDirection?: "asc" | "desc";
-};
-
 export type YeeterItem = {
   id: string;
   createdAt: string;
   dao: {
     id: string;
+    name: string;
   };
   endTime: string;
   startTime: string;
@@ -23,6 +17,7 @@ export type YeeterItem = {
   isEnded: boolean;
   isComingSoon: boolean;
   isFull: boolean;
+  yeets?: YeetsItem[];
 };
 
 export type RecordItem = {
@@ -30,15 +25,28 @@ export type RecordItem = {
   createdBy: string;
   content: string;
   contentType: string;
+  tag: string;
+  table: string;
+  queryType: string;
+  yeeterId: string;
   dao: {
+    id: string;
     name: string;
   };
+};
+
+export type RecordItemParsed = RecordItem & {
+  parsedContent?: Record<string, string>;
 };
 
 export type YeeterMetadata = {
   daoId: string;
   icon?: string;
   links?: string[];
+  parsedLinks?: {
+    url: string;
+    label: string;
+  }[];
   missionStatement?: string;
   projectDetails?: string;
   name?: string;
@@ -51,6 +59,46 @@ export type YeetsItem = {
   id: string;
   message: string;
   shares: string;
+  yeeter: YeeterItem;
+};
+
+export type SummonParams = {
+  daoName?: string;
+  description?: string;
+  tokenName?: string;
+  tokenSymbol?: string;
+  lootTokenName?: string;
+  lootTokenSymbol?: string;
+  votingTransferable?: boolean;
+  nvTransferable?: boolean;
+  quorum?: string;
+  minRetention?: string;
+  sponsorThreshold?: string;
+  newOffering?: string;
+  votingPeriod?: string;
+  votingPeriodInSeconds?: number;
+  gracePeriod?: string;
+  gracePeriodInSeconds?: number;
+  shamans?:
+    | ""
+    | {
+        shamanAddresses: string[];
+        shamanPermissions: string[];
+      };
+  members?:
+    | ""
+    | {
+        memberAddresses: string[];
+        memberShares: string[];
+        memberLoot: string[];
+      };
+};
+
+export type SubgraphQueryOrderPaginationOptions = {
+  skip?: number;
+  first?: number;
+  orderBy?: string;
+  orderDirection?: "asc" | "desc";
 };
 
 export type ShamanItem = {
@@ -158,7 +206,7 @@ export type ProposalItem = {
   processedBy: string;
   processed: boolean;
   processTxAt: string;
-  actionFailed: string;
+  actionFailed: boolean;
   passed: boolean;
   proposalOffering: string;
   maxTotalSharesAndLootAtYesVote: string;
@@ -229,4 +277,25 @@ export type TokenBalance = {
   token?: TokenInfo | null;
   tokenAddress: string | null;
   balance: string;
+};
+
+export type StatusRecord = {
+  id: string;
+  createdAt: string;
+  parsedContent: {
+    description: string;
+    link: string;
+    name: string;
+  };
+};
+
+export type ExitItem = {
+  id: string;
+  createdAt: string;
+  member: {
+    memberAddress: string;
+  };
+  shares: string;
+  loot: string;
+  to: string;
 };
