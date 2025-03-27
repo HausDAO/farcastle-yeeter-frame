@@ -3,12 +3,11 @@
 import { Card } from "@/components/ui/card";
 import sdk from "@farcaster/frame-sdk";
 import { useFrameSDK } from "@/providers/FramesSDKProvider";
-import { useCallback, useEffect } from "react";
+import { useCallback } from "react";
 import {
   useAccount,
   useChainId,
   useConnect,
-  useSwitchChain,
   useWaitForTransactionReceipt,
   useWriteContract,
 } from "wagmi";
