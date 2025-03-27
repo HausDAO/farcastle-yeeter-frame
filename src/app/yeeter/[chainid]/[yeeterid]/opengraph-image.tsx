@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import { ImageResponse } from "next/og";
 import { getGraphUrl } from "@/lib/endpoints";
 import { GraphQLClient } from "graphql-request";

@@ -3,18 +3,10 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { useFrameSDK } from "@/providers/FramesSDKProvider";
-import { default as dynamicImport } from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useAccount, useConnect } from "wagmi";
-
-const YeeterList = dynamicImport(
-  () => import("@/components/app/YeeterList").then((mod) => mod.YeeterList),
-  {
-    ssr: false,
-  }
-);
 
 export const dynamic = "force-dynamic";
 
