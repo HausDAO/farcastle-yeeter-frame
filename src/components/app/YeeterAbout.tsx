@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useYeeter } from "@/hooks/useYeeter";
+import { ProjectTeamList } from "../ProjectTeam";
 
 export const YeeterAbout = ({
   yeeterid,
@@ -20,6 +21,7 @@ export const YeeterAbout = ({
     chainid,
     yeeterid,
   });
+  const warpcastBaseUrl = `https://warpcast.com/~/compose?text=&embeds[]=https://frames.yeet.haus/yeeter`;
 
   if (!yeeterid || !chainid || !yeeter) return;
 
@@ -54,29 +56,76 @@ export const YeeterAbout = ({
       <TabsContent value="links">
         <Card className="border-0">
           <CardHeader>
-            <CardTitle>Links</CardTitle>
-            <CardDescription>links descript</CardDescription>
+            <CardDescription>Project links</CardDescription>
           </CardHeader>
           <CardContent className="space-y-2">
-            <div className="space-y-1">more content</div>
+            <div className="flex flex-col gap-3 text-left break-words">
+              {chainid !== "0xaa36a7" && (
+                <div className="flex flex-row gap-2 items-center">
+                  {/* <img src={FarcastleIcon} width="30px" /> */}
+                  <a
+                    className="link link-primary"
+                    href={`${warpcastBaseUrl}/${yeeterid}`}
+                    target="_blank"
+                  >
+                    Cast Yeet from Frames ⟶
+                  </a>
+                </div>
+              )}
+
+              {metadata?.parsedLinks &&
+                metadata.parsedLinks.map((link, i) => {
+                  if (!link.url) return null;
+                  return (
+                    <a
+                      className="link link-primary"
+                      href={link.url}
+                      target="_blank"
+                      key={i}
+                    >
+                      {link.label} ⟶
+                    </a>
+                  );
+                })}
+              <a
+                className="link link-primary"
+                href={`https://admin.daohaus.club/#/molochv3/${chainid}/${yeeter.dao.id}/safes`}
+                target="_blank"
+              >
+                Project treasury ⟶
+              </a>
+              <a
+                className="link link-primary"
+                href={`https://admin.daohaus.club/#/molochv3/${chainid}/${yeeter.dao.id}`}
+                target="_blank"
+              >
+                on DAOhaus Admin App ⟶
+              </a>
+              <a
+                className="link link-primary"
+                href={`https://wee.yeet.haus/#/yeeter/${chainid}/${yeeter.dao.id}`}
+                target="_blank"
+              >
+                on Wee Yeet ⟶
+              </a>
+            </div>
           </CardContent>
-          <CardFooter>
-            <div className="space-y-1">footer content</div>
-          </CardFooter>
         </Card>
       </TabsContent>
       <TabsContent value="team">
         <Card className="border-0">
           <CardHeader>
-            <CardTitle>Team</CardTitle>
-            <CardDescription>links descript</CardDescription>
+            <CardDescription>
+              Members of the DAO receiveing funds
+            </CardDescription>
           </CardHeader>
           <CardContent className="space-y-2">
-            <div className="space-y-1">more content</div>
+            <ProjectTeamList
+              chainid={chainid}
+              yeeterid={yeeterid}
+              daoid={yeeter.dao.id}
+            />
           </CardContent>
-          <CardFooter>
-            <div className="space-y-1">footer content</div>
-          </CardFooter>
         </Card>
       </TabsContent>
     </Tabs>

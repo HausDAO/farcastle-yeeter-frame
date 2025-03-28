@@ -426,6 +426,26 @@ export const FIND_MEMBER = gql`
   }
 `;
 
+export const LIST_ALL_DAO_SHAREHOLDERS = gql`
+  query member(
+    $skip: Int!
+    $first: Int!
+    $orderBy: String!
+    $orderDirection: String!
+    $daoid: String!
+  ) {
+    members(
+      skip: $skip
+      first: $first
+      orderBy: $orderBy
+      orderDirection: $orderDirection,
+      where: { dao: $daoid, shares_gt: 0 }
+    ) {
+      ${memberFields}
+    }
+  }
+`;
+
 export const LIST_ALL_DAO_MEMBERS = gql`
   query member(
     $skip: Int!
