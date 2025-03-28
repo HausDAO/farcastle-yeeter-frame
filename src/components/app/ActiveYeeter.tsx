@@ -17,9 +17,9 @@ export const ActiveYeeter = ({
   if (!yeeterid || !chainid || !yeeter) return;
 
   return (
-    <>
+    <div className="space-y-2">
       <RaiseStats yeeter={yeeter} />
       <Button>Contribute</Button>
-    </>
+    </div>
   );
 };

@@ -59,6 +59,23 @@ export const getWagmiChainObj = (chainid?: string): Chain => {
   return WAGMI_CHAIN_OBJS[chainid || "0xaa36a7"];
 };
 
+export const HAUS_RPC_DEFAULTS: KEYCHAIN = {
+  "0x1": `https://eth-mainnet.g.alchemy.com/v2/${
+    process.env.NEXT_PUBLIC_ALCHEMY_API_KEY
+  }`,
+  "0x64": "https://rpc.gnosischain.com/",
+  "0xa": `https://opt-mainnet.g.alchemy.com/v2/${
+    process.env.NEXT_PUBLIC_ALCHEMY_API_KEY
+  }`,
+  "0xa4b1": `https://arb-mainnet.g.alchemy.com/v2/${
+    process.env.NEXT_PUBLIC_ALCHEMY_API_KEY
+  }`,
+  "0xaa36a7": "https://eth-sepolia.g.alchemy.com/v2/demo",
+  "0x2105": `https://base-mainnet.g.alchemy.com/v2/${
+    process.env.NEXT_PUBLIC_ALCHEMY_API_KEY
+  }`,
+};
+
 export const YEETER_SHAMAN_PERMISSIONS = "2";
 export const DEFAULT_YEETER_VALUES = {
   isShares: false,
