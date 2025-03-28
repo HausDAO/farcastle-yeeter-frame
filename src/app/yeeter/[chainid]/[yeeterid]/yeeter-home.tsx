@@ -3,6 +3,7 @@
 import { ActiveYeeter } from "@/components/app/ActiveYeeter";
 import { ClosedYeeter } from "@/components/app/ClosedYeeter";
 import { UpcomingYeeter } from "@/components/app/UpcomingYeeter";
+import { YeeterAbout } from "@/components/app/YeeterAbout";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { LoadingSpinner } from "@/components/ui/loading";
 import { useYeeter } from "@/hooks/useYeeter";
@@ -45,16 +46,27 @@ export default function YeeterHome() {
         </Avatar>
       </div>
       {yeeter && (
-        <div className="flex flex-col items-center">
-          {yeeter?.isComingSoon && <UpcomingYeeter />}
+        <>
+          <div className="flex flex-col items-center">
+            {yeeter?.isComingSoon && <UpcomingYeeter />}
 
-          {yeeter?.isActive && (
-            <ActiveYeeter yeeterid={params.yeeterid} chainid={params.chainid} />
-          )}
-          {yeeter?.isEnded && (
-            <ClosedYeeter yeeterid={params.yeeterid} chainid={params.chainid} />
-          )}
-        </div>
+            {yeeter?.isActive && (
+              <ActiveYeeter
+                yeeterid={params.yeeterid}
+                chainid={params.chainid}
+              />
+            )}
+            {yeeter?.isEnded && (
+              <ClosedYeeter
+                yeeterid={params.yeeterid}
+                chainid={params.chainid}
+              />
+            )}
+          </div>
+          <div className="my-5">
+            <YeeterAbout yeeterid={params.yeeterid} chainid={params.chainid} />
+          </div>
+        </>
       )}
     </div>
   );
