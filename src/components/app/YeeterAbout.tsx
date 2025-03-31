@@ -8,19 +8,31 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useYeeter } from "@/hooks/useYeeter";
 import { ProjectTeamList } from "../ProjectTeam";
 import { DetailsTx } from "./DetailsTx";
+import { useAccount } from "wagmi";
+import { useMember } from "@/hooks/useMember";
 
 export const YeeterAbout = ({
   yeeterid,
   chainid,
+  daoid,
 }: {
   yeeterid?: string;
   chainid?: string;
+  daoid?: string;
 }) => {
   const { yeeter, metadata } = useYeeter({
     chainid,
     yeeterid,
   });
+  const { address } = useAccount();
+  const { member } = useMember({
+    daoid,
+    chainid,
+    memberaddress: address,
+  });
   const warpcastBaseUrl = `https://warpcast.com/~/compose?text=&embeds[]=https://frames.yeet.haus/yeeter`;
+
+  const onProjectTeam = address && member && Number(member.shares) > 0;
 
   if (!yeeterid || !chainid || !yeeter) return;
 
@@ -49,13 +61,15 @@ export const YeeterAbout = ({
             </CardContent>
           )}
 
-          <CardContent className="space-y-1">
-            <DetailsTx
-              yeeterid={yeeterid}
-              chainid={chainid}
-              daoid={yeeter.dao.id}
-            />
-          </CardContent>
+          {onProjectTeam && (
+            <CardContent className="space-y-1">
+              <DetailsTx
+                yeeterid={yeeterid}
+                chainid={chainid}
+                daoid={yeeter.dao.id}
+              />
+            </CardContent>
+          )}
         </Card>
       </TabsContent>
       <TabsContent value="links">
@@ -102,6 +116,16 @@ export const YeeterAbout = ({
               </a>
             </div>
           </CardContent>
+
+          {onProjectTeam && (
+            <CardContent className="space-y-1">
+              <DetailsTx
+                yeeterid={yeeterid}
+                chainid={chainid}
+                daoid={yeeter.dao.id}
+              />
+            </CardContent>
+          )}
         </Card>
       </TabsContent>
       <TabsContent value="team">

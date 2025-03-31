@@ -65,7 +65,11 @@ export default function YeeterHome() {
             )}
           </div>
           <div className="my-5">
-            <YeeterAbout yeeterid={params.yeeterid} chainid={params.chainid} />
+            <YeeterAbout
+              yeeterid={params.yeeterid}
+              chainid={params.chainid}
+              daoid={yeeter.dao.id}
+            />
           </div>
           <div className="my-5">
             <YeetMessages yeeterid={params.yeeterid} chainid={params.chainid} />
