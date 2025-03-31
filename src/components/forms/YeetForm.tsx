@@ -16,7 +16,7 @@ import { ArbitraryState } from "@/lib/tx-prepper/prepper-types";
 import { ProposalFormLabel } from "../app/ProposalFormLabel";
 import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
-import { fromWei, nativeCurrencySymbol, toWholeUnits } from "@/lib/helpers";
+import { fromWei, nativeCurrencySymbol } from "@/lib/helpers";
 import { useChainId, useChains } from "wagmi";
 import { Button } from "../ui/button";
 import { useCallback } from "react";
@@ -35,6 +35,7 @@ export type YeetFormProps = {
   yeeter: YeeterItem;
   handleSubmit: (values: ArbitraryState) => void;
   hash?: string;
+  isError: boolean;
 };
 
 export const YeetForm = ({
@@ -45,6 +46,7 @@ export const YeetForm = ({
   formElmClass,
   hash,
   yeeter,
+  isError,
 }: YeetFormProps) => {
   const submitButtonText = "Contribute";
 
@@ -141,6 +143,10 @@ export const YeetForm = ({
           confirmed={confirmed}
           disabled={disabled}
         />
+
+        {isError && (
+          <div className="text-sm text-error flex items-center">Tx Error</div>
+        )}
 
         {confirmed && (
           <>

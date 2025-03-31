@@ -7,6 +7,7 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useYeeter } from "@/hooks/useYeeter";
 import { ProjectTeamList } from "../ProjectTeam";
+import { DetailsTx } from "./DetailsTx";
 
 export const YeeterAbout = ({
   yeeterid,
@@ -47,6 +48,14 @@ export const YeeterAbout = ({
               <div className="space-y-1">{metadata?.projectDetails}</div>
             </CardContent>
           )}
+
+          <CardContent className="space-y-1">
+            <DetailsTx
+              yeeterid={yeeterid}
+              chainid={chainid}
+              daoid={yeeter.dao.id}
+            />
+          </CardContent>
         </Card>
       </TabsContent>
       <TabsContent value="links">

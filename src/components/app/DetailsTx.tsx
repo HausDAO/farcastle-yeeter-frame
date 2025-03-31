@@ -1,5 +1,4 @@
 import { useEffect, useRef } from "react";
-import { toBaseUnits } from "../../lib/units";
 import {
   useAccount,
   useChainId,
@@ -8,28 +7,37 @@ import {
   useWriteContract,
 } from "wagmi";
 import { useQueryClient } from "@tanstack/react-query";
-import yeeterAbi from "../../lib/tx-prepper/abi/yeeterShaman.json";
 import { useYeeter } from "@/hooks/useYeeter";
 import * as Drawer from "../ui/drawer";
-import { YeetForm } from "../forms/YeetForm";
 import { formatLootForMin, formatMinContribution } from "@/lib/yeet-helpers";
 import { nativeCurrencySymbol } from "@/lib/helpers";
-import { ArbitraryState } from "@/lib/tx-prepper/prepper-types";
+import { ArbitraryState, ValidNetwork } from "@/lib/tx-prepper/prepper-types";
+import { useDao } from "@/hooks/useDao";
+import { TX } from "@/lib/tx-prepper/tx";
+import { prepareTX } from "@/lib/tx-prepper/tx-prepper";
+import { DetailsForm } from "../forms/DetailsForm";
+import { ScrollArea } from "@radix-ui/react-scroll-area";
 
-export const YeetTx = ({
+export const DetailsTx = ({
   yeeterid,
   chainid,
+  daoid,
 }: {
   yeeterid: string;
   chainid: string;
+  daoid: string;
 }) => {
-  const { yeeter } = useYeeter({
+  const { yeeter, metadata } = useYeeter({
     chainid,
     yeeterid,
   });
+  const { dao } = useDao({
+    chainid,
+    daoid,
+  });
   const queryClient = useQueryClient();
   const closeRef = useRef<HTMLButtonElement>(null);
-  const { isConnected } = useAccount();
+  const { isConnected, address } = useAccount();
 
   const chainId = useChainId();
   const chains = useChains();
@@ -50,16 +58,12 @@ export const YeetTx = ({
 
   useEffect(() => {
     const reset = async () => {
-      queryClient.invalidateQueries({
+      queryClient.refetchQueries({
+        queryKey: ["list-records", { chainid, daoid }],
+      });
+
+      queryClient.refetchQueries({
         queryKey: ["get-yeeter", { chainid, yeeterid }],
-      });
-
-      queryClient.invalidateQueries({
-        queryKey: ["list-yeets", { yeeterid }],
-      });
-
-      queryClient.invalidateQueries({
-        queryKey: ["list-yeeters", { chainid }],
       });
     };
     if (isConfirmed) {
@@ -68,16 +72,34 @@ export const YeetTx = ({
     }
   }, [isConfirmed, queryClient, yeeterid, chainid]);
 
-  const handleSubmit = (values: ArbitraryState) => {
-    if (!yeeter) return;
+  const handleSubmit = async (values: ArbitraryState) => {
+    if (!yeeter || !dao || !address) return;
 
-    writeContract({
-      address: yeeter.id as `0x${string}`,
-      abi: yeeterAbi,
-      functionName: "contributeEth",
-      value: BigInt(toBaseUnits(values.amount.toString())),
-      args: [values.message],
+    const tx = TX.UPDATE_YEET_METADATA_SETTINGS;
+
+    const wholeState = {
+      formValues: {
+        ...values,
+        yeeterid,
+      },
+      senderAddress: address,
+      daoId: daoid,
+      yeeterid,
+    };
+
+    const txPrep = await prepareTX({
+      tx,
+      chainId: chainid as ValidNetwork,
+      safeId: dao.safeAddress,
+      appState: wholeState,
+      argCallbackRecord: {},
+      localABIs: {},
     });
+
+    console.log("txPrep", txPrep);
+    if (!txPrep) return;
+
+    writeContract(txPrep);
   };
 
   const handleClose = () => {
@@ -91,8 +113,8 @@ export const YeetTx = ({
     <>
       <Drawer.Drawer onClose={handleClose}>
         <Drawer.DrawerTrigger className="outline-none">
-          <div className="h-12 px-4 py-2 bg-primary text-background shadow hover:bg-primary/90 text-lg inline-flex items-center justify-center gap-2 whitespace-nowrap text-base font-bold font-mulish uppercase transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0">
-            Contribute
+          <div className="h-8 px-3 text-xs border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground inline-flex items-center justify-center gap-2 whitespace-nowrap text-base font-bold font-mulish uppercase transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0">
+            Update Details
           </div>
         </Drawer.DrawerTrigger>
         <Drawer.DrawerClose ref={closeRef} className="hidden" />
@@ -100,24 +122,19 @@ export const YeetTx = ({
           <div className="w-full">
             <Drawer.DrawerHeader className="mx-4">
               <Drawer.DrawerTitle className="font-display text-3xl uppercase text-muted">
-                Contribute
-                <div className="text-lg font-bold mt-1">
-                  Receive {formatLootForMin(yeeter)} loot tokens per{" "}
-                  {formatMinContribution(yeeter)}{" "}
-                  {nativeCurrencySymbol(activeChain)} contributed
-                </div>
+                Update
               </Drawer.DrawerTitle>
             </Drawer.DrawerHeader>
             <div className="flex flex-col gap-2 mx-4 mb-10">
-              <YeetForm
+              <DetailsForm
                 confirmed={isConfirmed}
-                yeeter={yeeter}
                 loading={isSendTxPending || isConfirming}
                 invalidConnection={!isConnected}
                 handleSubmit={handleSubmit}
                 formElmClass="w-full space-y-4"
                 hash={hash}
                 isError={isError}
+                currentProfile={metadata}
               />
             </div>
           </div>
