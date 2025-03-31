@@ -23,8 +23,6 @@ export const YeeterAbout = ({
 
   if (!yeeterid || !chainid || !yeeter) return;
 
-  console.log("metadata", metadata);
-
   return (
     <Tabs defaultValue="about" className="w-full">
       <TabsList className="grid w-full grid-cols-3">
@@ -60,12 +58,7 @@ export const YeeterAbout = ({
             <div className="flex flex-col gap-3 text-left break-words">
               {chainid !== "0xaa36a7" && (
                 <div className="flex flex-row gap-2 items-center">
-                  {/* <img src={FarcastleIcon} width="30px" /> */}
-                  <a
-                    className="link link-primary"
-                    href={`${warpcastBaseUrl}/${yeeterid}`}
-                    target="_blank"
-                  >
+                  <a href={`${warpcastBaseUrl}/${yeeterid}`} target="_blank">
                     Cast Yeet from Frames ⟶
                   </a>
                 </div>
@@ -75,32 +68,24 @@ export const YeeterAbout = ({
                 metadata.parsedLinks.map((link, i) => {
                   if (!link.url) return null;
                   return (
-                    <a
-                      className="link link-primary"
-                      href={link.url}
-                      target="_blank"
-                      key={i}
-                    >
+                    <a href={link.url} target="_blank" key={i}>
                       {link.label} ⟶
                     </a>
                   );
                 })}
               <a
-                className="link link-primary"
                 href={`https://admin.daohaus.club/#/molochv3/${chainid}/${yeeter.dao.id}/safes`}
                 target="_blank"
               >
                 Project treasury ⟶
               </a>
               <a
-                className="link link-primary"
                 href={`https://admin.daohaus.club/#/molochv3/${chainid}/${yeeter.dao.id}`}
                 target="_blank"
               >
                 on DAOhaus Admin App ⟶
               </a>
               <a
-                className="link link-primary"
                 href={`https://wee.yeet.haus/#/yeeter/${chainid}/${yeeter.dao.id}`}
                 target="_blank"
               >
