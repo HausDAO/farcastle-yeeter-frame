@@ -1,6 +1,6 @@
 import { useYeeter } from "@/hooks/useYeeter";
 import { RaiseStats } from "./RaiseStats";
-import { Button } from "../ui/button";
+import { YeetTx } from "./YeetTx";
 
 export const ActiveYeeter = ({
   yeeterid,
@@ -19,7 +19,7 @@ export const ActiveYeeter = ({
   return (
     <div className="space-y-2">
       <RaiseStats yeeter={yeeter} />
-      <Button>Contribute</Button>
+      <YeetTx yeeterid={yeeterid} chainid={chainid} />
     </div>
   );
 };
