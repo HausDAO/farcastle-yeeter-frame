@@ -22,7 +22,7 @@ import { useCallback } from "react";
 import { getExplorerUrl } from "@/lib/constants";
 import sdk from "@farcaster/frame-sdk";
 import { toHex } from "viem";
-import { YeeterItem, YeeterMetadata } from "@/lib/types";
+import { YeeterMetadata } from "@/lib/types";
 
 export type DetailsFormProps = {
   confirmed: boolean;

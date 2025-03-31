@@ -1,22 +1,17 @@
 import { useEffect, useRef } from "react";
 import {
   useAccount,
-  useChainId,
-  useChains,
   useWaitForTransactionReceipt,
   useWriteContract,
 } from "wagmi";
 import { useQueryClient } from "@tanstack/react-query";
 import { useYeeter } from "@/hooks/useYeeter";
 import * as Drawer from "../ui/drawer";
-import { formatLootForMin, formatMinContribution } from "@/lib/yeet-helpers";
-import { nativeCurrencySymbol } from "@/lib/helpers";
 import { ArbitraryState, ValidNetwork } from "@/lib/tx-prepper/prepper-types";
 import { useDao } from "@/hooks/useDao";
 import { TX } from "@/lib/tx-prepper/tx";
 import { prepareTX } from "@/lib/tx-prepper/tx-prepper";
 import { DetailsForm } from "../forms/DetailsForm";
-import { ScrollArea } from "@radix-ui/react-scroll-area";
 
 export const DetailsTx = ({
   yeeterid,
@@ -38,10 +33,6 @@ export const DetailsTx = ({
   const queryClient = useQueryClient();
   const closeRef = useRef<HTMLButtonElement>(null);
   const { isConnected, address } = useAccount();
-
-  const chainId = useChainId();
-  const chains = useChains();
-  const activeChain = chains.find((c) => c.id === chainId);
 
   const {
     writeContract,
@@ -70,7 +61,7 @@ export const DetailsTx = ({
       console.log("INVALIDATING/REFETCH");
       reset();
     }
-  }, [isConfirmed, queryClient, yeeterid, chainid]);
+  }, [isConfirmed, queryClient, yeeterid, chainid, daoid]);
 
   const handleSubmit = async (values: ArbitraryState) => {
     if (!yeeter || !dao || !address) return;
