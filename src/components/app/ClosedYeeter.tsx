@@ -16,7 +16,7 @@ export const ClosedYeeter = ({
   return (
     <>
       <RaiseStats yeeter={yeeter} />
-      <h2 className="text-4xl text-accent my-3">Raise has closed</h2>
+      <h2 className="text-2xl text-accent my-3">Raise has closed</h2>
     </>
   );
 };

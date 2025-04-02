@@ -7,9 +7,9 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useYeeter } from "@/hooks/useYeeter";
 import { ProjectTeamList } from "../ProjectTeam";
-import { DetailsTx } from "./DetailsTx";
 import { useAccount } from "wagmi";
 import { useMember } from "@/hooks/useMember";
+import Link from "next/link";
 
 export const YeeterAbout = ({
   yeeterid,
@@ -63,11 +63,12 @@ export const YeeterAbout = ({
 
           {onProjectTeam && (
             <CardContent className="space-y-1">
-              <DetailsTx
-                yeeterid={yeeterid}
-                chainid={chainid}
-                daoid={yeeter.dao.id}
-              />
+              <Link
+                href={`/yeeter/${chainid}/${yeeterid}/update`}
+                className="w-full"
+              >
+                Update Details ⟶
+              </Link>
             </CardContent>
           )}
         </Card>
@@ -119,11 +120,12 @@ export const YeeterAbout = ({
 
           {onProjectTeam && (
             <CardContent className="space-y-1">
-              <DetailsTx
-                yeeterid={yeeterid}
-                chainid={chainid}
-                daoid={yeeter.dao.id}
-              />
+              <Link
+                href={`/yeeter/${chainid}/${yeeterid}/update`}
+                className="w-full"
+              >
+                Update Details ⟶
+              </Link>
             </CardContent>
           )}
         </Card>
