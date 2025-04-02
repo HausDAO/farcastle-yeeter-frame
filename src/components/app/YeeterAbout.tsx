@@ -7,7 +7,6 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useYeeter } from "@/hooks/useYeeter";
 import { ProjectTeamList } from "../ProjectTeam";
-import { DetailsTx } from "./DetailsTx";
 import { useAccount } from "wagmi";
 import { useMember } from "@/hooks/useMember";
 import Link from "next/link";
