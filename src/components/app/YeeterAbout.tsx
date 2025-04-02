@@ -10,6 +10,9 @@ import { ProjectTeamList } from "../ProjectTeam";
 import { useAccount } from "wagmi";
 import { useMember } from "@/hooks/useMember";
 import Link from "next/link";
+import { useCallback } from "react";
+import sdk from "@farcaster/frame-sdk";
+import { composeCastUrl } from "@/lib/constants";
 
 export const YeeterAbout = ({
   yeeterid,
@@ -30,7 +33,10 @@ export const YeeterAbout = ({
     chainid,
     memberaddress: address,
   });
-  const warpcastBaseUrl = `https://warpcast.com/~/compose?text=&embeds[]=https://frames.yeet.haus/yeeter`;
+
+  const openUrl = useCallback(() => {
+    sdk.actions.openUrl(`${composeCastUrl}/yeeter/${chainid}/${yeeterid}`);
+  }, [yeeterid, chainid]);
 
   const onProjectTeam = address && member && Number(member.shares) > 0;
 
@@ -80,13 +86,12 @@ export const YeeterAbout = ({
           </CardHeader>
           <CardContent className="space-y-2">
             <div className="flex flex-col gap-3 text-left break-words">
-              {chainid !== "0xaa36a7" && (
-                <div className="flex flex-row gap-2 items-center">
-                  <a href={`${warpcastBaseUrl}/${yeeterid}`} target="_blank">
-                    Cast Yeet from Frames ⟶
-                  </a>
-                </div>
-              )}
+              <div
+                className="flex flex-row gap-2 items-center text-primary"
+                onClick={openUrl}
+              >
+                Cast ⟶
+              </div>
 
               {metadata?.parsedLinks &&
                 metadata.parsedLinks.map((link, i) => {
@@ -107,13 +112,7 @@ export const YeeterAbout = ({
                 href={`https://admin.daohaus.club/#/molochv3/${chainid}/${yeeter.dao.id}`}
                 target="_blank"
               >
-                on DAOhaus Admin App ⟶
-              </a>
-              <a
-                href={`https://wee.yeet.haus/#/yeeter/${chainid}/${yeeter.dao.id}`}
-                target="_blank"
-              >
-                on Wee Yeet ⟶
+                DAO on DAOhaus Admin App ⟶
               </a>
             </div>
           </CardContent>
