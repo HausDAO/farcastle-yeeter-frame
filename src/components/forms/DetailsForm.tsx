@@ -23,6 +23,8 @@ import { getExplorerUrl } from "@/lib/constants";
 import sdk from "@farcaster/frame-sdk";
 import { toHex } from "viem";
 import { YeeterMetadata } from "@/lib/types";
+import Link from "next/link";
+import { useParams } from "next/navigation";
 
 export type DetailsFormProps = {
   confirmed: boolean;
@@ -45,6 +47,10 @@ export const DetailsForm = ({
   isError,
   currentProfile,
 }: DetailsFormProps) => {
+  const { chainid, yeeterid } = useParams<{
+    chainid: string;
+    yeeterid: string;
+  }>();
   const submitButtonText = "Update";
 
   const chainId = useChainId();
@@ -345,21 +351,20 @@ export const DetailsForm = ({
         {isError && (
           <div className="text-sm text-error flex items-center">Tx Error</div>
         )}
-
-        {confirmed && (
-          <>
-            <Button disabled={true} className="w-full mb-3">
-              Share (coming soon)
-            </Button>
-
-            {hash && (
-              <Button onClick={openUrl} className="w-full">
-                View Transaction
-              </Button>
-            )}
-          </>
-        )}
       </form>
+      {confirmed && (
+        <>
+          <Link href={`/yeeter/${chainid}/${yeeterid}`} className="w-full">
+            <Button className="w-full mb-3">Back to project</Button>
+          </Link>
+
+          {hash && (
+            <Button onClick={openUrl} className="w-full">
+              View Transaction
+            </Button>
+          )}
+        </>
+      )}
     </Form>
   );
 };
