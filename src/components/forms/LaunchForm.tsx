@@ -34,7 +34,7 @@ export type LaunchFormProps = {
 
 const durationOptions = [
   { value: "86400", label: "1 Day" },
-  { value: "259200", label: "3 Days" },
+  // { value: "259200", label: "3 Days" },
   { value: "604800", label: "1 Week" },
   { value: "2628000", label: "1 Month" },
 ];
