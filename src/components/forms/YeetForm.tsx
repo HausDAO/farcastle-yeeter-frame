@@ -20,12 +20,13 @@ import { fromWei, nativeCurrencySymbol } from "@/lib/helpers";
 import { useChainId, useChains } from "wagmi";
 import { Button } from "../ui/button";
 import { useCallback } from "react";
-import { getExplorerUrl } from "@/lib/constants";
+import { composeCastUrl, getExplorerUrl } from "@/lib/constants";
 import sdk from "@farcaster/frame-sdk";
 import { toHex } from "viem";
 import { YeeterItem } from "@/lib/types";
 import { formatLootForAmount } from "@/lib/yeet-helpers";
 import { toBaseUnits } from "@/lib/units";
+import { useParams } from "next/navigation";
 
 export type YeetFormProps = {
   confirmed: boolean;
@@ -49,6 +50,11 @@ export const YeetForm = ({
   isError,
 }: YeetFormProps) => {
   const submitButtonText = "Contribute";
+
+  const { chainid, yeeterid } = useParams<{
+    chainid: string;
+    yeeterid: string;
+  }>();
 
   const chainId = useChainId();
   const chains = useChains();
@@ -86,6 +92,10 @@ export const YeetForm = ({
   const openUrl = useCallback(() => {
     sdk.actions.openUrl(`${getExplorerUrl(toHex(chainId))}/tx/${hash}`);
   }, [hash, chainId]);
+
+  const openCastUrl = useCallback(() => {
+    sdk.actions.openUrl(`${composeCastUrl}/yeeter/${chainid}/${yeeterid}`);
+  }, [yeeterid, chainid]);
 
   const disabled = loading || confirmed || invalidConnection;
 
@@ -155,8 +165,8 @@ export const YeetForm = ({
               {formatLootForAmount(yeeter, toBaseUnits(amountValue.toString()))}{" "}
               loot tokens!
             </div>
-            <Button disabled={true} className="w-full mb-3">
-              Share (coming soon)
+            <Button onClick={openCastUrl} className="w-full mb-3">
+              Share
             </Button>
 
             {hash && (

@@ -17,19 +17,16 @@ import { injected } from "wagmi/connectors";
 import { DaoHooksProvider } from "./DaoHooksProvider";
 import { DaoRecordProvider } from "./DaoRecordProvider";
 import { FrameSDKProvider } from "./FramesSDKProvider";
+import { HAUS_RPC_DEFAULTS } from "@/lib/constants";
 
 export const config = createConfig({
-  // chains: [base, sepolia, mainnet, polygon, gnosis, optimism, arbitrum],
   chains: [base, sepolia, gnosis, optimism, arbitrum],
   transports: {
-    // Configure dedicated RPC providers when using in production
-    [base.id]: http(),
+    [base.id]: http(HAUS_RPC_DEFAULTS["0x2105"]),
+    [optimism.id]: http(HAUS_RPC_DEFAULTS["0xa"]),
+    [arbitrum.id]: http(HAUS_RPC_DEFAULTS["0xa4b1"]),
     [sepolia.id]: http(),
-    // [mainnet.id]: http(),
-    // [polygon.id]: http(),
-    [gnosis.id]: http(),
-    [optimism.id]: http(),
-    [arbitrum.id]: http(),
+    [gnosis.id]: http(HAUS_RPC_DEFAULTS["0x64"]),
   },
   connectors: [farcasterFrame(), injected()],
 });

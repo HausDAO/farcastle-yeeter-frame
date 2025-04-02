@@ -28,6 +28,7 @@ import { LoadingSpinner } from "@/components/ui/loading";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { LaunchForm } from "@/components/forms/LaunchForm";
+import Link from "next/link";
 
 export default function Launch() {
   const { isLoaded, connector } = useFrameSDK();
@@ -147,7 +148,12 @@ export default function Launch() {
                   width={300}
                   height={254}
                 />
+
                 <div className="flex flex-col w-full items-center gap-2">
+                  <Link href={`/explore`} className="w-full">
+                    <Button className="w-full mb-3">Find your project</Button>
+                  </Link>
+
                   {hash && (
                     <Button onClick={openUrl} className="w-full">
                       View Transaction

@@ -63,7 +63,9 @@ export const HAUS_RPC_DEFAULTS: KEYCHAIN = {
   "0x1": `https://eth-mainnet.g.alchemy.com/v2/${
     process.env.NEXT_PUBLIC_ALCHEMY_API_KEY
   }`,
-  "0x64": "https://rpc.gnosischain.com/",
+  "0x64": `https://gnosis-mainnet.g.alchemy.com/v2/${
+    process.env.NEXT_PUBLIC_ALCHEMY_API_KEY
+  }`,
   "0xa": `https://opt-mainnet.g.alchemy.com/v2/${
     process.env.NEXT_PUBLIC_ALCHEMY_API_KEY
   }`,
@@ -82,7 +84,7 @@ export const DEFAULT_YEETER_VALUES = {
   feeRecipients: ["0xD0f8720846890a7961945261FE5012E4cA39918e"],
   feeAmounts: ["30000"],
   multiplier: "1000",
-  minTribute: "5000000000000000",
+  minTribute: "1000000000000000",
 };
 export const DEFAULT_SUMMON_VALUES = {
   votingPeriodInSeconds: process.env.NEXT_PUBLIC_ENV === "local" ? 120 : 43200,
@@ -97,3 +99,5 @@ export const DEFAULT_SUMMON_VALUES = {
 };
 export const FEE_DISCLOSURE =
   "The Yeeter protocol fee is 3% on all contributions. Fees in the network's native token are sent to the Yeeter safe. These funds are used to maintain and enhance the platform while supporting the DAOhaus community.";
+
+export const composeCastUrl = `https://warpcast.com/~/compose?text=&embeds[]=https://fundraiser.farcastle.net`;

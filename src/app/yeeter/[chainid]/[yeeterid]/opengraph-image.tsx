@@ -69,6 +69,7 @@ export default async function Image({
   return new ImageResponse(
     (
       <div tw="flex items-center justify-center h-full w-full bg-[#17151F]">
+        <p>FUNDRAISER</p>
         <img
           src={imgSrc}
           width="500"
