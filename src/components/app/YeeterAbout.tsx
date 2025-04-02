@@ -119,7 +119,16 @@ export const YeeterAbout = ({
             </div>
           </CardContent>
 
-          {onProjectTeam && <CardContent className="space-y-1"></CardContent>}
+          {onProjectTeam && (
+            <CardContent className="space-y-1">
+              <Link
+                href={`/yeeter/${chainid}/${yeeterid}/update`}
+                className="w-full"
+              >
+                Update Details ⟶
+              </Link>
+            </CardContent>
+          )}
         </Card>
       </TabsContent>
       <TabsContent value="team">
