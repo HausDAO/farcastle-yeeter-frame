@@ -25,30 +25,23 @@ export default function Page() {
 
   return (
     <div className="w-full h-full pb-4 px-4">
-      <Card className="flex flex-col items-center px-4 pt-4 pb-8 rounded-none">
-        <div className="text-center mb-3">
-          <p className="mb-3">
-            Crowdfunding reimagined with web3 transparency and community
-            protection.
-          </p>
-          <p>On-chain and In-frame.</p>
+      <Card className="flex flex-col items-center px-4 pt-2 pb-4 rounded-none">
+        <div className="text-muted font-display text-3xl uppercase mb-4">
+              Crypto Crowdfunding
         </div>
         {!isConnected && (
           <>
-            <div className="text-muted font-display text-3xl uppercase mb-4">
-              Enter the Gates
-            </div>
-
-            <div className="relative w-3/4 aspect-square mx-auto">
+            <p className="text-muted-foreground text-base px-4">Your next adventure starts here.</p>
+            <div className="relative w-full aspect-square mx-auto -my-4">
               <Image
-                src="/gate-dark-purple.svg"
-                alt="Gate"
+                src="/images/chest.png"
+                alt="Chest"
                 fill
                 priority
                 className="object-contain"
               />
             </div>
-            <div className="mt-4 w-full px-4">
+            <div className="mt-4 w-full px-4 mb-4">
               <Button
                 onClick={() => connect({ connector: connector })}
                 className="w-full"
@@ -61,6 +54,7 @@ export default function Page() {
 
         {isConnected && (
           <>
+            <p className="text-muted-foreground text-base px-4">Brave builders forge new tools while supporters join their quest.</p>
             <div className="flex flex-col w-full gap-3">
               <div className="mt-4 w-full px-4">
                 <Link href={`/explore`} className="w-full">
