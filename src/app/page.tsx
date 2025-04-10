@@ -53,8 +53,13 @@ export default function Page() {
                 onClick={() => connect({ connector: connector })}
                 className="w-full"
               >
-                Reveal Raises
+                Connect
               </Button>
+            </div>
+            <div className="mt-4 w-full px-4">
+              <Link href={`/explore`} className="w-full">
+                <Button className="w-full">Explore Raises</Button>
+              </Link>
             </div>
           </>
         )}

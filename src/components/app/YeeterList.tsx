@@ -16,12 +16,12 @@ import {
   SelectValue,
 } from "../ui/select";
 
-export const YeeterList = () => {
+export const YeeterList = ({ defaultChainId }: { defaultChainId: number }) => {
   const { chain } = useAccount();
   const [listType, setListType] = useState("open");
 
   const { yeeters, isLoading, isFetched } = useYeeters({
-    chainid: toHex(chain?.id || "0"),
+    chainid: toHex(defaultChainId || chain?.id || "0"),
     filter: listType,
   });
 
@@ -63,7 +63,7 @@ export const YeeterList = () => {
             <YeeterListCard
               key={yeeter.id}
               yeeterid={yeeter.id}
-              chainid={`${toHex(chain?.id || "0")}`}
+              chainid={`${toHex(defaultChainId || chain?.id || "0")}`}
             />
           );
         })}
