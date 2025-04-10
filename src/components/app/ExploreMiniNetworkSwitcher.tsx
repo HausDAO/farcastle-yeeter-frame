@@ -2,76 +2,37 @@
 
 import { getWagmiChainObj } from "@/lib/constants";
 import Image from "next/image";
-import React from "react";
-import {
-  useAccount,
-  useChainId,
-  useConfig,
-  useConnect,
-  useSwitchChain,
-} from "wagmi";
+import React, { Dispatch, SetStateAction } from "react";
+import { useConfig } from "wagmi";
 import * as Drawer from "../ui/drawer";
-import { Button } from "../ui/button";
-import { useFrameSDK } from "@/providers/FramesSDKProvider";
-import { CircleUserRound } from "lucide-react";
 
-export function NetworkSwitcher() {
-  const chainId = useChainId();
-  const { isConnected } = useAccount();
+export function ExploreMiniNetworkSwitcher({
+  localChain,
+  setLocalChain,
+}: {
+  localChain: number;
+  setLocalChain: Dispatch<SetStateAction<number>>;
+}) {
   const config = useConfig();
-  const { switchChain } = useSwitchChain();
   const closeRef = React.useRef<HTMLButtonElement>(null);
-
-  const { connector } = useFrameSDK();
-  const { connect } = useConnect();
-
-  // Add mounted state to handle hydration
-  const [mounted, setMounted] = React.useState(false);
-
-  React.useEffect(() => {
-    setMounted(true);
-  }, []);
 
   const handleNetworkSwitch = React.useCallback(
     (chainId: number) => {
-      switchChain({ chainId });
+      setLocalChain(chainId);
       closeRef.current?.click();
     },
-    [switchChain]
+    [setLocalChain]
   );
-
-  // Return placeholder during SSR and initial render
-  if (!mounted) {
-    return <div className="opacity-0 h-[30px] w-[30px]" />;
-  }
-
-  // Only check connection status after component is mounted
-  if (!isConnected) {
-    return (
-      <div className="h-[30px] w-[30px]">
-        <Button
-          onClick={() => {
-            console.log("connecting", connector);
-            connect({ connector: connector });
-          }}
-          className="w-full"
-          size="round"
-        >
-          <CircleUserRound />
-        </Button>
-      </div>
-    );
-  }
 
   return (
     <Drawer.Drawer>
       <Drawer.DrawerTrigger className="outline-none">
         <div className="h-[30px] w-[30px] rounded-full overflow-hidden hover:cursor-pointer">
           <Image
-            src={`/images/networks/${chainId.toString()}.svg`}
+            src={`/images/networks/${localChain.toString()}.svg`}
             width={30}
             height={30}
-            alt={`Network ${getWagmiChainObj("0x" + chainId.toString(16)).name}`}
+            alt={`Network ${getWagmiChainObj("0x" + localChain.toString(16)).name}`}
           />
         </div>
       </Drawer.DrawerTrigger>
