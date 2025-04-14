@@ -3,7 +3,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card } from "@/components/ui/card";
 import { useYeeter } from "@/hooks/useYeeter";
-import { formatShortDateTimeFromSeconds } from "@/lib/dates";
+import { formatDateFromSeconds } from "@/lib/dates";
 import { nativeCurrencySymbol, toWholeUnits } from "@/lib/helpers";
 import Link from "next/link";
 import { useChainId, useChains } from "wagmi";
@@ -44,31 +44,33 @@ export const YeeterListCard = ({ yeeterid, chainid }: YeeterListCardProps) => {
             <AvatarImage src={imgSrc} alt={yeeterName} />
             <AvatarFallback>{yeeterName[0]}</AvatarFallback>
           </Avatar>
-          <div className="flex flex-col gap-1">
-            <span className="text-foreground font-medium truncate">
+          <div className="flex flex-col gap-1 w-full">
+            <span className="text-foreground font-medium truncate mb-1">
               {yeeterName.length > 25
                 ? `${yeeterName.slice(0, 25)}...`
                 : yeeterName}
             </span>
-            <Progress value={perc} className="w-full" />
+            <div className="w-full max-w-[200px]">
+              <Progress value={perc} className="w-full" />
+            </div>
             <span className="text-muted text-xs">
-              Raised
               {` ${Number(toWholeUnits(yeeter?.balance)).toFixed(5)} of `}
               {toWholeUnits(yeeter?.goal)} {nativeCurrencySymbol(activeChain)}{" "}
-              goal
             </span>
             {yeeter.isEnded && (
-              <span className="text-primary text-sm">contributions closed</span>
+              <span className="text-primary text-sm">
+                Closed on {formatDateFromSeconds(yeeter.endTime)}
+              </span>
             )}
             {yeeter.isComingSoon && (
               <span className="text-primary text-sm">
-                Opening on {formatShortDateTimeFromSeconds(yeeter.startTime)}
+                Opening on {formatDateFromSeconds(yeeter.startTime)}
               </span>
             )}
             {yeeter.isActive && (
               <span className="text-primary text-sm">
                 {" "}
-                Closing on {formatShortDateTimeFromSeconds(yeeter.endTime)}
+                Closing on {formatDateFromSeconds(yeeter.endTime)}
               </span>
             )}
           </div>

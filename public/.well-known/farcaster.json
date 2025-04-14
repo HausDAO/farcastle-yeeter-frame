@@ -1,18 +1,18 @@
 {
   "accountAssociation": {
     "header": "eyJmaWQiOjg2MjA5MiwidHlwZSI6ImN1c3RvZHkiLCJrZXkiOiIweDg4MjhmNzMzODFDNzE3OUM2MjlEZjAzNzk0RGQ2QTUyRTU2Mjg5MjgifQ",
-    "payload": "eyJkb21haW4iOiJwcm9wb3NhbHMuZmFyY2FzdGxlLm5ldCJ9",
-    "signature": "MHgxN2JmN2Y3ZTA4ZmE4NDNjYTFjZTM0OWE3Y2U1NmEyN2JhMTAyOTk1OGMxYTEyYzQyMzk1ZDBjN2E2ODU4NDlkMGM1ZGFhMjMzZTIyNmM4Zjg4ZDE4YWU0Y2Q4ZGRlMzRjODZjNWU4MDQwYzQ4ODlhNjc0NWVjZDlmMjc3NDA1MzFj"
+    "payload": "eyJkb21haW4iOiJmdW5kcmFpc2VyLmZhcmNhc3RsZS5uZXQifQ",
+    "signature": "MHhkZDVlZGFlM2M1MGYxMzgyZTA4ODRiODk0YzljZTA4YzVmNjA1YWI0YmQ3YzY4ZWViNjYwZDMzZmQ5MmQ3YzIxMDA0MmVhZDI3NjBkNGU4ODQ5NmI4NzNlNGQxZTRiMWY3M2QzYmVhOTdiZGY4YmU5MjM1MzgxNzdhM2M2YWY1ZDFi"
   },
   "frame": {
     "version": "1",
-    "name": "Proposals",
-    "iconUrl": "https://proposals.farcastle.net/icon.png",
-    "homeUrl": "https://proposals.farcastle.net",
-    "imageUrl": "https://proposals.farcastle.net/image.png",
-    "buttonTitle": "Make Proposal",
-    "splashImageUrl": "https://proposals.farcastle.net/splash.png",
+    "name": "Fundraiser",
+    "iconUrl": "https://fundraiser.farcastle.net/icon.png",
+    "homeUrl": "https://fundraiser.farcastle.net",
+    "imageUrl": "https://fundraiser.farcastle.net/image.png",
+    "buttonTitle": "Raise Funds",
+    "splashImageUrl": "https://fundraiser.farcastle.net/splash.png",
     "splashBackgroundColor": "#341A34",
-    "webhookUrl": "https://proposals.farcastle.net/api/webhook"
+    "webhookUrl": "https://fundraiser.farcastle.net/api/webhook"
   }
 }

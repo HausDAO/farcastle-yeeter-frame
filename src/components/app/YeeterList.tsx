@@ -16,12 +16,12 @@ import {
   SelectValue,
 } from "../ui/select";
 
-export const YeeterList = () => {
+export const YeeterList = ({ defaultChainId }: { defaultChainId: number }) => {
   const { chain } = useAccount();
   const [listType, setListType] = useState("open");
 
   const { yeeters, isLoading, isFetched } = useYeeters({
-    chainid: toHex(chain?.id || "0"),
+    chainid: toHex(defaultChainId || chain?.id || "0"),
     filter: listType,
   });
 
@@ -35,10 +35,19 @@ export const YeeterList = () => {
   if (isFetched && (!yeeters || yeeters.length === 0)) {
     return (
       <div className="flex flex-col flex-wrap items-center justify-center gap-2 w-full">
+        <Select onValueChange={handleFilterChange} defaultValue={listType}>
+          <SelectTrigger className="h-10">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent className="bg-card rounded-none">
+            <SelectItem value="open">Open Campaigns</SelectItem>
+            <SelectItem value="closed">Closed Campaigns</SelectItem>
+          </SelectContent>
+        </Select>
         <Card className="w-full bg-background border rounded-none">
           <div className="flex justify-center p-4">
             <span className="text-primary font-display text-xl uppercase">
-              You serve no castle in this realm
+              No open campaigns in this realm
             </span>
           </div>
         </Card>
@@ -53,8 +62,8 @@ export const YeeterList = () => {
           <SelectValue />
         </SelectTrigger>
         <SelectContent className="bg-card rounded-none">
-          <SelectItem value="open">All Open Raises</SelectItem>
-          <SelectItem value="closed">All Closed Raises</SelectItem>
+          <SelectItem value="open">Open Campaigns</SelectItem>
+          <SelectItem value="closed">Closed Campaigns</SelectItem>
         </SelectContent>
       </Select>
       {isFetched &&
@@ -63,7 +72,7 @@ export const YeeterList = () => {
             <YeeterListCard
               key={yeeter.id}
               yeeterid={yeeter.id}
-              chainid={`${toHex(chain?.id || "0")}`}
+              chainid={`${toHex(defaultChainId || chain?.id || "0")}`}
             />
           );
         })}
