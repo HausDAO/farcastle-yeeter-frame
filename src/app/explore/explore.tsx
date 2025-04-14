@@ -5,6 +5,7 @@ import { YeeterList } from "@/components/app/YeeterList";
 import { Card } from "@/components/ui/card";
 import { useState } from "react";
 import { useAccount } from "wagmi";
+import { getWagmiChainObj } from "@/lib/constants";
 
 const UNNCONNECTED_CHAIN_ID = 8453;
 
@@ -26,7 +27,7 @@ export default function Explore() {
   const chainListTitle =
     isConnected && chain
       ? chainNames[chain?.name as keyof typeof chainNames] || chain?.name
-      : chainNames["Base"];
+      : chainNames[getWagmiChainObj("0x" + localChain.toString(16)).name as keyof typeof chainNames] || "Based";
 
   return (
     <div className="w-full h-full pb-4 px-4">
@@ -40,7 +41,7 @@ export default function Explore() {
                   setLocalChain={setLocalChain}
                 />
               </div>
-              <div className="text-muted font-display text-3xl uppercase">
+              <div className="text-primary font-display text-3xl uppercase">
                 {chainListTitle} Fundraisers
               </div>
               <div className="flex-1"></div>
@@ -48,7 +49,7 @@ export default function Explore() {
           )}
 
           {isConnected && (
-            <div className="text-muted font-display text-3xl uppercase">
+            <div className="text-primary font-display text-3xl uppercase">
               {chainListTitle} Fundraisers
             </div>
           )}

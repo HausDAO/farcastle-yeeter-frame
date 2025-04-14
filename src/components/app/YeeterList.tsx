@@ -38,7 +38,7 @@ export const YeeterList = ({ defaultChainId }: { defaultChainId: number }) => {
         <Card className="w-full bg-background border rounded-none">
           <div className="flex justify-center p-4">
             <span className="text-primary font-display text-xl uppercase">
-              You serve no castle in this realm
+              No campaigns in this realm
             </span>
           </div>
         </Card>
@@ -53,8 +53,8 @@ export const YeeterList = ({ defaultChainId }: { defaultChainId: number }) => {
           <SelectValue />
         </SelectTrigger>
         <SelectContent className="bg-card rounded-none">
-          <SelectItem value="open">All Open Raises</SelectItem>
-          <SelectItem value="closed">All Closed Raises</SelectItem>
+          <SelectItem value="open">Open Campaigns</SelectItem>
+          <SelectItem value="closed">Closed Campaigns</SelectItem>
         </SelectContent>
       </Select>
       {isFetched &&
