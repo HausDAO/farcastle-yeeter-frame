@@ -63,6 +63,7 @@ export default function Launch() {
       formValues: {
         daoName: values.name,
         description: values.description,
+        tokenName: values.tokenName,
         members: [address],
         startTime: now.toFixed(0),
         endTime: (now + Number(values.duration)).toFixed(0),

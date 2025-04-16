@@ -41,6 +41,7 @@ const durationOptions = [
 
 const formSchema = yup.object().shape({
   name: yup.string().required(),
+  tokenName: yup.string().max(7).required(),
   description: yup.string(),
   goal: yup.string().required(),
   duration: yup.string().required(),
@@ -60,6 +61,7 @@ export const LaunchForm = ({
     resolver: yupResolver(formSchema),
     defaultValues: {
       name: "",
+      tokenName: "",
       description: "",
       goal: "",
       duration: "",
@@ -113,6 +115,24 @@ export const LaunchForm = ({
                   placeholder="Description"
                   {...field}
                 />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="tokenName"
+          disabled={disabled}
+          render={({ field }) => (
+            <FormItem>
+              <ProposalFormLabel
+                label="Name the token your funders will get in return for their contribution"
+                id="name"
+                requiredFields={requiredFields}
+              />
+              <FormControl>
+                <Input id="tokenName" placeholder="Token Name" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
