@@ -71,20 +71,14 @@ const assembleLootTokenParams = ({
   formValues: Record<string, unknown>;
   chainId: ValidNetwork;
 }) => {
-  const yeetName = formValues["daoName"] as string;
-  const tokenName = `${yeetName}loot`;
-  const tokenSymbol = `${yeetName.substring(0, 2)}LOOT`;
+  const tokenName = formValues["tokenName"] as string;
+  const tokenSymbol = tokenName;
 
   // const tokenName = formValues["lootTokenName"];
   // const tokenSymbol = formValues["lootTokenSymbol"];
   const lootSingleton = CONTRACT_KEYCHAINS["LOOT_SINGLETON"][chainId];
 
-  if (
-    !isString(yeetName) ||
-    !isString(tokenName) ||
-    !isString(tokenSymbol) ||
-    !lootSingleton
-  ) {
+  if (!isString(tokenName) || !isString(tokenSymbol) || !lootSingleton) {
     console.log("ERROR: Form Values", formValues);
 
     throw new Error(
