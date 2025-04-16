@@ -49,7 +49,7 @@ export default function Explore() {
           )}
 
           {isConnected && (
-            <div className="text-primary font-display text-3xl uppercase">
+            <div className="text-primary font-display text-3xl pb-2 uppercase">
               {chainListTitle} Fundraisers
             </div>
           )}
