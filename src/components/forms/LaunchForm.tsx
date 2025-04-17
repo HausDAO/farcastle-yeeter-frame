@@ -40,7 +40,24 @@ const durationOptions = [
 const formSchema = yup.object().shape({
   name: yup.string().required(),
   lootTokenSymbol: yup.string().max(8).required(),
-  goal: yup.string().required(),
+  goal: yup
+    .string()
+    .required()
+    .test('is-number', 'goal must be a number', (value) => {
+      if (!value) return true; // Allow empty string for placeholder
+      const num = Number(value);
+      return !isNaN(num);
+    })
+    .test('is-positive', 'goal must be positive', (value) => {
+      if (!value) return true; // Allow empty string for placeholder
+      const num = Number(value);
+      return num > 0;
+    })
+    .test('in-range', 'goal must be less than 1,000,000 ETH', (value) => {
+      if (!value) return true; // Allow empty string for placeholder
+      const num = Number(value);
+      return num <= 1000000;
+    }),
   duration: yup.string().required(),
 });
 const requiredFields = getRequiredFieldsList(formSchema);
@@ -67,11 +84,12 @@ export const LaunchForm = ({
   const onSubmit = (values: yup.InferType<typeof formSchema>) => {
     const preparedValues = {
       ...values,
+      goal: values.goal ? values.goal.toString() : "0", // Ensure we have a valid string number
     };
     handleSubmit(preparedValues);
   };
 
-  const disabled = loading || confirmed || invalidConnection;
+  const isDisabled = loading || confirmed || invalidConnection;
 
   return (
     <Form {...form}>
@@ -79,7 +97,6 @@ export const LaunchForm = ({
         <FormField
           control={form.control}
           name="name"
-          disabled={disabled}
           render={({ field }) => (
             <FormItem>
               <ProposalFormLabel
@@ -88,7 +105,7 @@ export const LaunchForm = ({
                 requiredFields={requiredFields}
               />
               <FormControl>
-                <Input id="name" placeholder="Name" {...field} />
+                <Input id="name" placeholder="Name" {...field} disabled={isDisabled} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -97,7 +114,6 @@ export const LaunchForm = ({
         <FormField
           control={form.control}
           name="lootTokenSymbol"
-          disabled={disabled}
           render={({ field }) => (
             <FormItem>
               <ProposalFormLabel
@@ -107,7 +123,7 @@ export const LaunchForm = ({
                 popoverContent="The ticker is a short identifier for the token campaign contributors receive. It should be 8 characters or less."
               />
               <FormControl>
-                <Input id="lootTokenSymbol" placeholder="TICKER" {...field} />
+                <Input id="lootTokenSymbol" placeholder="TICKER" {...field} disabled={isDisabled} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -116,7 +132,6 @@ export const LaunchForm = ({
         <FormField
           control={form.control}
           name="goal"
-          disabled={disabled}
           render={({ field }) => (
             <FormItem>
               <ProposalFormLabel
@@ -125,7 +140,7 @@ export const LaunchForm = ({
                 requiredFields={requiredFields}
               />
               <FormControl>
-                <Input id="goal" placeholder="Goal" type="number" {...field} />
+                <Input id="goal" placeholder="ETH" type="number" {...field} disabled={isDisabled} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -135,7 +150,6 @@ export const LaunchForm = ({
         <FormField
           control={form.control}
           name="duration"
-          disabled={disabled}
           render={({ field }) => (
             <FormItem className="flex-1">
               <ProposalFormLabel
@@ -146,10 +160,10 @@ export const LaunchForm = ({
               <Select
                 onValueChange={field.onChange}
                 defaultValue={field.value}
-                disabled={disabled}
+                disabled={isDisabled}
               >
                 <FormControl>
-                  <SelectTrigger disabled={disabled}>
+                  <SelectTrigger>
                     <SelectValue placeholder="Duration" />
                   </SelectTrigger>
                 </FormControl>
@@ -172,7 +186,7 @@ export const LaunchForm = ({
           submitButtonText={submitButtonText}
           loading={loading}
           confirmed={confirmed}
-          disabled={disabled}
+          disabled={isDisabled}
         />
       </form>
     </Form>
