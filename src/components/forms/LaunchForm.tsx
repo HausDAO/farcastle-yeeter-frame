@@ -15,7 +15,6 @@ import { FormActionButtons } from "../app/FormActionButtons";
 import { ArbitraryState } from "@/lib/tx-prepper/prepper-types";
 import { ProposalFormLabel } from "../app/ProposalFormLabel";
 import { Input } from "../ui/input";
-import { Textarea } from "../ui/textarea";
 import {
   Select,
   SelectContent,
@@ -34,15 +33,13 @@ export type LaunchFormProps = {
 
 const durationOptions = [
   { value: "86400", label: "1 Day" },
-  // { value: "259200", label: "3 Days" },
   { value: "604800", label: "1 Week" },
   { value: "2628000", label: "1 Month" },
 ];
 
 const formSchema = yup.object().shape({
   name: yup.string().required(),
-  tokenName: yup.string().max(7).required(),
-  description: yup.string(),
+  tokenName: yup.string().max(8).required(),
   goal: yup.string().required(),
   duration: yup.string().required(),
 });
@@ -55,14 +52,13 @@ export const LaunchForm = ({
   invalidConnection,
   formElmClass,
 }: LaunchFormProps) => {
-  const submitButtonText = "Launch";
+  const submitButtonText = "Launch Campaign";
 
   const form = useForm<yup.InferType<typeof formSchema>>({
     resolver: yupResolver(formSchema),
     defaultValues: {
       name: "",
       tokenName: "",
-      description: "",
       goal: "",
       duration: "",
     },
@@ -87,7 +83,7 @@ export const LaunchForm = ({
           render={({ field }) => (
             <FormItem>
               <ProposalFormLabel
-                label="Give your fundraiser a name"
+                label="What is the name of your campaign?"
                 id="name"
                 requiredFields={requiredFields}
               />
@@ -100,39 +96,18 @@ export const LaunchForm = ({
         />
         <FormField
           control={form.control}
-          name="description"
-          disabled={disabled}
-          render={({ field }) => (
-            <FormItem>
-              <ProposalFormLabel
-                label="Describe your fundraiser"
-                id="description"
-                requiredFields={requiredFields}
-              />
-              <FormControl>
-                <Textarea
-                  id="description"
-                  placeholder="Description"
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
           name="tokenName"
           disabled={disabled}
           render={({ field }) => (
             <FormItem>
               <ProposalFormLabel
-                label="Name the token your funders will get in return for their contribution"
+                label="What is the ticker for your campaign?"
                 id="name"
                 requiredFields={requiredFields}
+                popoverContent="The ticker is a short identifier for the token campaign contributors receive. It should be 8 characters or less."
               />
               <FormControl>
-                <Input id="tokenName" placeholder="Token Name" {...field} />
+                <Input id="tokenName" placeholder="TICKER" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -145,14 +120,14 @@ export const LaunchForm = ({
           render={({ field }) => (
             <FormItem>
               <ProposalFormLabel
-                label="How much do you want to raise?"
+                label="How much ETH do you want to raise?"
                 id="goal"
                 requiredFields={requiredFields}
               />
               <FormControl>
                 <Input
                   id="goal"
-                  placeholder="Amount in ETH"
+                  placeholder="Goal"
                   type="number"
                   {...field}
                 />
@@ -169,14 +144,14 @@ export const LaunchForm = ({
           render={({ field }) => (
             <FormItem className="flex-1">
               <ProposalFormLabel
-                label="How long should the raise be open?"
+                label="How long is your campaign?"
                 id="duration"
                 requiredFields={requiredFields}
               />
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
+              <Select onValueChange={field.onChange} defaultValue={field.value} disabled={disabled}>
                 <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select duration" />
+                  <SelectTrigger disabled={disabled}>
+                    <SelectValue placeholder="Duration" />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent className="bg-card rounded-none">

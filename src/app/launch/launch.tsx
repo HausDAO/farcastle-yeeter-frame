@@ -115,8 +115,8 @@ export default function Launch() {
     <>
       <div className="w-full h-full space-y-4 pb-4 px-4">
         <Card className="flex flex-col items-center px-4 pt-4 pb-8 rounded-none">
-          <div className="text-muted font-display text-3xl uppercase mb-4">
-            Launch
+          <div className="text-primary font-display text-3xl uppercase mb-4">
+            {isConfirmed ? "Campaign Launched" : "Campaign Overview"}
           </div>
 
           {!isConfirmed && (
@@ -152,7 +152,7 @@ export default function Launch() {
 
                 <div className="flex flex-col w-full items-center gap-2">
                   <Link href={`/explore`} className="w-full">
-                    <Button className="w-full mb-3">Find your project</Button>
+                    <Button className="w-full mb-2">Edit Campaign Details</Button>
                   </Link>
 
                   {hash && (
