@@ -39,7 +39,7 @@ const durationOptions = [
 
 const formSchema = yup.object().shape({
   name: yup.string().required(),
-  tokenName: yup.string().max(8).required(),
+  lootTokenSymbol: yup.string().max(8).required(),
   goal: yup.string().required(),
   duration: yup.string().required(),
 });
@@ -58,7 +58,7 @@ export const LaunchForm = ({
     resolver: yupResolver(formSchema),
     defaultValues: {
       name: "",
-      tokenName: "",
+      lootTokenSymbol: "",
       goal: "",
       duration: "",
     },
@@ -96,7 +96,7 @@ export const LaunchForm = ({
         />
         <FormField
           control={form.control}
-          name="tokenName"
+          name="lootTokenSymbol"
           disabled={disabled}
           render={({ field }) => (
             <FormItem>
@@ -107,7 +107,7 @@ export const LaunchForm = ({
                 popoverContent="The ticker is a short identifier for the token campaign contributors receive. It should be 8 characters or less."
               />
               <FormControl>
-                <Input id="tokenName" placeholder="TICKER" {...field} />
+                <Input id="lootTokenSymbol" placeholder="TICKER" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -125,12 +125,7 @@ export const LaunchForm = ({
                 requiredFields={requiredFields}
               />
               <FormControl>
-                <Input
-                  id="goal"
-                  placeholder="Goal"
-                  type="number"
-                  {...field}
-                />
+                <Input id="goal" placeholder="Goal" type="number" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -148,7 +143,11 @@ export const LaunchForm = ({
                 id="duration"
                 requiredFields={requiredFields}
               />
-              <Select onValueChange={field.onChange} defaultValue={field.value} disabled={disabled}>
+              <Select
+                onValueChange={field.onChange}
+                defaultValue={field.value}
+                disabled={disabled}
+              >
                 <FormControl>
                   <SelectTrigger disabled={disabled}>
                     <SelectValue placeholder="Duration" />

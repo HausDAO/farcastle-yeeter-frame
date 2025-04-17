@@ -62,8 +62,7 @@ export default function Launch() {
       chainId: toHex(chainId),
       formValues: {
         daoName: values.name,
-        description: values.description,
-        tokenName: values.tokenName,
+        lootTokenSymbol: values.lootTokenSymbol,
         members: [address],
         startTime: now.toFixed(0),
         endTime: (now + Number(values.duration)).toFixed(0),
@@ -152,7 +151,9 @@ export default function Launch() {
 
                 <div className="flex flex-col w-full items-center gap-2">
                   <Link href={`/explore`} className="w-full">
-                    <Button className="w-full mb-2">Edit Campaign Details</Button>
+                    <Button className="w-full mb-2">
+                      Edit Campaign Details
+                    </Button>
                   </Link>
 
                   {hash && (
