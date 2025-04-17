@@ -10,7 +10,8 @@
     "lint": "next lint",
     "pages:build": "npx @cloudflare/next-on-pages",
     "preview": "bun run pages:build && wrangler pages dev",
-    "deploy": "bun run pages:build && wrangler pages deploy"
+    "deploy": "bun run pages:build && wrangler pages deploy",
+    "tunnel": "cloudflared tunnel --url http://localhost:3000"
   },
   "dependencies": {
     "0xsequence": "^2.2.14",
