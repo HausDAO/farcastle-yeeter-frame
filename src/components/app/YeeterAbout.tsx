@@ -13,6 +13,7 @@ import Link from "next/link";
 import { useCallback } from "react";
 import sdk from "@farcaster/frame-sdk";
 import { composeCastUrl } from "@/lib/constants";
+import { Button } from "../ui/button";
 
 export const YeeterAbout = ({
   yeeterid,
@@ -68,13 +69,14 @@ export const YeeterAbout = ({
           )}
 
           {onProjectTeam && (
-            <CardContent className="space-y-1">
-              <Link
-                href={`/yeeter/${chainid}/${yeeterid}/update`}
-                className="w-full"
-              >
-                Update Details ⟶
-              </Link>
+            <CardContent className="space-y-1 w-full px-4">
+              <div className="w-full">
+                <Link href={`/yeeter/${chainid}/${yeeterid}/update`} className="block w-full">
+                  <Button variant="default" className="w-full">
+                    Edit Campaign Details
+                  </Button>
+                </Link>
+              </div>
             </CardContent>
           )}
         </Card>
@@ -118,13 +120,14 @@ export const YeeterAbout = ({
           </CardContent>
 
           {onProjectTeam && (
-            <CardContent className="space-y-1">
-              <Link
-                href={`/yeeter/${chainid}/${yeeterid}/update`}
-                className="w-full"
-              >
-                Update Details ⟶
-              </Link>
+            <CardContent className="space-y-1 w-full px-4">
+              <div className="w-full">
+                <Link href={`/yeeter/${chainid}/${yeeterid}/update`} className="block w-full">
+                  <Button variant="default" className="w-full">
+                    Edit Campaign Details
+                  </Button>
+                </Link>
+              </div>
             </CardContent>
           )}
         </Card>
