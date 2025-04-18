@@ -34,7 +34,7 @@ export default function YeeterHome() {
 
   return (
     <div className="w-full">
-      <div className="text-muted font-display text-3xl uppercase text-center">
+      <div className="text-primary font-display text-3xl uppercase text-center">
         {metadata?.name || "--"}
       </div>
       <div className="flex justify-center my-2">

@@ -17,7 +17,7 @@ export const ActiveYeeter = ({
   if (!yeeterid || !chainid || !yeeter) return;
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-2 w-full">
       <RaiseStats yeeter={yeeter} />
       <YeetTx yeeterid={yeeterid} chainid={chainid} />
     </div>
