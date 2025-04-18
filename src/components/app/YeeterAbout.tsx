@@ -51,25 +51,22 @@ export const YeeterAbout = ({
         <TabsTrigger value="team" className="text-muted font-display text-2xl uppercase text-center data-[state=active]:text-primary data-[state=active]:bg-card">Team</TabsTrigger>
       </TabsList>
       <TabsContent value="about">
-        <Card className="border-0">
-          <CardHeader>
-            <CardDescription>What are we funding?</CardDescription>
-          </CardHeader>
+        <Card className="border-0 px-8 pt-2">
           {metadata?.missionStatement && (
-            <CardContent className="space-y-1">
-              <div className="font-bold">Mission</div>
-              <div className="space-y-1">{metadata?.missionStatement}</div>
+            <CardContent className="p-0 pb-8">
+              <div className="text-muted text-sm mb-4 uppercase">Mission</div>
+              <div className="leading-relaxed">{metadata?.missionStatement}</div>
             </CardContent>
           )}
           {metadata?.projectDetails && (
-            <CardContent className="space-y-1">
-              <div className="font-bold">Details</div>
-              <div className="space-y-1">{metadata?.projectDetails}</div>
+            <CardContent className="p-0 pb-8">
+              <div className="text-muted text-sm mb-4 uppercase">Details</div>
+              <div className="leading-relaxed">{metadata?.projectDetails}</div>
             </CardContent>
           )}
 
           {onProjectTeam && (
-            <CardContent className="space-y-1 w-full px-4">
+            <CardContent className="p-0 mt-4">
               <div className="w-full">
                 <Link href={`/yeeter/${chainid}/${yeeterid}/update`} className="block w-full">
                   <Button variant="default" className="w-full">
@@ -82,7 +79,7 @@ export const YeeterAbout = ({
         </Card>
       </TabsContent>
       <TabsContent value="links">
-        <Card className="border-0">
+        <Card className="border-0 p-4">
           <CardContent className="w-full px-4">
             <div className="flex flex-col gap-4">
               <div className="w-full">
@@ -125,7 +122,7 @@ export const YeeterAbout = ({
         </Card>
       </TabsContent>
       <TabsContent value="team">
-        <Card className="border-0">
+        <Card className="border-0 p-4">
           <CardHeader>
             <CardDescription>
               Members of the DAO receiveing funds

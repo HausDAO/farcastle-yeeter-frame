@@ -23,13 +23,13 @@ export const RaiseStats = ({ yeeter }: { yeeter: YeeterItem }) => {
       </div>
       <div className="flex flex-row w-full mt-2 max-w-[300px] mx-auto">
         <div className="w-1/2">
-          <div className="stat-title text-muted text-sm">Raised</div>
+          <div className="stat-title text-muted text-sm uppercase">Raised</div>
           <div className="stat-value text-lg">
             {Number(toWholeUnits(yeeter?.balance)).toFixed(5)} ETH
           </div>
         </div>
         <div className="w-1/2">
-          <div className="stat-title text-muted text-sm">Goal</div>
+          <div className="stat-title text-muted text-sm uppercase">Goal</div>
           <div className="stat-value text-lg">
             {toWholeUnits(yeeter?.goal)} ETH
           </div>
