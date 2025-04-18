@@ -45,10 +45,10 @@ export const YeeterAbout = ({
 
   return (
     <Tabs defaultValue="about" className="w-full">
-      <TabsList className="grid w-full grid-cols-3">
-        <TabsTrigger value="about">About</TabsTrigger>
-        <TabsTrigger value="links">Links</TabsTrigger>
-        <TabsTrigger value="team">Team</TabsTrigger>
+      <TabsList className="grid w-full grid-cols-3 h-14 border-b border-border">
+        <TabsTrigger value="about" className="text-muted font-display text-2xl uppercase text-center data-[state=active]:text-primary data-[state=active]:bg-card">About</TabsTrigger>
+        <TabsTrigger value="links" className="text-muted font-display text-2xl uppercase text-center data-[state=active]:text-primary data-[state=active]:bg-card">Links</TabsTrigger>
+        <TabsTrigger value="team" className="text-muted font-display text-2xl uppercase text-center data-[state=active]:text-primary data-[state=active]:bg-card">Team</TabsTrigger>
       </TabsList>
       <TabsContent value="about">
         <Card className="border-0">
