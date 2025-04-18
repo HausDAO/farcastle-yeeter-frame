@@ -116,7 +116,7 @@ export const DetailsTx = ({
                 Update
               </Drawer.DrawerTitle>
             </Drawer.DrawerHeader>
-            <div className="flex flex-col gap-2 mx-4 mb-10">
+            <div className="flex flex-col gap-2 mx-4 mb-2">
               <DetailsForm
                 confirmed={isConfirmed}
                 loading={isSendTxPending || isConfirming}
