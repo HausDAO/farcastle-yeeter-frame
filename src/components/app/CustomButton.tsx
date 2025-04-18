@@ -3,9 +3,19 @@ import { Input } from "@/components/ui/input";
 import { ProposalFormLabel } from "./ProposalFormLabel";
 import { UseFormReturn } from "react-hook-form";
 
+interface CustomButtonFormData {
+  [key: string]: string | undefined;
+  custom1?: string;
+  custom1Label?: string;
+  custom2?: string;
+  custom2Label?: string;
+  custom3?: string;
+  custom3Label?: string;
+}
+
 type CustomButtonFieldProps = {
   index: number;
-  form: UseFormReturn<any>;
+  form: UseFormReturn<CustomButtonFormData>;
   disabled: boolean;
   requiredFields: string[];
 };
