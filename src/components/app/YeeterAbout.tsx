@@ -83,53 +83,45 @@ export const YeeterAbout = ({
       </TabsContent>
       <TabsContent value="links">
         <Card className="border-0">
-          <CardHeader>
-            <CardDescription>Project links</CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-2">
-            <div className="flex flex-col gap-3 text-left break-words">
-              <div
-                className="flex flex-row gap-2 items-center text-primary"
-                onClick={openUrl}
-              >
-                Cast ⟶
+          <CardContent className="w-full px-4">
+            <div className="flex flex-col gap-4">
+              <div className="w-full">
+                <Button variant="default" className="w-full" onClick={openUrl}>
+                  Share Campaign
+                </Button>
               </div>
 
               {metadata?.parsedLinks &&
                 metadata.parsedLinks.map((link, i) => {
                   if (!link.url) return null;
                   return (
-                    <a href={link.url} target="_blank" key={i}>
-                      {link.label} ⟶
-                    </a>
+                    <div className="w-full" key={i}>
+                    <Link href={link.url} target="_blank" className="block w-full">
+                      <Button variant="secondary" className="w-full">
+                        {link.label}
+                      </Button>
+                    </Link>
+                  </div>
                   );
                 })}
-              <a
-                href={`https://admin.daohaus.club/#/molochv3/${chainid}/${yeeter.dao.id}/safes`}
-                target="_blank"
-              >
-                Project treasury ⟶
-              </a>
-              <a
-                href={`https://admin.daohaus.club/#/molochv3/${chainid}/${yeeter.dao.id}`}
-                target="_blank"
-              >
-                DAO on DAOhaus Admin App ⟶
-              </a>
+              <div className="w-full">
+                <Link href={`https://admin.daohaus.club/#/molochv3/${chainid}/${yeeter.dao.id}/safes`} target="_blank" className="block w-full">
+                  <Button variant="tertiary" className="w-full">
+                    View Treasury
+                  </Button>
+                </Link>
+              </div>
             </div>
-          </CardContent>
-
-          {onProjectTeam && (
-            <CardContent className="space-y-1 w-full px-4">
+            {onProjectTeam && (
               <div className="w-full">
                 <Link href={`/yeeter/${chainid}/${yeeterid}/update`} className="block w-full">
-                  <Button variant="default" className="w-full">
+                  <Button variant="default" className="w-full mt-4">
                     Edit Campaign Details
                   </Button>
                 </Link>
               </div>
-            </CardContent>
           )}
+          </CardContent>
         </Card>
       </TabsContent>
       <TabsContent value="team">
