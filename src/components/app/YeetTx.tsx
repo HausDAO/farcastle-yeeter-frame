@@ -91,11 +91,11 @@ export const YeetTx = ({
   return (
     <>
       <Drawer.Drawer onClose={handleClose}>
-        <Drawer.DrawerTrigger className="w-full">
-          <div className="px-4">
+        <div className="px-4">
+          <Drawer.DrawerTrigger asChild>
             <Button className="w-full">Contribute to Campaign</Button>
-          </div>
-        </Drawer.DrawerTrigger>
+          </Drawer.DrawerTrigger>
+        </div>
         <Drawer.DrawerClose ref={closeRef} className="hidden" />
         <Drawer.DrawerContent className="bg-card">
           <div className="w-full">
