@@ -26,7 +26,6 @@ export const CustomButton = ({
         <FormField
           control={form.control}
           name={`custom${index}Label`}
-          disabled={disabled}
           render={({ field }) => (
             <FormItem>
               <ProposalFormLabel
@@ -39,6 +38,7 @@ export const CustomButton = ({
                   id={`custom${index}Label`}
                   placeholder="Label"
                   {...field}
+                  disabled={disabled}
                 />
               </FormControl>
               <FormMessage />
@@ -49,7 +49,6 @@ export const CustomButton = ({
       <FormField
         control={form.control}
         name={`custom${index}`}
-        disabled={disabled}
         render={({ field }) => (
           <FormItem>
             <div className="-mt-2">
@@ -64,6 +63,7 @@ export const CustomButton = ({
                 id={`custom${index}`}
                 placeholder="URL"
                 {...field}
+                disabled={disabled}
               />
             </FormControl>
             <FormMessage />

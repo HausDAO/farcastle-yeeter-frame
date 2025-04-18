@@ -118,7 +118,7 @@ export const DetailsPage = () => {
               />
               <div className="flex flex-col w-full items-center gap-2">
                 <Link href={`/yeeter/${chainid}/${yeeterid}`} className="w-full">
-                  <Button className="w-full mb-2">Back to Campaign</Button>
+                  <Button className="w-full mb-2">View Campaign</Button>
                 </Link>
                 {hash && (
                   <Button onClick={() => sdk.actions.openUrl(`${getExplorerUrl(toHex(chainId))}/tx/${hash}`)} className="w-full">

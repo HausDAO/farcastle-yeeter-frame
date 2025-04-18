@@ -119,7 +119,6 @@ export const DetailsForm = ({
             <FormField
               control={form.control}
               name="name"
-              disabled={disabled}
               render={({ field }) => (
                 <FormItem>
                   <ProposalFormLabel
@@ -128,7 +127,12 @@ export const DetailsForm = ({
                     requiredFields={requiredFields}
                   />
                   <FormControl>
-                    <Input id="name" placeholder="Name" {...field} />
+                    <Input 
+                      id="name" 
+                      placeholder="Name" 
+                      {...field}
+                      disabled={disabled}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -137,7 +141,6 @@ export const DetailsForm = ({
             <FormField
               control={form.control}
               name="missionStatement"
-              disabled={disabled}
               render={({ field }) => (
                 <FormItem>
                   <ProposalFormLabel
@@ -150,6 +153,7 @@ export const DetailsForm = ({
                       id="missionStatement"
                       placeholder="Mission"
                       {...field}
+                      disabled={disabled}
                     />
                   </FormControl>
                   <FormMessage />
@@ -160,7 +164,6 @@ export const DetailsForm = ({
             <FormField
               control={form.control}
               name="projectDetails"
-              disabled={disabled}
               render={({ field }) => (
                 <FormItem>
                   <ProposalFormLabel
@@ -173,6 +176,7 @@ export const DetailsForm = ({
                       id="projectDetails"
                       placeholder="Description"
                       {...field}
+                      disabled={disabled}
                     />
                   </FormControl>
                   <FormMessage />
@@ -182,7 +186,6 @@ export const DetailsForm = ({
             <FormField
               control={form.control}
               name="icon"
-              disabled={disabled}
               render={({ field }) => (
                 <FormItem>
                   <ProposalFormLabel
@@ -191,7 +194,12 @@ export const DetailsForm = ({
                     requiredFields={requiredFields}
                   />
                   <FormControl>
-                    <Input id="icon" placeholder="URL" {...field} />
+                    <Input 
+                      id="icon" 
+                      placeholder="URL" 
+                      {...field}
+                      disabled={disabled}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -218,7 +226,6 @@ export const DetailsForm = ({
               disabled={disabled}
               requiredFields={requiredFields}
             />
-
           </>
         )}
 
