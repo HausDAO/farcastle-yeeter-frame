@@ -15,6 +15,7 @@ import { YeetForm } from "../forms/YeetForm";
 import { formatLootForMin, formatMinContribution } from "@/lib/yeet-helpers";
 import { nativeCurrencySymbol } from "@/lib/helpers";
 import { ArbitraryState } from "@/lib/tx-prepper/prepper-types";
+import { Button } from "../ui/button";
 
 export const YeetTx = ({
   yeeterid,
@@ -90,9 +91,9 @@ export const YeetTx = ({
   return (
     <>
       <Drawer.Drawer onClose={handleClose}>
-        <Drawer.DrawerTrigger className="outline-none">
-          <div className="h-12 px-4 py-2 bg-primary text-background shadow hover:bg-primary/90 text-lg inline-flex items-center justify-center gap-2 whitespace-nowrap text-base font-bold font-mulish uppercase transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0">
-            Contribute
+        <Drawer.DrawerTrigger className="w-full">
+          <div className="px-4">
+            <Button className="w-full">Contribute to Campaign</Button>
           </div>
         </Drawer.DrawerTrigger>
         <Drawer.DrawerClose ref={closeRef} className="hidden" />
