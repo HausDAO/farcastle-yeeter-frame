@@ -15,9 +15,9 @@ export const YeetMessages = ({
   });
 
   return (
-<Card className="border-0 px-8 pt-2">
-  <CardContent className="p-0">
-    <div className="text-muted text-sm mb-4 uppercase">Contributions</div>
+<Card className="border-0 px-8">
+  <CardContent className="p-0 pt-4">
+    <div className="text-muted text-sm mb-4 uppercase">Contributors</div>
     {yeets &&
         yeets?.map((yeet) => {
           return <YeetMessage yeet={yeet} key={yeet.id} />;

@@ -90,40 +90,42 @@ export const YeetTx = ({
 
   return (
     <>
-      <Drawer.Drawer onClose={handleClose}>
-        <div className="px-4">
-          <Drawer.DrawerTrigger asChild>
-            <Button className="w-full">Contribute to Campaign</Button>
-          </Drawer.DrawerTrigger>
-        </div>
-        <Drawer.DrawerClose ref={closeRef} className="hidden" />
-        <Drawer.DrawerContent className="bg-card">
-          <div className="w-full">
-            <Drawer.DrawerHeader className="mx-4">
-              <Drawer.DrawerTitle className="font-display text-3xl uppercase text-muted">
-                Contribute
-                <div className="text-lg font-bold mt-1">
-                  Receive {formatLootForMin(yeeter)} loot tokens per{" "}
-                  {formatMinContribution(yeeter)}{" "}
-                  {nativeCurrencySymbol(activeChain)} contributed
-                </div>
-              </Drawer.DrawerTitle>
-            </Drawer.DrawerHeader>
-            <div className="flex flex-col gap-2 mx-4 mb-10">
-              <YeetForm
-                confirmed={isConfirmed}
-                yeeter={yeeter}
-                loading={isSendTxPending || isConfirming}
-                invalidConnection={!isConnected}
-                handleSubmit={handleSubmit}
-                formElmClass="w-full space-y-4"
-                hash={hash}
-                isError={isError}
-              />
-            </div>
+      {yeeter.isActive && (
+        <Drawer.Drawer onClose={handleClose}>
+          <div className="px-8">
+            <Drawer.DrawerTrigger asChild>
+              <Button className="w-full">Contribute to Campaign</Button>
+            </Drawer.DrawerTrigger>
           </div>
-        </Drawer.DrawerContent>
-      </Drawer.Drawer>
+          <Drawer.DrawerClose ref={closeRef} className="hidden" />
+          <Drawer.DrawerContent className="bg-card">
+            <div className="w-full">
+              <Drawer.DrawerHeader className="mx-4">
+                <Drawer.DrawerTitle className="font-display text-3xl uppercase text-muted">
+                  Contribute
+                  <div className="text-lg font-bold mt-1">
+                    Receive {formatLootForMin(yeeter)} loot tokens per{" "}
+                    {formatMinContribution(yeeter)}{" "}
+                    {nativeCurrencySymbol(activeChain)} contributed
+                  </div>
+                </Drawer.DrawerTitle>
+              </Drawer.DrawerHeader>
+              <div className="flex flex-col gap-2 mx-4 mb-10">
+                <YeetForm
+                  confirmed={isConfirmed}
+                  yeeter={yeeter}
+                  loading={isSendTxPending || isConfirming}
+                  invalidConnection={!isConnected}
+                  handleSubmit={handleSubmit}
+                  formElmClass="w-full space-y-4"
+                  hash={hash}
+                  isError={isError}
+                />
+              </div>
+            </div>
+          </Drawer.DrawerContent>
+        </Drawer.Drawer>
+      )}
     </>
   );
 };

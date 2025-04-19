@@ -37,12 +37,12 @@ export const RaiseStats = ({ yeeter }: { yeeter: YeeterItem }) => {
       </div>
       <div className="text-center">
         {yeeter.isEnded && (
-          <span className="text-primary text-sm">
+          <span className="text-primary text-lg">
             Closed {formatRaiseStatsDate(yeeter.endTime)}
           </span>
         )}
         {yeeter.isComingSoon && (
-          <span className="text-primary text-sm">
+          <span className="text-primary text-lg">
             Opening {formatRaiseStatsDate(yeeter.startTime)}
           </span>
         )}

@@ -6,7 +6,7 @@ import {
 } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useYeeter } from "@/hooks/useYeeter";
-import { ProjectTeamList } from "../ProjectTeam";
+import { ProjectTeamList } from "./ProjectTeam";
 import { useAccount } from "wagmi";
 import { useMember } from "@/hooks/useMember";
 import Link from "next/link";
@@ -53,20 +53,20 @@ export const YeeterAbout = ({
       <TabsContent value="about">
         <Card className="border-0 px-8 pt-2">
           {metadata?.missionStatement && (
-            <CardContent className="p-0 pb-8">
+            <CardContent className="p-0 pb-4">
               <div className="text-muted text-sm mb-4 uppercase">Mission</div>
               <div className="leading-relaxed">{metadata?.missionStatement}</div>
             </CardContent>
           )}
           {metadata?.projectDetails && (
-            <CardContent className="p-0 pb-8">
+            <CardContent className="p-0 pb-4">
               <div className="text-muted text-sm mb-4 uppercase">Details</div>
               <div className="leading-relaxed">{metadata?.projectDetails}</div>
             </CardContent>
           )}
 
           {onProjectTeam && (
-            <CardContent className="p-0 mt-4">
+            <CardContent className="p-0 mt-2">
               <div className="w-full">
                 <Link href={`/yeeter/${chainid}/${yeeterid}/update`} className="block w-full">
                   <Button variant="default" className="w-full">
@@ -79,8 +79,8 @@ export const YeeterAbout = ({
         </Card>
       </TabsContent>
       <TabsContent value="links">
-        <Card className="border-0 p-4">
-          <CardContent className="w-full px-4">
+        <Card className="border-0 pt-4 px-4">
+          <CardContent className="w-full px-4 pb-0">
             <div className="flex flex-col gap-4">
               <div className="w-full">
                 <Button variant="default" className="w-full" onClick={openUrl}>
@@ -123,7 +123,7 @@ export const YeeterAbout = ({
       </TabsContent>
       <TabsContent value="team">
         <Card className="border-0 px-8 pt-2">
-        <CardContent className="p-0 pb-8">
+        <CardContent className="p-0">
               <div className="text-muted text-sm mb-4 uppercase">Members</div>
               <ProjectTeamList
               chainid={chainid}
