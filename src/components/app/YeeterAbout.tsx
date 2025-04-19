@@ -122,19 +122,15 @@ export const YeeterAbout = ({
         </Card>
       </TabsContent>
       <TabsContent value="team">
-        <Card className="border-0 p-4">
-          <CardHeader>
-            <CardDescription>
-              Members of the DAO receiveing funds
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-2">
-            <ProjectTeamList
+        <Card className="border-0 px-8 pt-2">
+        <CardContent className="p-0 pb-8">
+              <div className="text-muted text-sm mb-4 uppercase">Members</div>
+              <ProjectTeamList
               chainid={chainid}
               yeeterid={yeeterid}
               daoid={yeeter.dao.id}
             />
-          </CardContent>
+            </CardContent>
         </Card>
       </TabsContent>
     </Tabs>
