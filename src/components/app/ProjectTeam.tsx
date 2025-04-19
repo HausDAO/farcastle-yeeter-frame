@@ -1,6 +1,6 @@
 import { useDaoMembers } from "@/hooks/useDaoMembers";
-import { useYeeter } from "../hooks/useYeeter";
-import { ProjectAddressListItem } from "./app/ProjectAddressListItem";
+import { useYeeter } from "../../hooks/useYeeter";
+import { ProjectAddressListItem } from "./ProjectAddressListItem";
 
 export const ProjectTeamList = ({
   chainid,
@@ -22,7 +22,7 @@ export const ProjectTeamList = ({
   if (!yeeter || !chainid) return;
 
   return (
-    <div>
+    <div className="flex flex-col gap-2">
       {members &&
         members.map((member) => {
           return (

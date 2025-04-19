@@ -1,7 +1,25 @@
-export const UpcomingYeeter = () => {
+import { useYeeter } from "@/hooks/useYeeter";
+import { RaiseStats } from "./RaiseStats";
+import { YeetTx } from "./YeetTx";
+
+export const UpcomingYeeter = ({
+  yeeterid,
+  chainid,
+}: {
+  yeeterid?: string;
+  chainid?: string;
+}) => {
+  const { yeeter } = useYeeter({
+    chainid,
+    yeeterid,
+  });
+
+  if (!yeeterid || !chainid || !yeeter) return;
+
   return (
-    <>
-      <h2 className="text-4xl text-accent mt-3 mb-8">Raise opens soon</h2>
-    </>
+    <div className="space-y-2 w-full mb-4">
+      <RaiseStats yeeter={yeeter} />
+      <YeetTx yeeterid={yeeterid} chainid={chainid} />
+    </div>
   );
 };

@@ -1,5 +1,6 @@
 import { useYeeter } from "@/hooks/useYeeter";
 import { RaiseStats } from "./RaiseStats";
+import { YeetTx } from "./YeetTx";
 
 export const ClosedYeeter = ({
   yeeterid,
@@ -12,11 +13,13 @@ export const ClosedYeeter = ({
     chainid,
     yeeterid,
   });
-  if (!yeeter) return;
+
+  if (!yeeterid || !chainid || !yeeter) return;
+
   return (
-    <>
+    <div className="space-y-2 w-full mb-4">
       <RaiseStats yeeter={yeeter} />
-      <h2 className="text-2xl text-accent my-3">Raise has closed</h2>
-    </>
+      <YeetTx yeeterid={yeeterid} chainid={chainid} />
+    </div>
   );
 };

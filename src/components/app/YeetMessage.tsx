@@ -5,6 +5,7 @@ import { fromWei, truncateAddress } from "../../lib/helpers";
 import { formatValueTo } from "../../lib/units";
 import { HAUS_RPC_DEFAULTS } from "../../lib/constants";
 import { AvatarDisplay } from "./AvatarDisplay";
+import { Card, CardContent } from "@/components/ui/card";
 
 const config = createConfig({
   chains: [mainnet],
@@ -22,21 +23,25 @@ export const YeetMessage = ({ yeet }: { yeet: YeetsItem }) => {
   const name = result.data;
 
   return (
-    <div className="text-left w-full mb-3">
-      <p>{yeet.message || "yeet"}</p>
-      <div className="flex flex-wrap items-center justify-between gap-5 mt-1">
-        <p className="text-base font-bold">{`${formatValueTo({
-          value: fromWei(yeet.amount),
-          decimals: 3,
-          format: "numberShort",
-        })} ETH`}</p>
-        <div className="flex flex-row gap-5 items-centered text-sm">
-          <AvatarDisplay name={name} />
-          <p className="leading-8">
-            {name || truncateAddress(yeet.contributor)}
-          </p>
+    <Card className="border-0 mb-4">
+      <CardContent className="p-0">
+        <div className="mb-3">
+          <div className="flex flex-row items-center justify-between">
+            <div className="flex flex-row gap-4 items-center text-sm">
+              <AvatarDisplay name={name} />
+              <p>
+                {name || truncateAddress(yeet.contributor)}
+              </p>
+            </div>
+            <p className="stat-value text-lg">{`${formatValueTo({
+              value: fromWei(yeet.amount),
+              decimals: 3,
+              format: "numberShort",
+            })} ETH`}</p>
+          </div>
+          <p className="mt-2 leading-relaxed">{yeet.message || "YEET"}</p>
         </div>
-      </div>
-    </div>
+      </CardContent>
+    </Card>
   );
 };
