@@ -3,7 +3,7 @@ import { HAUS_RPC_DEFAULTS } from "../../lib/constants";
 import { mainnet } from "viem/chains";
 import { normalize } from "viem/ens";
 import { GetEnsNameReturnType } from "wagmi/actions";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import Image from "next/image";
 import { useState } from "react";
 

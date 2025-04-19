@@ -1,8 +1,6 @@
 import {
   Card,
   CardContent,
-  CardDescription,
-  CardHeader,
 } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useYeeter } from "@/hooks/useYeeter";
