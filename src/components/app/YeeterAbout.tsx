@@ -82,7 +82,7 @@ export const YeeterAbout = ({
             <div className="flex flex-col gap-4">
               <div className="w-full">
                 <Button variant="default" className="w-full" onClick={openUrl}>
-                  Share Campaign
+                  Cast Campaign
                 </Button>
               </div>
 

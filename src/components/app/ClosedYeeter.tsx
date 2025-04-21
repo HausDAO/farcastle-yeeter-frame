@@ -28,7 +28,7 @@ export const ClosedYeeter = ({
       <RaiseStats yeeter={yeeter} />
       <div className="w-full px-8 mb-2">
         <Button variant="default" className="w-full" onClick={openUrl}>
-          Share Campaign
+          Cast Campaign
         </Button>
       </div>
     </div>

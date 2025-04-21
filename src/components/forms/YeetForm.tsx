@@ -185,7 +185,7 @@ export const YeetForm = ({
               : "tokens"}
           </div>
           <Button onClick={openCastUrl} className="w-full mb-3">
-            Share Contribution
+            Cast Contribution
           </Button>
 
           {hash && (
