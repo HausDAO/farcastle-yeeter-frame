@@ -239,12 +239,12 @@ export const DetailsForm = ({
         </div>
 
         {isError && (
-          <div className="text-sm text-error flex items-center">Tx Error</div>
+          <div className="text-sm text-destructive flex items-center">Transaction Error</div>
         )}
       </form>
       {!confirmed && (
         <Link href={`/yeeter/${chainid}/${yeeterid}`} className="w-full">
-          <Button className="w-full mb-3">Cancel</Button>
+          <Button variant="tertiary" className="w-full mt-2">Cancel Details Update</Button>
         </Link>
       )}
       {confirmed && (

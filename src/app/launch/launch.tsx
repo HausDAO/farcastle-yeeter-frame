@@ -16,6 +16,7 @@ import {
   DEFAULT_YEETER_VALUES,
   getExplorerUrl,
   YEETER_CONTRACTS,
+  getWagmiChainObj,
 } from "@/lib/constants";
 import { toHex } from "viem";
 import { nowInSeconds } from "@/lib/helpers";
@@ -29,6 +30,18 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { LaunchForm } from "@/components/forms/LaunchForm";
 import Link from "next/link";
+
+type ChainName = "OP Mainnet" | "Base" | "Gnosis" | "Arbitrum One" | "Sepolia";
+
+const chainNames: Record<ChainName, string> = {
+  // Ethereum: "Ethereal",
+  "OP Mainnet": "Optimistic",
+  Base: "Based",
+  Gnosis: "Gnostic",
+  "Arbitrum One": "Arbitral",
+  // Polygon: "Polymorphic",
+  Sepolia: "Sepolic",
+};
 
 export default function Launch() {
   const { isLoaded, connector } = useFrameSDK();
@@ -115,7 +128,7 @@ export default function Launch() {
       <div className="w-full h-full space-y-4 pb-4 px-4">
         <Card className="flex flex-col items-center px-4 pt-4 pb-8 rounded-none">
           <div className="text-primary font-display text-3xl uppercase mb-4">
-            {isConfirmed ? "Campaign Launched" : "Campaign Overview"}
+            {isConfirmed ? `${chainNames[getWagmiChainObj(toHex(chainId)).name as ChainName] || 'Base'} Campaign Launched` : `${chainNames[getWagmiChainObj(toHex(chainId)).name as ChainName] || 'Base'} Campaign`}
           </div>
 
           {!isConfirmed && (
