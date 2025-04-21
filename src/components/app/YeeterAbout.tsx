@@ -13,6 +13,13 @@ import sdk from "@farcaster/frame-sdk";
 import { composeCastUrl } from "@/lib/constants";
 import { Button } from "../ui/button";
 
+const truncateButtonLabel = (label: string) => {
+  if (label.length > 20) {
+    return label.slice(0, 20) + "...";
+  }
+  return label;
+};
+
 export const YeeterAbout = ({
   yeeterid,
   chainid,
@@ -93,7 +100,7 @@ export const YeeterAbout = ({
                     <div className="w-full" key={i}>
                     <Link href={link.url} target="_blank" className="block w-full">
                       <Button variant="secondary" className="w-full">
-                        {link.label}
+                        {truncateButtonLabel(link.label)}
                       </Button>
                     </Link>
                   </div>
