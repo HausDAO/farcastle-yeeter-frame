@@ -101,12 +101,12 @@ export const YeetTx = ({
           <Drawer.DrawerContent className="bg-card">
             <div className="w-full">
               <Drawer.DrawerHeader className="mx-4">
-                <Drawer.DrawerTitle className="font-display text-3xl uppercase text-muted">
+                <Drawer.DrawerTitle className="font-display font-light text-3xl text-center text-primary uppercase ">
                   Contribute
-                  <div className="text-lg font-bold mt-1">
-                    Receive {formatLootForMin(yeeter)} loot tokens per{" "}
+                  <div className="font-mulish text-muted text-lg mt-1 uppercase">
+                    Receive {formatLootForMin(yeeter)} {Number(formatLootForMin(yeeter)) === 1 ? 'token' : 'tokens'} per{" "}
                     {formatMinContribution(yeeter)}{" "}
-                    {nativeCurrencySymbol(activeChain)} contributed
+                    {nativeCurrencySymbol(activeChain)}
                   </div>
                 </Drawer.DrawerTitle>
               </Drawer.DrawerHeader>

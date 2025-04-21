@@ -49,7 +49,7 @@ export const YeetForm = ({
   yeeter,
   isError,
 }: YeetFormProps) => {
-  const submitButtonText = "Contribute";
+  const submitButtonText = "Contribute to Campaign";
 
   const { chainid, yeeterid } = useParams<{
     chainid: string;
@@ -64,11 +64,16 @@ export const YeetForm = ({
     message: yup.string(),
     amount: yup
       .number()
-      .required()
+      .transform((value, originalValue) => {
+        // Treat empty string as undefined for required validation
+        return originalValue === "" ? undefined : value;
+      })
+      .required("amount is a required field")
       .min(
         Number(fromWei(yeeter.minTribute)),
-        `${fromWei(yeeter.minTribute)} minimum contribution`
-      ),
+        `amount must be greater than ${fromWei(yeeter.minTribute)}` // Clearer min message
+      )
+      .typeError("amount must be a number"), // Add specific type error message
   });
   const requiredFields = getRequiredFieldsList(formSchema);
 
@@ -81,10 +86,7 @@ export const YeetForm = ({
   });
 
   const onSubmit = (values: yup.InferType<typeof formSchema>) => {
-    const preparedValues = {
-      ...values,
-    };
-    handleSubmit(preparedValues);
+    handleSubmit(values);
   };
 
   const openUrl = useCallback(() => {
@@ -108,16 +110,18 @@ export const YeetForm = ({
               render={({ field }) => (
                 <FormItem>
                   <ProposalFormLabel
-                    label="How much do you want to contribute?"
+                    label="How much ETH do you want to contribute?"
                     id="amount"
                     requiredFields={requiredFields}
                   />
                   <FormControl>
                     <Input
                       id="amount"
-                      placeholder={`Amount in ${nativeCurrencySymbol(activeChain)}`}
+                      type="number"
+                      placeholder={`${nativeCurrencySymbol(activeChain)}`}
                       disabled={disabled}
                       {...field}
+                      value={field.value === 0 ? '' : field.value}
                     />
                   </FormControl>
                   <FormMessage />
@@ -130,7 +134,7 @@ export const YeetForm = ({
               render={({ field }) => (
                 <FormItem>
                   <ProposalFormLabel
-                    label="Send a message"
+                    label="What excites you about this campaign?"
                     id="message"
                     requiredFields={requiredFields}
                   />
