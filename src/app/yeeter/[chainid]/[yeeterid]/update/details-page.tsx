@@ -121,7 +121,7 @@ export const DetailsPage = () => {
                   <Button className="w-full mb-2">View Campaign</Button>
                 </Link>
                 {hash && (
-                  <Button onClick={() => sdk.actions.openUrl(`${getExplorerUrl(toHex(chainId))}/tx/${hash}`)} className="w-full">
+                  <Button onClick={() => sdk.actions.openUrl(`${getExplorerUrl(toHex(chainId))}/tx/${hash}`)} className="w-full mb-2">
                     View Transaction
                   </Button>
                 )}
