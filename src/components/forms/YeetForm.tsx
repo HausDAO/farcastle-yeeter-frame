@@ -49,7 +49,7 @@ export const YeetForm = ({
   yeeter,
   isError,
 }: YeetFormProps) => {
-  const submitButtonText = "Contribute";
+  const submitButtonText = "Contribute to Campaign";
 
   const { chainid, yeeterid } = useParams<{
     chainid: string;
@@ -64,11 +64,16 @@ export const YeetForm = ({
     message: yup.string(),
     amount: yup
       .number()
-      .required()
+      .transform((value, originalValue) => {
+        // Treat empty string as undefined for required validation
+        return originalValue === "" ? undefined : value;
+      })
+      .required("amount is a required field")
       .min(
         Number(fromWei(yeeter.minTribute)),
-        `${fromWei(yeeter.minTribute)} minimum contribution`
-      ),
+        `amount must be greater than ${fromWei(yeeter.minTribute)}` // Clearer min message
+      )
+      .typeError("amount must be a number"), // Add specific type error message
   });
   const requiredFields = getRequiredFieldsList(formSchema);
 
@@ -80,13 +85,8 @@ export const YeetForm = ({
     },
   });
 
-  const amountValue = form.watch("amount");
-
   const onSubmit = (values: yup.InferType<typeof formSchema>) => {
-    const preparedValues = {
-      ...values,
-    };
-    handleSubmit(preparedValues);
+    handleSubmit(values);
   };
 
   const openUrl = useCallback(() => {
@@ -107,19 +107,21 @@ export const YeetForm = ({
             <FormField
               control={form.control}
               name="amount"
-              disabled={disabled}
               render={({ field }) => (
                 <FormItem>
                   <ProposalFormLabel
-                    label="How much do you want to contribute?"
-                    id="name"
+                    label="How much ETH do you want to contribute?"
+                    id="amount"
                     requiredFields={requiredFields}
                   />
                   <FormControl>
                     <Input
                       id="amount"
-                      placeholder={`Amount in ${nativeCurrencySymbol(activeChain)}`}
+                      type="number"
+                      placeholder={`${nativeCurrencySymbol(activeChain)}`}
+                      disabled={disabled}
                       {...field}
+                      value={field.value === 0 ? '' : field.value}
                     />
                   </FormControl>
                   <FormMessage />
@@ -129,16 +131,20 @@ export const YeetForm = ({
             <FormField
               control={form.control}
               name="message"
-              disabled={disabled}
               render={({ field }) => (
                 <FormItem>
                   <ProposalFormLabel
-                    label="Send a message"
+                    label="What excites you about this campaign?"
                     id="message"
                     requiredFields={requiredFields}
                   />
                   <FormControl>
-                    <Textarea id="message" placeholder="Message" {...field} />
+                    <Textarea
+                      id="message"
+                      placeholder="Message"
+                      disabled={disabled}
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -147,12 +153,14 @@ export const YeetForm = ({
           </>
         )}
 
-        <FormActionButtons
-          submitButtonText={submitButtonText}
-          loading={loading}
-          confirmed={confirmed}
-          disabled={disabled}
-        />
+        {!confirmed && (
+          <FormActionButtons
+            submitButtonText={submitButtonText}
+            loading={loading}
+            confirmed={confirmed}
+            disabled={disabled}
+          />
+        )}
 
         {isError && (
           <div className="text-sm text-error flex items-center">Tx Error</div>
@@ -160,13 +168,13 @@ export const YeetForm = ({
 
         {confirmed && (
           <>
-            <div className="text-lg font-bold mt-5">
-              You got{" "}
-              {formatLootForAmount(yeeter, toBaseUnits(amountValue.toString()))}{" "}
-              loot tokens!
+            <div className="font-mulish text-muted text-lg text-center mt-1 uppercase">
+              You Received{" "}
+              {formatLootForAmount(yeeter, toBaseUnits(form.getValues("amount").toString()))}{" "}
+              {Number(formatLootForAmount(yeeter, toBaseUnits(form.getValues("amount").toString()))) === 1 ? 'token' : 'tokens'}
             </div>
             <Button onClick={openCastUrl} className="w-full mb-3">
-              Share
+              Share Contribution
             </Button>
 
             {hash && (
