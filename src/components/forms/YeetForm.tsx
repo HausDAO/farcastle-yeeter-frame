@@ -174,6 +174,7 @@ export const YeetForm = ({
               yeeter,
               toBaseUnits(form.getValues("amount").toString())
             )}{" "}
+            {yeeter.dao.lootTokenSymbol}{" "}
             {Number(
               formatLootForAmount(
                 yeeter,

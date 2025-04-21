@@ -5,6 +5,7 @@ const yeeterFields = `
   createdAt
   dao {
     id
+    lootTokenSymbol
   }
   endTime
   startTime

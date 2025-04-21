@@ -89,6 +89,8 @@ export const YeetTx = ({
 
   if (!yeeter) return;
 
+  console.log("yeeter", yeeter);
+
   return (
     <>
       {yeeter.isActive && (
@@ -119,8 +121,12 @@ export const YeetTx = ({
                     <>
                       Contribute
                       <div className="font-mulish text-muted text-lg mt-1 uppercase">
-                        Receive {formatLootForMin(yeeter)} {Number(formatLootForMin(yeeter)) === 1 ? 'token' : 'tokens'} per{" "}
-                        {formatMinContribution(yeeter)}{" "}
+                        Receive {formatLootForMin(yeeter)}{" "}
+                        {yeeter.dao.lootTokenSymbol}{" "}
+                        {Number(formatLootForMin(yeeter)) === 1
+                          ? "token"
+                          : "tokens"}{" "}
+                        per {formatMinContribution(yeeter)}{" "}
                         {nativeCurrencySymbol(activeChain)}
                       </div>
                     </>
