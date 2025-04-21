@@ -244,7 +244,7 @@ export const DetailsForm = ({
       </form>
       {!confirmed && (
         <Link href={`/yeeter/${chainid}/${yeeterid}`} className="w-full">
-          <Button className="w-full mb-3">Cancel</Button>
+          <Button variant="tertiary" className="w-full mt-2">Cancel Details Update</Button>
         </Link>
       )}
       {confirmed && (

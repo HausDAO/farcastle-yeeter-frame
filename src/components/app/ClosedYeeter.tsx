@@ -24,11 +24,13 @@ export const ClosedYeeter = ({
   if (!yeeterid || !chainid || !yeeter) return;
 
   return (
-    <div className="space-y-2 w-full mb-4">
+    <div className="flex flex-col w-full items-center gap-2">
       <RaiseStats yeeter={yeeter} />
-      <Button variant="default" className="w-full" onClick={openUrl}>
-        Share Campaign
-      </Button>
+      <div className="w-full px-8 mb-2">
+        <Button variant="default" className="w-full" onClick={openUrl}>
+          Share Campaign
+        </Button>
+      </div>
     </div>
   );
 };
