@@ -1,6 +1,9 @@
 import { useYeeter } from "@/hooks/useYeeter";
 import { RaiseStats } from "./RaiseStats";
-import { YeetTx } from "./YeetTx";
+import { Button } from "../ui/button";
+import { composeCastUrl } from "@/lib/constants";
+import { useCallback } from "react";
+import sdk from "@farcaster/frame-sdk";
 
 export const ClosedYeeter = ({
   yeeterid,
@@ -14,12 +17,18 @@ export const ClosedYeeter = ({
     yeeterid,
   });
 
+  const openUrl = useCallback(() => {
+    sdk.actions.openUrl(`${composeCastUrl}/yeeter/${chainid}/${yeeterid}`);
+  }, [yeeterid, chainid]);
+
   if (!yeeterid || !chainid || !yeeter) return;
 
   return (
     <div className="space-y-2 w-full mb-4">
       <RaiseStats yeeter={yeeter} />
-      <YeetTx yeeterid={yeeterid} chainid={chainid} />
+      <Button variant="default" className="w-full" onClick={openUrl}>
+        Share Campaign
+      </Button>
     </div>
   );
 };

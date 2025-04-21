@@ -89,8 +89,6 @@ export const YeetTx = ({
 
   if (!yeeter) return;
 
-  console.log("yeeter", yeeter);
-
   return (
     <>
       {yeeter.isActive && (
