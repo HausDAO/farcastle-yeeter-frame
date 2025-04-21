@@ -14,15 +14,17 @@ export const YeetMessages = ({
     yeeterid,
   });
 
+  if (!yeets || yeets.length < 1) return;
+
   return (
-<Card className="border-0 px-8">
-  <CardContent className="p-0 pt-4">
-    <div className="text-muted text-sm mb-4 uppercase">Contributors</div>
-    {yeets &&
-        yeets?.map((yeet) => {
-          return <YeetMessage yeet={yeet} key={yeet.id} />;
-        })}
-  </CardContent>
-</Card>
+    <Card className="border-0 px-8">
+      <CardContent className="p-0 pt-4">
+        <div className="text-muted text-sm mb-4 uppercase">Contributors</div>
+        {yeets &&
+          yeets?.map((yeet) => {
+            return <YeetMessage yeet={yeet} key={yeet.id} />;
+          })}
+      </CardContent>
+    </Card>
   );
 };

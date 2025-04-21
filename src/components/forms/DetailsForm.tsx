@@ -127,9 +127,9 @@ export const DetailsForm = ({
                     requiredFields={requiredFields}
                   />
                   <FormControl>
-                    <Input 
-                      id="name" 
-                      placeholder="Name" 
+                    <Input
+                      id="name"
+                      placeholder="Name"
                       {...field}
                       disabled={disabled}
                     />
@@ -194,9 +194,9 @@ export const DetailsForm = ({
                     requiredFields={requiredFields}
                   />
                   <FormControl>
-                    <Input 
-                      id="icon" 
-                      placeholder="URL" 
+                    <Input
+                      id="icon"
+                      placeholder="URL"
                       {...field}
                       disabled={disabled}
                     />
@@ -242,6 +242,11 @@ export const DetailsForm = ({
           <div className="text-sm text-error flex items-center">Tx Error</div>
         )}
       </form>
+      {!confirmed && (
+        <Link href={`/yeeter/${chainid}/${yeeterid}`} className="w-full">
+          <Button className="w-full mb-3">Cancel</Button>
+        </Link>
+      )}
       {confirmed && (
         <>
           <Link href={`/yeeter/${chainid}/${yeeterid}`} className="w-full">

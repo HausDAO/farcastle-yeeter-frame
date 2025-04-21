@@ -4,6 +4,7 @@ export type YeeterItem = {
   dao: {
     id: string;
     name: string;
+    lootTokenSymbol: string;
   };
   endTime: string;
   startTime: string;
