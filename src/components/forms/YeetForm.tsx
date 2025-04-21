@@ -153,12 +153,14 @@ export const YeetForm = ({
           </>
         )}
 
-        <FormActionButtons
-          submitButtonText={submitButtonText}
-          loading={loading}
-          confirmed={confirmed}
-          disabled={disabled}
-        />
+        {!confirmed && (
+          <FormActionButtons
+            submitButtonText={submitButtonText}
+            loading={loading}
+            confirmed={confirmed}
+            disabled={disabled}
+          />
+        )}
 
         {isError && (
           <div className="text-sm text-error flex items-center">Tx Error</div>
@@ -166,13 +168,13 @@ export const YeetForm = ({
 
         {confirmed && (
           <>
-            <div className="text-lg font-bold mt-5">
-              You got{" "}
+            <div className="font-mulish text-muted text-lg text-center mt-1 uppercase">
+              You Received{" "}
               {formatLootForAmount(yeeter, toBaseUnits(form.getValues("amount").toString()))}{" "}
-              loot tokens!
+              {Number(formatLootForAmount(yeeter, toBaseUnits(form.getValues("amount").toString()))) === 1 ? 'token' : 'tokens'}
             </div>
             <Button onClick={openCastUrl} className="w-full mb-3">
-              Share
+              Share Contribution
             </Button>
 
             {hash && (

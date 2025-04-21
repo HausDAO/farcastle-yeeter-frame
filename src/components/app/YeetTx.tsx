@@ -16,6 +16,7 @@ import { formatLootForMin, formatMinContribution } from "@/lib/yeet-helpers";
 import { nativeCurrencySymbol } from "@/lib/helpers";
 import { ArbitraryState } from "@/lib/tx-prepper/prepper-types";
 import { Button } from "../ui/button";
+import Image from "next/image";
 
 export const YeetTx = ({
   yeeterid,
@@ -102,12 +103,28 @@ export const YeetTx = ({
             <div className="w-full">
               <Drawer.DrawerHeader className="mx-4">
                 <Drawer.DrawerTitle className="font-display font-light text-3xl text-center text-primary uppercase ">
-                  Contribute
-                  <div className="font-mulish text-muted text-lg mt-1 uppercase">
-                    Receive {formatLootForMin(yeeter)} {Number(formatLootForMin(yeeter)) === 1 ? 'token' : 'tokens'} per{" "}
-                    {formatMinContribution(yeeter)}{" "}
-                    {nativeCurrencySymbol(activeChain)}
-                  </div>
+                  {isConfirmed ? (
+                    <>
+                      Successful Contribution
+                      <div className="flex flex-col items-center gap-8 mt-4">
+                        <Image
+                          src="/heart.svg"
+                          alt="Success"
+                          width={300}
+                          height={254}
+                        />
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      Contribute
+                      <div className="font-mulish text-muted text-lg mt-1 uppercase">
+                        Receive {formatLootForMin(yeeter)} {Number(formatLootForMin(yeeter)) === 1 ? 'token' : 'tokens'} per{" "}
+                        {formatMinContribution(yeeter)}{" "}
+                        {nativeCurrencySymbol(activeChain)}
+                      </div>
+                    </>
+                  )}
                 </Drawer.DrawerTitle>
               </Drawer.DrawerHeader>
               <div className="flex flex-col gap-2 mx-4 mb-10">
