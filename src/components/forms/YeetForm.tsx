@@ -80,8 +80,6 @@ export const YeetForm = ({
     },
   });
 
-  const amountValue = form.watch("amount");
-
   const onSubmit = (values: yup.InferType<typeof formSchema>) => {
     const preparedValues = {
       ...values,
@@ -107,18 +105,18 @@ export const YeetForm = ({
             <FormField
               control={form.control}
               name="amount"
-              disabled={disabled}
               render={({ field }) => (
                 <FormItem>
                   <ProposalFormLabel
                     label="How much do you want to contribute?"
-                    id="name"
+                    id="amount"
                     requiredFields={requiredFields}
                   />
                   <FormControl>
                     <Input
                       id="amount"
                       placeholder={`Amount in ${nativeCurrencySymbol(activeChain)}`}
+                      disabled={disabled}
                       {...field}
                     />
                   </FormControl>
@@ -129,7 +127,6 @@ export const YeetForm = ({
             <FormField
               control={form.control}
               name="message"
-              disabled={disabled}
               render={({ field }) => (
                 <FormItem>
                   <ProposalFormLabel
@@ -138,7 +135,12 @@ export const YeetForm = ({
                     requiredFields={requiredFields}
                   />
                   <FormControl>
-                    <Textarea id="message" placeholder="Message" {...field} />
+                    <Textarea
+                      id="message"
+                      placeholder="Message"
+                      disabled={disabled}
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -162,7 +164,7 @@ export const YeetForm = ({
           <>
             <div className="text-lg font-bold mt-5">
               You got{" "}
-              {formatLootForAmount(yeeter, toBaseUnits(amountValue.toString()))}{" "}
+              {formatLootForAmount(yeeter, toBaseUnits(form.getValues("amount").toString()))}{" "}
               loot tokens!
             </div>
             <Button onClick={openCastUrl} className="w-full mb-3">
