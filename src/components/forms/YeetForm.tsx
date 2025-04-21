@@ -121,7 +121,7 @@ export const YeetForm = ({
                       placeholder={`${nativeCurrencySymbol(activeChain)}`}
                       disabled={disabled}
                       {...field}
-                      value={field.value === 0 ? '' : field.value}
+                      value={field.value === 0 ? "" : field.value}
                     />
                   </FormControl>
                   <FormMessage />
@@ -161,30 +161,39 @@ export const YeetForm = ({
             disabled={disabled}
           />
         )}
-
         {isError && (
           <div className="text-sm text-error flex items-center">Tx Error</div>
         )}
-
-        {confirmed && (
-          <>
-            <div className="font-mulish text-muted text-lg text-center mt-1 uppercase">
-              You Received{" "}
-              {formatLootForAmount(yeeter, toBaseUnits(form.getValues("amount").toString()))}{" "}
-              {Number(formatLootForAmount(yeeter, toBaseUnits(form.getValues("amount").toString()))) === 1 ? 'token' : 'tokens'}
-            </div>
-            <Button onClick={openCastUrl} className="w-full mb-3">
-              Share Contribution
-            </Button>
-
-            {hash && (
-              <Button onClick={openUrl} className="w-full">
-                View Transaction
-              </Button>
-            )}
-          </>
-        )}
       </form>
+
+      {confirmed && (
+        <>
+          <div className="font-mulish text-muted text-lg text-center mt-1 uppercase">
+            You Received{" "}
+            {formatLootForAmount(
+              yeeter,
+              toBaseUnits(form.getValues("amount").toString())
+            )}{" "}
+            {Number(
+              formatLootForAmount(
+                yeeter,
+                toBaseUnits(form.getValues("amount").toString())
+              )
+            ) === 1
+              ? "token"
+              : "tokens"}
+          </div>
+          <Button onClick={openCastUrl} className="w-full mb-3">
+            Share Contribution
+          </Button>
+
+          {hash && (
+            <Button onClick={openUrl} className="w-full">
+              View Transaction
+            </Button>
+          )}
+        </>
+      )}
     </Form>
   );
 };
