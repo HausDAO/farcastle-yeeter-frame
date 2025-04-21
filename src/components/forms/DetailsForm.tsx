@@ -239,7 +239,7 @@ export const DetailsForm = ({
         </div>
 
         {isError && (
-          <div className="text-sm text-error flex items-center">Tx Error</div>
+          <div className="text-sm text-destructive flex items-center">Transaction Error</div>
         )}
       </form>
       {!confirmed && (
