@@ -14,7 +14,7 @@ export const YeetMessages = ({
     yeeterid,
   });
 
-  if (!yeets) return;
+  if (!yeets || yeets.length < 1) return;
 
   return (
     <Card className="border-0 px-8">
