@@ -1,18 +1,24 @@
 import {
   Card,
   CardContent,
-  CardDescription,
-  CardHeader,
 } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useYeeter } from "@/hooks/useYeeter";
-import { ProjectTeamList } from "../ProjectTeam";
+import { ProjectTeamList } from "./ProjectTeam";
 import { useAccount } from "wagmi";
 import { useMember } from "@/hooks/useMember";
 import Link from "next/link";
 import { useCallback } from "react";
 import sdk from "@farcaster/frame-sdk";
 import { composeCastUrl } from "@/lib/constants";
+import { Button } from "../ui/button";
+
+const truncateButtonLabel = (label: string) => {
+  if (label.length > 20) {
+    return label.slice(0, 20) + "...";
+  }
+  return label;
+};
 
 export const YeeterAbout = ({
   yeeterid,
@@ -44,105 +50,92 @@ export const YeeterAbout = ({
 
   return (
     <Tabs defaultValue="about" className="w-full">
-      <TabsList className="grid w-full grid-cols-3">
-        <TabsTrigger value="about">About</TabsTrigger>
-        <TabsTrigger value="links">Links</TabsTrigger>
-        <TabsTrigger value="team">Team</TabsTrigger>
+      <TabsList className="grid w-full grid-cols-3 h-14 border-b border-border">
+        <TabsTrigger value="about" className="text-muted font-display text-2xl uppercase text-center data-[state=active]:text-primary data-[state=active]:bg-card">About</TabsTrigger>
+        <TabsTrigger value="links" className="text-muted font-display text-2xl uppercase text-center data-[state=active]:text-primary data-[state=active]:bg-card">Links</TabsTrigger>
+        <TabsTrigger value="team" className="text-muted font-display text-2xl uppercase text-center data-[state=active]:text-primary data-[state=active]:bg-card">Team</TabsTrigger>
       </TabsList>
       <TabsContent value="about">
-        <Card className="border-0">
-          <CardHeader>
-            <CardDescription>What are we funding?</CardDescription>
-          </CardHeader>
+        <Card className="border-0 px-8 pt-2">
           {metadata?.missionStatement && (
-            <CardContent className="space-y-1">
-              <div className="font-bold">Mission</div>
-              <div className="space-y-1">{metadata?.missionStatement}</div>
+            <CardContent className="p-0 pb-4">
+              <div className="text-muted text-sm mb-4 uppercase">Mission</div>
+              <div className="leading-relaxed">{metadata?.missionStatement}</div>
             </CardContent>
           )}
           {metadata?.projectDetails && (
-            <CardContent className="space-y-1">
-              <div className="font-bold">Details</div>
-              <div className="space-y-1">{metadata?.projectDetails}</div>
+            <CardContent className="p-0 pb-4">
+              <div className="text-muted text-sm mb-4 uppercase">Details</div>
+              <div className="leading-relaxed">{metadata?.projectDetails}</div>
             </CardContent>
           )}
 
           {onProjectTeam && (
-            <CardContent className="space-y-1">
-              <Link
-                href={`/yeeter/${chainid}/${yeeterid}/update`}
-                className="w-full"
-              >
-                Update Details ⟶
-              </Link>
+            <CardContent className="p-0 mt-2">
+              <div className="w-full">
+                <Link href={`/yeeter/${chainid}/${yeeterid}/update`} className="block w-full">
+                  <Button variant="default" className="w-full">
+                    Edit Campaign Details
+                  </Button>
+                </Link>
+              </div>
             </CardContent>
           )}
         </Card>
       </TabsContent>
       <TabsContent value="links">
-        <Card className="border-0">
-          <CardHeader>
-            <CardDescription>Project links</CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-2">
-            <div className="flex flex-col gap-3 text-left break-words">
-              <div
-                className="flex flex-row gap-2 items-center text-primary"
-                onClick={openUrl}
-              >
-                Cast ⟶
+        <Card className="border-0 pt-4 px-4">
+          <CardContent className="w-full px-4 pb-0">
+            <div className="flex flex-col gap-4">
+              <div className="w-full">
+                <Button variant="default" className="w-full" onClick={openUrl}>
+                  Cast Campaign
+                </Button>
               </div>
 
               {metadata?.parsedLinks &&
                 metadata.parsedLinks.map((link, i) => {
                   if (!link.url) return null;
                   return (
-                    <a href={link.url} target="_blank" key={i}>
-                      {link.label} ⟶
-                    </a>
+                    <div className="w-full" key={i}>
+                    <Link href={link.url} target="_blank" className="block w-full">
+                      <Button variant="secondary" className="w-full">
+                        {truncateButtonLabel(link.label)}
+                      </Button>
+                    </Link>
+                  </div>
                   );
                 })}
-              <a
-                href={`https://admin.daohaus.club/#/molochv3/${chainid}/${yeeter.dao.id}/safes`}
-                target="_blank"
-              >
-                Project treasury ⟶
-              </a>
-              <a
-                href={`https://admin.daohaus.club/#/molochv3/${chainid}/${yeeter.dao.id}`}
-                target="_blank"
-              >
-                DAO on DAOhaus Admin App ⟶
-              </a>
+              <div className="w-full">
+                <Link href={`https://admin.daohaus.club/#/molochv3/${chainid}/${yeeter.dao.id}/safes`} target="_blank" className="block w-full">
+                  <Button variant="tertiary" className="w-full">
+                    View Treasury
+                  </Button>
+                </Link>
+              </div>
             </div>
-          </CardContent>
-
-          {onProjectTeam && (
-            <CardContent className="space-y-1">
-              <Link
-                href={`/yeeter/${chainid}/${yeeterid}/update`}
-                className="w-full"
-              >
-                Update Details ⟶
-              </Link>
-            </CardContent>
+            {onProjectTeam && (
+              <div className="w-full">
+                <Link href={`/yeeter/${chainid}/${yeeterid}/update`} className="block w-full">
+                  <Button variant="default" className="w-full mt-4">
+                    Edit Campaign Details
+                  </Button>
+                </Link>
+              </div>
           )}
+          </CardContent>
         </Card>
       </TabsContent>
       <TabsContent value="team">
-        <Card className="border-0">
-          <CardHeader>
-            <CardDescription>
-              Members of the DAO receiveing funds
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-2">
-            <ProjectTeamList
+        <Card className="border-0 px-8 pt-2">
+        <CardContent className="p-0">
+              <div className="text-muted text-sm mb-4 uppercase">Members</div>
+              <ProjectTeamList
               chainid={chainid}
               yeeterid={yeeterid}
               daoid={yeeter.dao.id}
             />
-          </CardContent>
+            </CardContent>
         </Card>
       </TabsContent>
     </Tabs>

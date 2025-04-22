@@ -15,7 +15,6 @@ import { FormActionButtons } from "../app/FormActionButtons";
 import { ArbitraryState } from "@/lib/tx-prepper/prepper-types";
 import { ProposalFormLabel } from "../app/ProposalFormLabel";
 import { Input } from "../ui/input";
-import { Textarea } from "../ui/textarea";
 import {
   Select,
   SelectContent,
@@ -34,15 +33,31 @@ export type LaunchFormProps = {
 
 const durationOptions = [
   { value: "86400", label: "1 Day" },
-  // { value: "259200", label: "3 Days" },
   { value: "604800", label: "1 Week" },
   { value: "2628000", label: "1 Month" },
 ];
 
 const formSchema = yup.object().shape({
   name: yup.string().required(),
-  description: yup.string(),
-  goal: yup.string().required(),
+  lootTokenSymbol: yup.string().max(8).required(),
+  goal: yup
+    .string()
+    .required()
+    .test('is-number', 'goal must be a number', (value) => {
+      if (!value) return true; // Allow empty string for placeholder
+      const num = Number(value);
+      return !isNaN(num);
+    })
+    .test('is-positive', 'goal must be positive', (value) => {
+      if (!value) return true; // Allow empty string for placeholder
+      const num = Number(value);
+      return num > 0;
+    })
+    .test('in-range', 'goal must be less than 1,000,000 ETH', (value) => {
+      if (!value) return true; // Allow empty string for placeholder
+      const num = Number(value);
+      return num <= 1000000;
+    }),
   duration: yup.string().required(),
 });
 const requiredFields = getRequiredFieldsList(formSchema);
@@ -54,13 +69,13 @@ export const LaunchForm = ({
   invalidConnection,
   formElmClass,
 }: LaunchFormProps) => {
-  const submitButtonText = "Launch";
+  const submitButtonText = "Launch Campaign";
 
   const form = useForm<yup.InferType<typeof formSchema>>({
     resolver: yupResolver(formSchema),
     defaultValues: {
       name: "",
-      description: "",
+      lootTokenSymbol: "",
       goal: "",
       duration: "",
     },
@@ -69,11 +84,12 @@ export const LaunchForm = ({
   const onSubmit = (values: yup.InferType<typeof formSchema>) => {
     const preparedValues = {
       ...values,
+      goal: values.goal ? values.goal.toString() : "0", // Ensure we have a valid string number
     };
     handleSubmit(preparedValues);
   };
 
-  const disabled = loading || confirmed || invalidConnection;
+  const isDisabled = loading || confirmed || invalidConnection;
 
   return (
     <Form {...form}>
@@ -81,16 +97,15 @@ export const LaunchForm = ({
         <FormField
           control={form.control}
           name="name"
-          disabled={disabled}
           render={({ field }) => (
             <FormItem>
               <ProposalFormLabel
-                label="Give your fundraiser a name"
+                label="What is the name of your campaign?"
                 id="name"
                 requiredFields={requiredFields}
               />
               <FormControl>
-                <Input id="name" placeholder="Name" {...field} />
+                <Input id="name" placeholder="Name" {...field} disabled={isDisabled} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -98,21 +113,17 @@ export const LaunchForm = ({
         />
         <FormField
           control={form.control}
-          name="description"
-          disabled={disabled}
+          name="lootTokenSymbol"
           render={({ field }) => (
             <FormItem>
               <ProposalFormLabel
-                label="Describe your fundraiser"
-                id="description"
+                label="What is the ticker for your campaign?"
+                id="name"
                 requiredFields={requiredFields}
+                popoverContent="The ticker is a short identifier for the token campaign contributors receive. It should be 8 characters or less."
               />
               <FormControl>
-                <Textarea
-                  id="description"
-                  placeholder="Description"
-                  {...field}
-                />
+                <Input id="lootTokenSymbol" placeholder="TICKER" {...field} disabled={isDisabled} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -121,21 +132,15 @@ export const LaunchForm = ({
         <FormField
           control={form.control}
           name="goal"
-          disabled={disabled}
           render={({ field }) => (
             <FormItem>
               <ProposalFormLabel
-                label="How much do you want to raise?"
+                label="How much ETH do you want to raise?"
                 id="goal"
                 requiredFields={requiredFields}
               />
               <FormControl>
-                <Input
-                  id="goal"
-                  placeholder="Amount in ETH"
-                  type="number"
-                  {...field}
-                />
+                <Input id="goal" placeholder="ETH" type="number" {...field} disabled={isDisabled} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -145,18 +150,21 @@ export const LaunchForm = ({
         <FormField
           control={form.control}
           name="duration"
-          disabled={disabled}
           render={({ field }) => (
             <FormItem className="flex-1">
               <ProposalFormLabel
-                label="How long should the raise be open?"
+                label="How long is your campaign?"
                 id="duration"
                 requiredFields={requiredFields}
               />
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
+              <Select
+                onValueChange={field.onChange}
+                defaultValue={field.value}
+                disabled={isDisabled}
+              >
                 <FormControl>
                   <SelectTrigger>
-                    <SelectValue placeholder="Select duration" />
+                    <SelectValue placeholder="Duration" />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent className="bg-card rounded-none">
@@ -178,7 +186,7 @@ export const LaunchForm = ({
           submitButtonText={submitButtonText}
           loading={loading}
           confirmed={confirmed}
-          disabled={disabled}
+          disabled={isDisabled}
         />
       </form>
     </Form>

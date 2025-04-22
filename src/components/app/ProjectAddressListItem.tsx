@@ -26,7 +26,7 @@ export const ProjectAddressListItem = ({
   });
 
   return (
-    <div className="flex flex-row gap-5 items-centered text-sm">
+    <div className="flex flex-row gap-5 items-centered">
       <AvatarDisplay name={data} />
       <p className="leading-8">{data || truncateAddress(memberAddress)}</p>
       {exit && (

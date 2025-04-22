@@ -34,7 +34,7 @@ export default function YeeterHome() {
 
   return (
     <div className="w-full">
-      <div className="text-muted font-display text-3xl uppercase text-center">
+      <div className="text-primary font-display text-3xl uppercase text-center">
         {metadata?.name || "--"}
       </div>
       <div className="flex justify-center my-2">
@@ -49,7 +49,12 @@ export default function YeeterHome() {
       {yeeter && (
         <>
           <div className="flex flex-col items-center">
-            {yeeter?.isComingSoon && <UpcomingYeeter />}
+          {yeeter?.isComingSoon && (
+              <UpcomingYeeter
+                yeeterid={params.yeeterid}
+                chainid={params.chainid}
+              />
+            )}
 
             {yeeter?.isActive && (
               <ActiveYeeter
@@ -64,14 +69,14 @@ export default function YeeterHome() {
               />
             )}
           </div>
-          <div className="my-5">
+          <div>
             <YeeterAbout
               yeeterid={params.yeeterid}
               chainid={params.chainid}
               daoid={yeeter.dao.id}
             />
           </div>
-          <div className="my-5">
+          <div className="mt-4">
             <YeetMessages yeeterid={params.yeeterid} chainid={params.chainid} />
           </div>
         </>

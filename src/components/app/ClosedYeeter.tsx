@@ -1,5 +1,9 @@
 import { useYeeter } from "@/hooks/useYeeter";
 import { RaiseStats } from "./RaiseStats";
+import { Button } from "../ui/button";
+import { composeCastUrl } from "@/lib/constants";
+import { useCallback } from "react";
+import sdk from "@farcaster/frame-sdk";
 
 export const ClosedYeeter = ({
   yeeterid,
@@ -12,11 +16,21 @@ export const ClosedYeeter = ({
     chainid,
     yeeterid,
   });
-  if (!yeeter) return;
+
+  const openUrl = useCallback(() => {
+    sdk.actions.openUrl(`${composeCastUrl}/yeeter/${chainid}/${yeeterid}`);
+  }, [yeeterid, chainid]);
+
+  if (!yeeterid || !chainid || !yeeter) return;
+
   return (
-    <>
+    <div className="flex flex-col w-full items-center gap-2">
       <RaiseStats yeeter={yeeter} />
-      <h2 className="text-2xl text-accent my-3">Raise has closed</h2>
-    </>
+      <div className="w-full px-8 mb-2">
+        <Button variant="default" className="w-full" onClick={openUrl}>
+          Cast Campaign
+        </Button>
+      </div>
+    </div>
   );
 };

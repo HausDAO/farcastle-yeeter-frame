@@ -1,5 +1,7 @@
+import { useAccount, useConnect } from "wagmi";
 import { Button } from "../ui/button";
 import { Spinner } from "../ui/spinner";
+import { useFrameSDK } from "@/providers/FramesSDKProvider";
 
 export const FormActionButtons = ({
   submitButtonText,
@@ -12,6 +14,22 @@ export const FormActionButtons = ({
   confirmed: boolean;
   disabled: boolean;
 }) => {
+  const { connector } = useFrameSDK();
+  const { connect } = useConnect();
+  const { isConnected } = useAccount();
+
+  if (!isConnected) {
+    return (
+      <Button
+        onClick={() => connect({ connector: connector })}
+        className="w-full"
+        type="button"
+      >
+        Connect Wallet
+      </Button>
+    );
+  }
+
   return (
     <>
       {loading && (

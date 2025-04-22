@@ -3,7 +3,9 @@ import { HAUS_RPC_DEFAULTS } from "../../lib/constants";
 import { mainnet } from "viem/chains";
 import { normalize } from "viem/ens";
 import { GetEnsNameReturnType } from "wagmi/actions";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import Image from "next/image";
+import { useState } from "react";
 
 const config = createConfig({
   chains: [mainnet],
@@ -17,19 +19,37 @@ export const AvatarDisplay = ({ name }: { name?: GetEnsNameReturnType }) => {
     config,
     name: normalize(name || ""),
   });
+  const [imgError, setImgError] = useState(false);
+
+  const handleImageError = () => {
+    setImgError(true);
+  };
 
   return (
     <div className="flex flex-row gap-5 items-centered">
-      <div className="avatar">
-        <div className="w-8 rounded">
+      <Avatar className="h-10 w-10">
+        {!imgError && avatar ? (
           <Image
-            src={avatar || `/gate-dark-purple.svg`}
-            alt="Gate"
-            width="30"
-            height="30"
+            src={avatar}
+            alt={name || "Skull"}
+            width={40}
+            height={40}
+            className="h-full w-full object-cover"
+            onError={handleImageError}
           />
-        </div>
-      </div>
+        ) : (
+          <Image
+            src="/images/skull.png"
+            alt="Skull"
+            width={120}
+            height={120}
+            quality={100}
+            className="h-full w-full"
+            priority
+          />
+        )}
+        <AvatarFallback>{name ? name[0] : ""}</AvatarFallback>
+      </Avatar>
     </div>
   );
 };

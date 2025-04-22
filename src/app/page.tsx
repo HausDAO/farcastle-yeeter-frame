@@ -46,12 +46,12 @@ export default function Page() {
                 onClick={() => connect({ connector: connector })}
                 className="w-full"
               >
-                Connect
+                Connect Wallet
               </Button>
             </div>
             <div className="mt-4 w-full px-4">
               <Link href={`/explore`} className="w-full">
-                <Button className="w-full">Explore Raises</Button>
+                <Button className="w-full">Explore Campaigns</Button>
               </Link>
             </div>
           </>
@@ -71,13 +71,13 @@ export default function Page() {
             <div className="flex flex-col w-full gap-2">
               <div className="mt-4 w-full px-4">
                 <Link href={`/explore`} className="w-full">
-                  <Button className="w-full">Explore</Button>
+                  <Button className="w-full">Explore Campaigns</Button>
                 </Link>
               </div>
 
               <div className="mt-2 w-full px-4">
                 <Link href={`/launch`} className="w-full">
-                  <Button className="w-full">Launch</Button>
+                  <Button className="w-full">Launch Campaign</Button>
                 </Link>
               </div>
             </div>

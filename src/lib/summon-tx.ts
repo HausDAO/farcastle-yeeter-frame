@@ -71,20 +71,12 @@ const assembleLootTokenParams = ({
   formValues: Record<string, unknown>;
   chainId: ValidNetwork;
 }) => {
-  const yeetName = formValues["daoName"] as string;
-  const tokenName = `${yeetName}loot`;
-  const tokenSymbol = `${yeetName.substring(0, 2)}LOOT`;
+  const tokenSymbol = formValues["lootTokenSymbol"] as string;
+  const tokenName = formValues["daoName"] as string;
 
-  // const tokenName = formValues["lootTokenName"];
-  // const tokenSymbol = formValues["lootTokenSymbol"];
   const lootSingleton = CONTRACT_KEYCHAINS["LOOT_SINGLETON"][chainId];
 
-  if (
-    !isString(yeetName) ||
-    !isString(tokenName) ||
-    !isString(tokenSymbol) ||
-    !lootSingleton
-  ) {
+  if (!isString(tokenName) || !isString(tokenSymbol) || !lootSingleton) {
     console.log("ERROR: Form Values", formValues);
 
     throw new Error(
@@ -107,9 +99,10 @@ const assembleShareTokenParams = ({
   formValues: Record<string, unknown>;
   chainId: ValidNetwork;
 }) => {
+  const lootTokenSymbol = formValues["lootTokenSymbol"] as string;
   const yeetName = formValues["daoName"] as string;
-  const tokenName = `${yeetName}`;
-  const tokenSymbol = `${yeetName.substring(0, 2)}SHARES`;
+  const tokenName = `Voting ${yeetName}`;
+  const tokenSymbol = `v${lootTokenSymbol}`;
   const shareSingleton = CONTRACT_KEYCHAINS["SHARES_SINGLETON"][chainId];
 
   const shareHolders: string[] = formValues["members"] as string[];
@@ -261,14 +254,14 @@ const governanceConfigTX = (formValues: SummonParams) => {
 };
 
 const metadataConfigTX = (formValues: SummonParams, posterAddress: string) => {
-  const { daoName, description } = formValues;
+  const { daoName } = formValues;
   if (!isString(daoName)) {
     console.log("ERROR: Form Values", formValues);
     throw new Error("metadataTX recieved arguments in the wrong shape or type");
   }
 
   const METADATA = encodeFunction(LOCAL_ABI.POSTER, "post", [
-    JSON.stringify({ name: daoName, description: description || "" }),
+    JSON.stringify({ name: daoName }),
     POSTER_TAGS.summoner,
   ]);
 

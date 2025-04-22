@@ -1,7 +1,36 @@
-export const UpcomingYeeter = () => {
+import { useYeeter } from "@/hooks/useYeeter";
+import { RaiseStats } from "./RaiseStats";
+import { useCallback } from "react";
+import { composeCastUrl } from "@/lib/constants";
+import sdk from "@farcaster/frame-sdk";
+import { Button } from "../ui/button";
+
+export const UpcomingYeeter = ({
+  yeeterid,
+  chainid,
+}: {
+  yeeterid?: string;
+  chainid?: string;
+}) => {
+  const { yeeter } = useYeeter({
+    chainid,
+    yeeterid,
+  });
+
+  const openUrl = useCallback(() => {
+    sdk.actions.openUrl(`${composeCastUrl}/yeeter/${chainid}/${yeeterid}`);
+  }, [yeeterid, chainid]);
+
+  if (!yeeterid || !chainid || !yeeter) return;
+
   return (
-    <>
-      <h2 className="text-4xl text-accent mt-3 mb-8">Raise opens soon</h2>
-    </>
+    <div className="flex flex-col w-full items-center gap-2">
+      <RaiseStats yeeter={yeeter} />
+      <div className="w-full px-8 mb-2">
+        <Button variant="default" className="w-full" onClick={openUrl}>
+          Cast Campaign
+        </Button>
+      </div>
+    </div>
   );
 };

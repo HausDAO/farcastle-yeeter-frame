@@ -25,6 +25,7 @@ import { toHex } from "viem";
 import { YeeterMetadata } from "@/lib/types";
 import Link from "next/link";
 import { useParams } from "next/navigation";
+import { CustomButton } from "../app/CustomButton";
 
 export type DetailsFormProps = {
   confirmed: boolean;
@@ -51,7 +52,7 @@ export const DetailsForm = ({
     chainid: string;
     yeeterid: string;
   }>();
-  const submitButtonText = "Update";
+  const submitButtonText = "Update Campaign Details";
 
   const chainId = useChainId();
 
@@ -118,16 +119,20 @@ export const DetailsForm = ({
             <FormField
               control={form.control}
               name="name"
-              disabled={disabled}
               render={({ field }) => (
                 <FormItem>
                   <ProposalFormLabel
-                    label="Fundraiser Name"
+                    label="What is the name of your campaign?"
                     id="name"
                     requiredFields={requiredFields}
                   />
                   <FormControl>
-                    <Input id="name" placeholder="Name" {...field} />
+                    <Input
+                      id="name"
+                      placeholder="Name"
+                      {...field}
+                      disabled={disabled}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -136,19 +141,19 @@ export const DetailsForm = ({
             <FormField
               control={form.control}
               name="missionStatement"
-              disabled={disabled}
               render={({ field }) => (
                 <FormItem>
                   <ProposalFormLabel
-                    label="Mission Statement"
+                    label="What is your mission?"
                     id="missionStatement"
                     requiredFields={requiredFields}
                   />
                   <FormControl>
                     <Textarea
                       id="missionStatement"
-                      placeholder="Mission Statement"
+                      placeholder="Mission"
                       {...field}
+                      disabled={disabled}
                     />
                   </FormControl>
                   <FormMessage />
@@ -159,19 +164,19 @@ export const DetailsForm = ({
             <FormField
               control={form.control}
               name="projectDetails"
-              disabled={disabled}
               render={({ field }) => (
                 <FormItem>
                   <ProposalFormLabel
-                    label="Project Details"
+                    label="What do contributors receive?"
                     id="projectDetails"
                     requiredFields={requiredFields}
                   />
                   <FormControl>
                     <Textarea
                       id="projectDetails"
-                      placeholder="Project Details"
+                      placeholder="Description"
                       {...field}
+                      disabled={disabled}
                     />
                   </FormControl>
                   <FormMessage />
@@ -181,39 +186,19 @@ export const DetailsForm = ({
             <FormField
               control={form.control}
               name="icon"
-              disabled={disabled}
               render={({ field }) => (
                 <FormItem>
                   <ProposalFormLabel
-                    label="Project Icon"
+                    label="What image represents your campaign?"
                     id="icon"
                     requiredFields={requiredFields}
                   />
                   <FormControl>
-                    <Input id="icon" placeholder="Url for icon" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                  <p>Ensure you input a valid url to an image</p>
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="custom1Label"
-              disabled={disabled}
-              render={({ field }) => (
-                <FormItem>
-                  <ProposalFormLabel
-                    label="Project Link #1 (label)"
-                    id="custom1Label"
-                    requiredFields={requiredFields}
-                  />
-                  <FormControl>
                     <Input
-                      id="custom1Label"
-                      placeholder="Label for link #1"
+                      id="icon"
+                      placeholder="URL"
                       {...field}
+                      disabled={disabled}
                     />
                   </FormControl>
                   <FormMessage />
@@ -221,137 +206,47 @@ export const DetailsForm = ({
               )}
             />
 
-            <FormField
-              control={form.control}
-              name="custom1"
+            <CustomButton
+              index={1}
+              form={form}
               disabled={disabled}
-              render={({ field }) => (
-                <FormItem>
-                  <ProposalFormLabel
-                    label="Project Link #1 (url)"
-                    id="custom1"
-                    requiredFields={requiredFields}
-                  />
-                  <FormControl>
-                    <Input
-                      id="custom1"
-                      placeholder="Url for Link #1"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                  <p>Ensure you input a valid url to an image</p>
-                </FormItem>
-              )}
+              requiredFields={requiredFields}
             />
 
-            <FormField
-              control={form.control}
-              name="custom2Label"
+            <CustomButton
+              index={2}
+              form={form}
               disabled={disabled}
-              render={({ field }) => (
-                <FormItem>
-                  <ProposalFormLabel
-                    label="Project Link #2 (label)"
-                    id="custom2Label"
-                    requiredFields={requiredFields}
-                  />
-                  <FormControl>
-                    <Input
-                      id="custom2Label"
-                      placeholder="Label for link #2"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+              requiredFields={requiredFields}
             />
 
-            <FormField
-              control={form.control}
-              name="custom2"
+            <CustomButton
+              index={3}
+              form={form}
               disabled={disabled}
-              render={({ field }) => (
-                <FormItem>
-                  <ProposalFormLabel
-                    label="Project Link #2 (url)"
-                    id="custom2"
-                    requiredFields={requiredFields}
-                  />
-                  <FormControl>
-                    <Input
-                      id="custom2"
-                      placeholder="Url for Link #2"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                  <p>Ensure you input a valid url to an image</p>
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="custom3Label"
-              disabled={disabled}
-              render={({ field }) => (
-                <FormItem>
-                  <ProposalFormLabel
-                    label="Project Link #3 (label)"
-                    id="custom3Label"
-                    requiredFields={requiredFields}
-                  />
-                  <FormControl>
-                    <Input
-                      id="custom3Label"
-                      placeholder="Label for link #3"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="custom3"
-              disabled={disabled}
-              render={({ field }) => (
-                <FormItem>
-                  <ProposalFormLabel
-                    label="Project Link #3 (url)"
-                    id="custom3"
-                    requiredFields={requiredFields}
-                  />
-                  <FormControl>
-                    <Input
-                      id="custom3"
-                      placeholder="Url for Link #3"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                  <p>Ensure you input a valid url to an image</p>
-                </FormItem>
-              )}
+              requiredFields={requiredFields}
             />
           </>
         )}
 
-        <FormActionButtons
-          submitButtonText={submitButtonText}
-          loading={loading}
-          confirmed={confirmed}
-          disabled={disabled}
-        />
+        <div>
+          <FormActionButtons
+            submitButtonText={submitButtonText}
+            loading={loading}
+            confirmed={confirmed}
+            disabled={disabled}
+          />
+        </div>
 
         {isError && (
-          <div className="text-sm text-error flex items-center">Tx Error</div>
+          <div className="text-sm text-destructive flex items-center">Transaction Error</div>
         )}
       </form>
+      {!confirmed && (
+        <Link href={`/yeeter/${chainid}/${yeeterid}`} className="w-full">
+          <Button variant="tertiary" className="w-full mt-2">Cancel Details Update</Button>
+        </Link>
+      )}
       {confirmed && (
         <>
           <Link href={`/yeeter/${chainid}/${yeeterid}`} className="w-full">
