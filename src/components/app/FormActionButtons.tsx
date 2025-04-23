@@ -18,27 +18,31 @@ export const FormActionButtons = ({
   const { connect } = useConnect();
   const { isConnected } = useAccount();
 
+  if (!isConnected) {
+    return (
+      <Button
+        onClick={() => connect({ connector: connector })}
+        className="w-full"
+        type="button"
+      >
+        Connect Wallet
+      </Button>
+    );
+  }
+
   return (
     <>
-      {!isConnected && (
-        <Button
-          onClick={() => connect({ connector: connector })}
-          className="w-full"
-        >
-          Connect Wallet
-        </Button>
-      )}
-      {isConnected && loading && (
+      {loading && (
         <Button type="submit" disabled={loading} className="w-full">
           <Spinner />
         </Button>
       )}
-      {isConnected && !loading && !confirmed && (
+      {!loading && !confirmed && (
         <Button type="submit" className="w-full" disabled={disabled}>
           {submitButtonText || "Make Proposal"}
         </Button>
       )}
-      {isConnected && confirmed && (
+      {confirmed && (
         <Button type="submit" disabled={true} className="w-full">
           Success
         </Button>

@@ -29,7 +29,7 @@ export const CustomButton = ({
   return (
     <>
       <hr className="mt-4" />
-      <h2 className="text-base text-muted-foreground font-semibold tracking-tight">
+      <h2 className="text-muted text-sm uppercase">
         Custom Button {index}
       </h2>
       <div>

@@ -6,6 +6,7 @@ import {
   useChains,
   useWaitForTransactionReceipt,
   useWriteContract,
+  useSwitchChain
 } from "wagmi";
 import { useQueryClient } from "@tanstack/react-query";
 import yeeterAbi from "../../lib/tx-prepper/abi/yeeterShaman.json";
@@ -32,6 +33,7 @@ export const YeetTx = ({
   const queryClient = useQueryClient();
   const closeRef = useRef<HTMLButtonElement>(null);
   const { isConnected } = useAccount();
+  const { switchChain } = useSwitchChain();
 
   const chainId = useChainId();
   const chains = useChains();
@@ -70,8 +72,13 @@ export const YeetTx = ({
     }
   }, [isConfirmed, queryClient, yeeterid, chainid]);
 
-  const handleSubmit = (values: ArbitraryState) => {
+  const handleSubmit = async (values: ArbitraryState) => {
     if (!yeeter) return;
+
+    if (chainId !== Number(chainid)) {
+      await switchChain({ chainId: Number(chainid) });
+      return;
+    }
 
     writeContract({
       address: yeeter.id as `0x${string}`,

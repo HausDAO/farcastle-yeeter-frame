@@ -162,7 +162,7 @@ export const YeetForm = ({
           />
         )}
         {isError && (
-          <div className="text-sm text-error flex items-center">Tx Error</div>
+          <div className="text-sm text-destructive flex items-center">Transaction Error</div>
         )}
       </form>
 
@@ -185,7 +185,7 @@ export const YeetForm = ({
               : "tokens"}
           </div>
           <Button onClick={openCastUrl} className="w-full mb-3">
-            Share Contribution
+            Cast Contribution
           </Button>
 
           {hash && (
