@@ -18,6 +18,7 @@ import { DaoHooksProvider } from "./DaoHooksProvider";
 import { DaoRecordProvider } from "./DaoRecordProvider";
 import { FrameSDKProvider } from "./FramesSDKProvider";
 import { HAUS_RPC_DEFAULTS } from "@/lib/constants";
+import { CurrentNetworkProvider } from "./CurrentNetworkProvider";
 
 export const config = createConfig({
   chains: [base, sepolia, gnosis, optimism, arbitrum],
@@ -42,9 +43,11 @@ function Providers({ children }: React.PropsWithChildren) {
     <WagmiProvider config={config}>
       <QueryClientProvider client={queryClient}>
         <FrameSDKProvider>
-          <DaoHooksProvider keyConfig={daoHooksConfig}>
-            <DaoRecordProvider>{children}</DaoRecordProvider>
-          </DaoHooksProvider>
+          <CurrentNetworkProvider>
+            <DaoHooksProvider keyConfig={daoHooksConfig}>
+              <DaoRecordProvider>{children}</DaoRecordProvider>
+            </DaoHooksProvider>
+          </CurrentNetworkProvider>
         </FrameSDKProvider>
       </QueryClientProvider>
     </WagmiProvider>

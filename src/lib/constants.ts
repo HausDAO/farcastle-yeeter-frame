@@ -51,6 +51,16 @@ export const WAGMI_CHAIN_OBJS: Record<string, Chain> = {
   "0x2105": base,
 };
 
+export const WAGMI_CHAIN_OBJS_BY_ID: Record<string, Chain> = {
+  1: mainnet,
+  100: gnosis,
+  8453: base,
+  10: optimism,
+  42161: arbitrum,
+  137: polygon,
+  11155111: sepolia,
+};
+
 export const getExplorerUrl = (chainid?: string): string | undefined => {
   return EXPLORER_URLS[chainid || ""];
 };

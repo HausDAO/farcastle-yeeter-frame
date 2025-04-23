@@ -3,17 +3,9 @@
 import { getWagmiChainObj } from "@/lib/constants";
 import Image from "next/image";
 import React from "react";
-import {
-  useAccount,
-  useChainId,
-  useConfig,
-  useConnect,
-  useSwitchChain,
-} from "wagmi";
+import { useAccount, useChainId, useConfig, useSwitchChain } from "wagmi";
 import * as Drawer from "../ui/drawer";
-import { Button } from "../ui/button";
-import { useFrameSDK } from "@/providers/FramesSDKProvider";
-import { CircleUserRound } from "lucide-react";
+import { UnconnectedNetworkSwitcher } from "./UnconnectedNetworkSwitcher";
 
 export function NetworkSwitcher() {
   const chainId = useChainId();
@@ -21,9 +13,6 @@ export function NetworkSwitcher() {
   const config = useConfig();
   const { switchChain } = useSwitchChain();
   const closeRef = React.useRef<HTMLButtonElement>(null);
-
-  const { connector } = useFrameSDK();
-  const { connect } = useConnect();
 
   // Add mounted state to handle hydration
   const [mounted, setMounted] = React.useState(false);
@@ -47,20 +36,7 @@ export function NetworkSwitcher() {
 
   // Only check connection status after component is mounted
   if (!isConnected) {
-    return (
-      <div className="h-[30px] w-[30px]">
-        <Button
-          onClick={() => {
-            console.log("connecting", connector);
-            connect({ connector: connector });
-          }}
-          className="w-full"
-          size="round"
-        >
-          <CircleUserRound />
-        </Button>
-      </div>
-    );
+    return <UnconnectedNetworkSwitcher />;
   }
 
   return (
