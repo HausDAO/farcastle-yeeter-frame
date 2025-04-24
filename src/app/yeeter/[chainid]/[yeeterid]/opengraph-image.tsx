@@ -4,7 +4,8 @@ import { getGraphUrl } from "@/lib/endpoints";
 import { GraphQLClient } from "graphql-request";
 import { RecordItem, YeeterItem } from "@/lib/types";
 import { FIND_YEETER, FIND_YEETER_PROFILE } from "@/lib/graph-queries";
-import { toWholeUnits } from "@/lib/helpers";
+import { toWholeUnits, formatRaiseStatsDate } from "@/lib/helpers";
+import { calcYeetIsActive, calcYeetIsEnded, calcYeetIsComingSoon } from "@/lib/yeet-helpers";
 
 export const runtime = "edge";
 export const contentType = "image/png";
@@ -36,6 +37,8 @@ export default async function Image({
   let raisedAmount = "0.00000";
   let goal = "0.0088";
   let title = "UNTITLED CAMPAIGN";
+  let isActive, isEnded, isComingSoon;
+  let statusMessage = "Default status message";
 
   // Fetch font data
   const vt323FontUrl = `${baseUrl}/fonts/VT323-Regular.woff`;
@@ -67,12 +70,12 @@ export default async function Image({
     });
 
   try {
-    const graphQLClientYeeter = new GraphQLClient(dhUrl);
+    const graphQLClientYeeter = new GraphQLClient(yeeterUrl);
     const { yeeter } = (await graphQLClientYeeter.request(FIND_YEETER, {
       shamanAddress: params.yeeterid,
     })) as { yeeter: YeeterItem };
 
-    const graphQLClientDh = new GraphQLClient(yeeterUrl);
+    const graphQLClientDh = new GraphQLClient(dhUrl);
     const { records } = (await graphQLClientDh.request(FIND_YEETER_PROFILE, {
       daoid: yeeter.dao.id,
     })) as { records: RecordItem[] };
@@ -103,6 +106,16 @@ export default async function Image({
 
     raisedAmount = Number(toWholeUnits(yeeter?.balance)).toFixed(5);
     goal = toWholeUnits(yeeter?.goal);
+    isActive = calcYeetIsActive(yeeter);
+    isEnded = calcYeetIsEnded(yeeter);
+    isComingSoon = calcYeetIsComingSoon(yeeter);
+    if (isActive) {
+      statusMessage = `Closing ${formatRaiseStatsDate(yeeter.endTime)}`;
+    } else if (isEnded) {
+      statusMessage = `Closed ${formatRaiseStatsDate(yeeter.endTime)}`;
+    } else if (isComingSoon) {
+      statusMessage = `Opening ${formatRaiseStatsDate(yeeter.startTime)}`;
+    }
   } catch (error) {
     console.error("Error:", error);
   }
@@ -196,7 +209,7 @@ export default async function Image({
 
             {/* Closing date */}
             <div style={{ display: "flex", fontSize: "36px", justifyContent: "center", fontFamily: "'Mulish'" }}>
-              Closing April 28
+              {statusMessage}
             </div>
           </div>
         </div>
