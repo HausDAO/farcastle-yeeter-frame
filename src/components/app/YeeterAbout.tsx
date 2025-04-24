@@ -8,10 +8,10 @@ import { ProjectTeamList } from "./ProjectTeam";
 import { useAccount } from "wagmi";
 import { useMember } from "@/hooks/useMember";
 import Link from "next/link";
-import { useCallback } from "react";
-import sdk from "@farcaster/frame-sdk";
-import { composeCastUrl } from "@/lib/constants";
+import { useCallback, useState } from "react";
+import { sdk } from "@farcaster/frame-sdk";
 import { Button } from "../ui/button";
+import { LoadingSpinner } from "../ui/loading";
 
 const truncateButtonLabel = (label: string) => {
   if (label.length > 20) {
@@ -29,6 +29,7 @@ export const YeeterAbout = ({
   chainid?: string;
   daoid?: string;
 }) => {
+  const [isCasting, setIsCasting] = useState(false);
   const { yeeter, metadata } = useYeeter({
     chainid,
     yeeterid,
@@ -40,9 +41,26 @@ export const YeeterAbout = ({
     memberaddress: address,
   });
 
-  const openUrl = useCallback(() => {
-    sdk.actions.openUrl(`${composeCastUrl}/yeeter/${chainid}/${yeeterid}`);
-  }, [yeeterid, chainid]);
+  const handleCastCampaign = useCallback(async () => {
+    try {
+      setIsCasting(true);
+      // Use window.location.origin in development, fallback to env var in production
+      const baseUrl = process.env.NODE_ENV === 'development' 
+        ? window.location.origin 
+        : process.env.NEXT_PUBLIC_URL || "https://fundraiser.farcastle.net";
+      const campaignUrl = `${baseUrl}/yeeter/${chainid}/${yeeterid}`;
+      
+      await sdk.actions.composeCast({ 
+        text: metadata?.missionStatement || '',
+        embeds: [campaignUrl]
+      });
+    } catch (error) {
+      console.error('Error composing cast:', error);
+      // You might want to show a toast or notification here
+    } finally {
+      setIsCasting(false);
+    }
+  }, [yeeterid, chainid, metadata?.missionStatement]);
 
   const onProjectTeam = address && member && Number(member.shares) > 0;
 
@@ -88,8 +106,20 @@ export const YeeterAbout = ({
           <CardContent className="w-full px-4 pb-0">
             <div className="flex flex-col gap-4">
               <div className="w-full">
-                <Button variant="default" className="w-full" onClick={openUrl}>
-                  Cast Campaign
+                <Button 
+                  variant="default" 
+                  className="w-full" 
+                  onClick={handleCastCampaign}
+                  disabled={isCasting}
+                >
+                  {isCasting ? (
+                    <div className="flex items-center gap-2">
+                      <LoadingSpinner />
+                      <span>Casting...</span>
+                    </div>
+                  ) : (
+                    "Cast Campaign"
+                  )}
                 </Button>
               </div>
 
@@ -98,12 +128,12 @@ export const YeeterAbout = ({
                   if (!link.url) return null;
                   return (
                     <div className="w-full" key={i}>
-                    <Link href={link.url} target="_blank" className="block w-full">
-                      <Button variant="secondary" className="w-full">
-                        {truncateButtonLabel(link.label)}
-                      </Button>
-                    </Link>
-                  </div>
+                      <Link href={link.url} target="_blank" className="block w-full">
+                        <Button variant="secondary" className="w-full">
+                          {truncateButtonLabel(link.label)}
+                        </Button>
+                      </Link>
+                    </div>
                   );
                 })}
               <div className="w-full">
@@ -122,20 +152,20 @@ export const YeeterAbout = ({
                   </Button>
                 </Link>
               </div>
-          )}
+            )}
           </CardContent>
         </Card>
       </TabsContent>
       <TabsContent value="team">
         <Card className="border-0 px-8 pt-2">
-        <CardContent className="p-0">
-              <div className="text-muted text-sm mb-4 uppercase">Members</div>
-              <ProjectTeamList
+          <CardContent className="p-0">
+            <div className="text-muted text-sm mb-4 uppercase">Members</div>
+            <ProjectTeamList
               chainid={chainid}
               yeeterid={yeeterid}
               daoid={yeeter.dao.id}
             />
-            </CardContent>
+          </CardContent>
         </Card>
       </TabsContent>
     </Tabs>
