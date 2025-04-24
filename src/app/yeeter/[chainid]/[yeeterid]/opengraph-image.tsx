@@ -69,12 +69,12 @@ export default async function Image({
   try {
     const graphQLClientYeeter = new GraphQLClient(dhUrl);
     const { yeeter } = (await graphQLClientYeeter.request(FIND_YEETER, {
-      yeeter: params.yeeterid,
+      shamanAddress: params.yeeterid,
     })) as { yeeter: YeeterItem };
 
     const graphQLClientDh = new GraphQLClient(yeeterUrl);
     const { records } = (await graphQLClientDh.request(FIND_YEETER_PROFILE, {
-      dao: yeeter.dao.id,
+      daoid: yeeter.dao.id,
     })) as { records: RecordItem[] };
 
     const profileMatch =
@@ -85,17 +85,19 @@ export default async function Image({
             .split(`"yeeterId":"`)[1]
             ?.split(`"`)[0];
         }
-
+        console.log('Checking record:', { recordYeeterId, yeeterId: yeeter.id, content: record.content });
         return recordYeeterId === yeeter.id;
       }) || records[0];
 
+    console.log('Profile match:', profileMatch);
     if (profileMatch?.content) {
       const profile = JSON.parse(profileMatch.content);
+      console.log('Parsed profile:', profile);
       if (profile.icon) {
         imgSrc = profile.icon;
       }
-      if (profile.title) {
-        title = profile.title.toUpperCase();
+      if (profile.name) {
+        title = profile.name.toUpperCase();
       }
     }
 
