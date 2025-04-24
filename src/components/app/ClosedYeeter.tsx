@@ -1,7 +1,6 @@
 import { useYeeter } from "@/hooks/useYeeter";
 import { RaiseStats } from "./RaiseStats";
 import { Button } from "../ui/button";
-import { composeCastUrl } from "@/lib/constants";
 import { useCallback, useState } from "react";
 import sdk from "@farcaster/frame-sdk";
 import { LoadingSpinner } from "../ui/loading";

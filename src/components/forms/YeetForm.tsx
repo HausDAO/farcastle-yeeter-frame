@@ -20,7 +20,7 @@ import { fromWei, nativeCurrencySymbol } from "@/lib/helpers";
 import { useChainId, useChains } from "wagmi";
 import { Button } from "../ui/button";
 import { useCallback, useState } from "react";
-import { composeCastUrl, getExplorerUrl } from "@/lib/constants";
+import { getExplorerUrl } from "@/lib/constants";
 import sdk from "@farcaster/frame-sdk";
 import { toHex } from "viem";
 import { YeeterItem } from "@/lib/types";
