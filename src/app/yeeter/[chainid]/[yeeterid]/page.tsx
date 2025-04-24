@@ -21,7 +21,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     version: "next",
     imageUrl: `${baseUrl}/yeeter/${chainid}/${yeeterid}/opengraph-image`,
     button: {
-      title: "View Fundraiser",
+      title: "Contribute",
       action: {
         type: "launch_frame",
         name: "Fundraiser",
@@ -46,7 +46,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     other: {
       "fc:frame": JSON.stringify(frame),
       "fc:frame:image": `${baseUrl}/yeeter/${chainid}/${yeeterid}/opengraph-image`,
-      "fc:frame:button:1": "View Fundraiser",
+      "fc:frame:button:1": "Contribute",
       "fc:frame:post_url": `${baseUrl}/api/frame`,
     },
   };

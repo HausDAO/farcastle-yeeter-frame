@@ -28,7 +28,7 @@ const connectors =
 // const connectors = [farcasterFrame(), injected()];
 
 export const config = createConfig({
-  chains: [base, sepolia, gnosis, optimism, arbitrum],
+  chains: [base, optimism, arbitrum, gnosis, sepolia],
   transports: {
     [base.id]: http(HAUS_RPC_DEFAULTS["0x2105"]),
     [optimism.id]: http(HAUS_RPC_DEFAULTS["0xa"]),

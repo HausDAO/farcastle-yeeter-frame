@@ -73,8 +73,7 @@ export default function Page() {
               Your Path Awaits
             </div>
             <p className="text-muted-foreground text-base px-4 mb-4">
-              Explore campaigns and identify opportunities to contribute. Or
-              launch a campaign and raise funds for your quest.
+              Explore campaigns and identify opportunities to contribute. Launch a campaign and raise funds for your mission.
             </p>
             <div className="flex flex-col w-full gap-2">
               <div className="mt-4 w-full px-4">
