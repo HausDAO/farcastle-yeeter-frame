@@ -1,46 +1,17 @@
 "use client";
 
 import { NetworkSwitcher } from "@/components/app/NetworkSwitcher";
-import Image from "next/image";
-import { useParams, usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import React from "react";
-
-function HeaderLogoSvg({
-  className,
-  onClick,
-}: {
-  className: string;
-  onClick: () => void;
-}) {
-  return (
-    <Image
-      src="/castle.svg"
-      width={45}
-      height={45}
-      alt="Castle logo"
-      className={className}
-      onClick={onClick}
-      priority
-    />
-  );
-}
+import { ConnectWallet } from "../app/ConnectWallet";
 
 function Header() {
   const router = useRouter();
   const pathname = usePathname();
-  const params = useParams<{ chainid: string; daoid: string }>();
-
-  const onLogoClick = React.useCallback(() => {
-    router.push("/");
-  }, [router]);
 
   const onTitleClick = React.useCallback(() => {
-    if (params.chainid && params.daoid) {
-      router.push(`/dao/${params.chainid}/${params.daoid}`);
-    } else {
-      router.push("/");
-    }
-  }, [router, params]);
+    router.push("/");
+  }, [router]);
 
   return (
     <div className="w-full flex flex-row items-end justify-between p-4">
@@ -51,10 +22,7 @@ function Header() {
       >
         fundraiser
       </div>
-      <HeaderLogoSvg
-        className="opacity-100 hover:cursor-pointer"
-        onClick={onLogoClick}
-      />
+      <ConnectWallet />
     </div>
   );
 }
