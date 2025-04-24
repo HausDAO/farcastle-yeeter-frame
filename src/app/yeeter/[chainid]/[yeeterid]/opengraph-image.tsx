@@ -4,7 +4,8 @@ import { getGraphUrl } from "@/lib/endpoints";
 import { GraphQLClient } from "graphql-request";
 import { RecordItem, YeeterItem } from "@/lib/types";
 import { FIND_YEETER, FIND_YEETER_PROFILE } from "@/lib/graph-queries";
-import { toWholeUnits } from "@/lib/helpers";
+import { toWholeUnits, formatRaiseStatsDate } from "@/lib/helpers";
+import { calcYeetIsActive, calcYeetIsEnded, calcYeetIsComingSoon } from "@/lib/yeet-helpers";
 
 export const runtime = "edge";
 export const contentType = "image/png";
@@ -33,17 +34,50 @@ export default async function Image({
   const baseUrl =
     process.env.NEXT_PUBLIC_URL || "https://fundraiser.farcastle.net";
   let imgSrc = `${baseUrl}/fallback.svg`;
-  let raisedAmount, goal;
+  let raisedAmount = "0.00000";
+  let goal = "0.0088";
+  let title = "UNTITLED CAMPAIGN";
+  let isActive, isEnded, isComingSoon;
+  let statusMessage = "Default status message";
+
+  // Fetch font data
+  const vt323FontUrl = `${baseUrl}/fonts/VT323-Regular.woff`;
+  console.log(`Fetching font from: ${vt323FontUrl}`);
+  const vt323FontData = await fetch(vt323FontUrl)
+    .then((res) => {
+      if (!res.ok) {
+        throw new Error(`Failed to fetch font: ${res.status} ${res.statusText}`);
+      }
+      return res.arrayBuffer();
+    })
+    .catch((error) => {
+      console.error("VT323 Font fetch error:", error);
+      return null;
+    });
+
+  const mulishFontUrl = `${baseUrl}/fonts/Mulish-Regular.woff`;
+  console.log(`Fetching font from: ${mulishFontUrl}`);
+  const mulishFontData = await fetch(mulishFontUrl)
+    .then((res) => {
+      if (!res.ok) {
+        throw new Error(`Failed to fetch font: ${res.status} ${res.statusText}`);
+      }
+      return res.arrayBuffer();
+    })
+    .catch((error) => {
+      console.error("Mulish Font fetch error:", error);
+      return null;
+    });
 
   try {
-    const graphQLClientYeeter = new GraphQLClient(dhUrl);
+    const graphQLClientYeeter = new GraphQLClient(yeeterUrl);
     const { yeeter } = (await graphQLClientYeeter.request(FIND_YEETER, {
-      yeeter: params.yeeterid,
+      shamanAddress: params.yeeterid,
     })) as { yeeter: YeeterItem };
 
-    const graphQLClientDh = new GraphQLClient(yeeterUrl);
+    const graphQLClientDh = new GraphQLClient(dhUrl);
     const { records } = (await graphQLClientDh.request(FIND_YEETER_PROFILE, {
-      dao: yeeter.dao.id,
+      daoid: yeeter.dao.id,
     })) as { records: RecordItem[] };
 
     const profileMatch =
@@ -54,39 +88,136 @@ export default async function Image({
             .split(`"yeeterId":"`)[1]
             ?.split(`"`)[0];
         }
-
+        console.log('Checking record:', { recordYeeterId, yeeterId: yeeter.id, content: record.content });
         return recordYeeterId === yeeter.id;
       }) || records[0];
 
+    console.log('Profile match:', profileMatch);
     if (profileMatch?.content) {
       const profile = JSON.parse(profileMatch.content);
+      console.log('Parsed profile:', profile);
       if (profile.icon) {
         imgSrc = profile.icon;
       }
+      if (profile.name) {
+        title = profile.name.toUpperCase();
+      }
     }
 
-    console.log("yeeter", yeeter);
     raisedAmount = Number(toWholeUnits(yeeter?.balance)).toFixed(5);
     goal = toWholeUnits(yeeter?.goal);
+    isActive = calcYeetIsActive(yeeter);
+    isEnded = calcYeetIsEnded(yeeter);
+    isComingSoon = calcYeetIsComingSoon(yeeter);
+    if (isActive) {
+      statusMessage = `Closing ${formatRaiseStatsDate(yeeter.endTime)}`;
+    } else if (isEnded) {
+      statusMessage = `Closed ${formatRaiseStatsDate(yeeter.endTime)}`;
+    } else if (isComingSoon) {
+      statusMessage = `Opening ${formatRaiseStatsDate(yeeter.startTime)}`;
+    }
   } catch (error) {
     console.error("Error:", error);
   }
 
+  // Calculate progress percentage
+  const progress = Math.min((Number(raisedAmount) / Number(goal)) * 100, 100);
+
+  // Build fonts array conditionally
+  const fonts = [];
+  if (vt323FontData) {
+    fonts.push({
+      name: "VT323",
+      data: vt323FontData,
+    });
+  }
+  if (mulishFontData) {
+    fonts.push({
+      name: "Mulish",
+      data: mulishFontData,
+    });
+  }
+
   return new ImageResponse(
     (
-      <div tw="flex items-center justify-center h-full w-full bg-[#17151F]">
-        <p>FUNDRAISER</p>
-        <img
-          src={imgSrc}
-          width="500"
-          height="500"
-          tw="rounded-full"
-          alt="DAO Avatar"
-        />
-        <p className="text-xs">{raisedAmount} ETH</p>
-        <p className="text-xs">{goal} ETH</p>
+      <div
+        style={{
+          background: "#341A34",
+          width: "100%",
+          height: "100%",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          paddingTop: "40px",
+          paddingBottom: "40px",
+          color: "#00B1CC", // Changed default text color
+        }}
+      >
+        {/* Card-like container */}
+        <div
+          style={{
+            background: "#17151F",
+            height: "100%",
+            width: "70%",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "space-between",
+            padding: "40px",
+            border: "2px solid #39393C",
+            borderRadius: "0px",
+            marginLeft: "10px",
+            marginRight: "10px",
+          }}
+        >
+          {/* Top section */}
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "20px" }}>
+            <div style={{ display: "flex", fontSize: "48px", fontFamily: "'VT323'", color: "#00B1CC", textTransform: "uppercase", justifyContent: "center" }}>
+              {title}
+            </div>
+            <div style={{ display: "flex" }}>
+              <img
+                src={imgSrc}
+                alt="Campaign Icon"
+                style={{
+                  width: "160px",
+                  height: "160px",
+                  borderRadius: "100%",
+                }}
+              />
+            </div>
+          </div>
+
+          {/* Bottom section */}
+          <div style={{ display: "flex", flexDirection: "column", width: "100%", maxWidth: "600px", gap: "24px" }}>
+            {/* Progress bar */}
+            <div style={{ display: "flex", width: "100%", height: "48px", background: "hsla(189, 100%, 40%, 0.2)", borderRadius: "9999px", overflow: "hidden" }}>
+              <div style={{ display: "flex", width: `${progress}%`, height: "100%", background: "#00B1CC" }} />
+            </div>
+
+            {/* Stats */}
+            <div style={{ display: "flex", justifyContent: "space-between", width: "100%" }}>
+              <div style={{ display: "flex", flexDirection: "column" }}>
+                <div style={{ display: "flex", fontSize: "20px", textTransform: "uppercase", fontFamily: "'Mulish'", color: "#9FA3AF" }}>Raised</div>
+                <div style={{ display: "flex", fontSize: "36px", fontFamily: "'Mulish'", color: "#FAFAFA" }}>{raisedAmount} ETH</div>
+              </div>
+              <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end" }}>
+                <div style={{ display: "flex", fontSize: "20px", textTransform: "uppercase", fontFamily: "'Mulish'", color: "#9FA3AF" }}>Goal</div>
+                <div style={{ display: "flex", fontSize: "36px", fontFamily: "'Mulish'", color: "#FAFAFA" }}>{goal} ETH</div>
+              </div>
+            </div>
+
+            {/* Closing date */}
+            <div style={{ display: "flex", fontSize: "36px", justifyContent: "center", fontFamily: "'Mulish'" }}>
+              {statusMessage}
+            </div>
+          </div>
+        </div>
       </div>
     ),
-    size
+    {
+      ...size,
+      fonts: fonts, // Pass the conditionally built fonts array
+    }
   );
 }
