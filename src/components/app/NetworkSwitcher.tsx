@@ -55,16 +55,16 @@ export function NetworkSwitcher() {
       <Drawer.DrawerContent className="bg-card">
         <div className="w-full">
           <Drawer.DrawerHeader className="mx-4">
-            <Drawer.DrawerTitle className="font-display text-3xl uppercase text-muted">
+            <Drawer.DrawerTitle className="font-display font-light text-3xl text-center text-primary uppercase">
               Switch Network
             </Drawer.DrawerTitle>
           </Drawer.DrawerHeader>
-          <div className="flex flex-col gap-2 mx-4">
+          <div className="flex flex-col gap-2 mx-4 mb-10">
             {config.chains?.map((chain) => (
               <div
                 key={chain.id}
                 onClick={() => handleNetworkSwitch(chain.id)}
-                className="flex items-center gap-2 hover:bg-muted p-2 rounded cursor-pointer"
+                className="flex items-center gap-2 hover:bg-background p-2 cursor-pointer"
               >
                 <Image
                   src={`/images/networks/${chain.id}.svg`}
