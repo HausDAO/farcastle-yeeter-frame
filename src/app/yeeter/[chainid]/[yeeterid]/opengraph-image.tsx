@@ -4,6 +4,8 @@ import { getGraphUrl } from "@/lib/endpoints";
 import { GraphQLClient } from "graphql-request";
 import { RecordItem, YeeterItem } from "@/lib/types";
 import { FIND_YEETER, FIND_YEETER_PROFILE } from "@/lib/graph-queries";
+import { RaiseStats } from "@/components/app/RaiseStats";
+import { toWholeUnits } from "@/lib/helpers";
 
 export const runtime = "edge";
 export const contentType = "image/png";
@@ -32,6 +34,7 @@ export default async function Image({
   const baseUrl =
     process.env.NEXT_PUBLIC_URL || "https://fundraiser.farcastle.net";
   let imgSrc = `${baseUrl}/fallback.svg`;
+  let raisedAmount, goal;
 
   try {
     const graphQLClientYeeter = new GraphQLClient(dhUrl);
@@ -62,6 +65,10 @@ export default async function Image({
         imgSrc = profile.icon;
       }
     }
+
+    console.log("yeeter", yeeter);
+    raisedAmount = Number(toWholeUnits(yeeter?.balance)).toFixed(5);
+    goal = toWholeUnits(yeeter?.goal);
   } catch (error) {
     console.error("Error:", error);
   }
@@ -77,6 +84,8 @@ export default async function Image({
           tw="rounded-full"
           alt="DAO Avatar"
         />
+        <p className="text-xs">{raisedAmount} ETH</p>
+        <p className="text-xs">{goal} ETH</p>
       </div>
     ),
     size
