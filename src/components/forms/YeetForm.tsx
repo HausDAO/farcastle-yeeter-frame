@@ -19,7 +19,7 @@ import { Textarea } from "../ui/textarea";
 import { fromWei, nativeCurrencySymbol } from "@/lib/helpers";
 import { useChainId, useChains } from "wagmi";
 import { Button } from "../ui/button";
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { composeCastUrl, getExplorerUrl } from "@/lib/constants";
 import sdk from "@farcaster/frame-sdk";
 import { toHex } from "viem";
@@ -27,6 +27,7 @@ import { YeeterItem } from "@/lib/types";
 import { formatLootForAmount } from "@/lib/yeet-helpers";
 import { toBaseUnits } from "@/lib/units";
 import { useParams } from "next/navigation";
+import { LoadingSpinner } from "@/components/ui/loading";
 
 export type YeetFormProps = {
   confirmed: boolean;
@@ -49,6 +50,7 @@ export const YeetForm = ({
   yeeter,
   isError,
 }: YeetFormProps) => {
+  const [isCasting, setIsCasting] = useState(false);
   const submitButtonText = "Contribute to Campaign";
 
   const { chainid, yeeterid } = useParams<{
@@ -93,9 +95,24 @@ export const YeetForm = ({
     sdk.actions.openUrl(`${getExplorerUrl(toHex(chainId))}/tx/${hash}`);
   }, [hash, chainId]);
 
-  const openCastUrl = useCallback(() => {
-    sdk.actions.openUrl(`${composeCastUrl}/yeeter/${chainid}/${yeeterid}`);
-  }, [yeeterid, chainid]);
+  const handleCastContribution = useCallback(async () => {
+    try {
+      setIsCasting(true);
+      const baseUrl = process.env.NODE_ENV === 'development' 
+        ? window.location.origin 
+        : process.env.NEXT_PUBLIC_URL || "https://fundraiser.farcastle.net";
+      const campaignUrl = `${baseUrl}/yeeter/${chainid}/${yeeterid}`;
+      
+      await sdk.actions.composeCast({ 
+        text: form.getValues("message") || '',
+        embeds: [campaignUrl]
+      });
+    } catch (error) {
+      console.error('Error composing cast:', error);
+    } finally {
+      setIsCasting(false);
+    }
+  }, [yeeterid, chainid, form]);
 
   const disabled = loading || confirmed || invalidConnection;
 
@@ -168,7 +185,7 @@ export const YeetForm = ({
 
       {confirmed && (
         <>
-          <div className="font-mulish text-muted text-lg text-center mt-1 uppercase">
+          <div className="font-mulish text-muted text-lg text-center mt-1 mb-4 uppercase">
             You Received{" "}
             {formatLootForAmount(
               yeeter,
@@ -184,12 +201,28 @@ export const YeetForm = ({
               ? "token"
               : "tokens"}
           </div>
-          <Button onClick={openCastUrl} className="w-full mb-3">
-            Cast Contribution
+          <Button 
+            variant="default" 
+            className="w-full mb-3" 
+            onClick={handleCastContribution}
+            disabled={isCasting}
+          >
+            {isCasting ? (
+              <div className="flex items-center gap-2">
+                <LoadingSpinner />
+                <span>Casting...</span>
+              </div>
+            ) : (
+              "Cast Contribution"
+            )}
           </Button>
 
           {hash && (
-            <Button onClick={openUrl} className="w-full">
+            <Button 
+              variant="secondary" 
+              onClick={openUrl} 
+              className="w-full"
+            >
               View Transaction
             </Button>
           )}
