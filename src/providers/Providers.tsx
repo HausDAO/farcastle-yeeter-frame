@@ -20,12 +20,12 @@ import { FrameSDKProvider } from "./FramesSDKProvider";
 import { HAUS_RPC_DEFAULTS } from "@/lib/constants";
 import { CurrentNetworkProvider } from "./CurrentNetworkProvider";
 
-// const connectors =
-//   process.env.NEXT_PUBLIC_ENV === "local"
-//     ? [farcasterFrame(), injected()]
-//     : [farcasterFrame()];
+const connectors =
+  process.env.NEXT_PUBLIC_ENV === "local"
+    ? [farcasterFrame(), injected()]
+    : [farcasterFrame()];
 
-const connectors = [farcasterFrame(), injected()];
+// const connectors = [farcasterFrame(), injected()];
 
 export const config = createConfig({
   chains: [base, sepolia, gnosis, optimism, arbitrum],
