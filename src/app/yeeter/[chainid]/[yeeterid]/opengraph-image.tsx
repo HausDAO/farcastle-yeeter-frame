@@ -4,7 +4,6 @@ import { getGraphUrl } from "@/lib/endpoints";
 import { GraphQLClient } from "graphql-request";
 import { RecordItem, YeeterItem } from "@/lib/types";
 import { FIND_YEETER, FIND_YEETER_PROFILE } from "@/lib/graph-queries";
-import { RaiseStats } from "@/components/app/RaiseStats";
 import { toWholeUnits } from "@/lib/helpers";
 
 export const runtime = "edge";
