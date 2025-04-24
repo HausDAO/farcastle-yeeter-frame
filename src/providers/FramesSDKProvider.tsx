@@ -1,6 +1,7 @@
 "use client";
 
-import frameSDK, { type FrameContext } from "@farcaster/frame-sdk";
+import frameSDK from "@farcaster/frame-sdk";
+import type { FrameContext } from "@farcaster/frame-core/dist/context";
 import { createContext, useContext, useEffect, useState } from "react";
 import { Connector } from "wagmi";
 import { config } from "./Providers";
