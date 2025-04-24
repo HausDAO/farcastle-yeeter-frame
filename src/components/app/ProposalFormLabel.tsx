@@ -16,7 +16,7 @@ export const ProposalFormLabel = ({
   return (
     <FormLabel>
       <div className="flex mb-2 justify-between items-start">
-        <div className="text-xl uppercase font-display text-primary leading-none [word-spacing:-0.15em]">
+        <div className="text-sm uppercase font-body text-primary leading-none">
           {label && label}
           {requiredFields.includes(id) && (
             <span className="text-destructive text-sm relative -top-1 ml-0.5 leading-none">
