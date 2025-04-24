@@ -1,7 +1,9 @@
 "use client";
 
-import { useEnsAvatar, useEnsName } from "wagmi";
+import { useEffect, useState } from "react";
+
 import Image from "next/image";
+import { EnsAvatar } from "./EnsAvatar";
 
 interface UserAvatarProps {
   address?: `0x${string}`;
@@ -9,22 +11,24 @@ interface UserAvatarProps {
 }
 
 export function UserAvatar({ address, size = 32 }: UserAvatarProps) {
-  const { data: ensName } = useEnsName({
-    address,
-  });
+  const [mounted, setMounted] = useState(false);
 
-  const { data: ensAvatar } = useEnsAvatar({
-    name: ensName || undefined,
-  });
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
-  return (
-    <div className="relative" style={{ width: size, height: size }}>
-      <Image
-        src={ensAvatar || "/images/skull.png"}
-        alt={ensName || "User avatar"}
-        fill
-        className="rounded-full object-cover border-2 border-primary"
-      />
-    </div>
-  );
+  if (!mounted) {
+    return (
+      <div className="relative" style={{ width: size, height: size }}>
+        <Image
+          src="/images/skull.png"
+          alt="User avatar"
+          fill
+          className="rounded-full object-cover border-2 border-primary"
+        />
+      </div>
+    );
+  }
+
+  return <EnsAvatar address={address} size={size} />;
 }
