@@ -44,8 +44,8 @@ const chainNames: Record<ChainName, string> = {
 };
 
 export default function Launch() {
-  const { isLoaded, connector } = useFrameSDK();
-  const { connect } = useConnect();
+  const { isLoaded } = useFrameSDK();
+  const { connect, connectors } = useConnect();
   const { address, isConnected } = useAccount();
   const chainId = useChainId();
 
@@ -128,7 +128,9 @@ export default function Launch() {
       <div className="w-full h-full space-y-4 pb-4 px-4">
         <Card className="flex flex-col items-center px-4 pt-4 pb-8 rounded-none">
           <div className="text-primary font-display text-3xl uppercase mb-4">
-            {isConfirmed ? `${chainNames[getWagmiChainObj(toHex(chainId)).name as ChainName] || 'Base'} Campaign Launched` : `${chainNames[getWagmiChainObj(toHex(chainId)).name as ChainName] || 'Base'} Campaign`}
+            {isConfirmed
+              ? `${chainNames[getWagmiChainObj(toHex(chainId)).name as ChainName] || "Base"} Campaign Launched`
+              : `${chainNames[getWagmiChainObj(toHex(chainId)).name as ChainName] || "Base"} Campaign`}
           </div>
 
           {!isConfirmed && (
@@ -146,7 +148,7 @@ export default function Launch() {
 
             {!isConnected && (
               <Button
-                onClick={() => connect({ connector: connector })}
+                onClick={() => connect({ connector: connectors[0] })}
                 className="mt-2"
               >
                 Connect

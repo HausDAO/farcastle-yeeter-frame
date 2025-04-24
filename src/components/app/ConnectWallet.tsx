@@ -1,15 +1,13 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { useFrameSDK } from "@/providers/FramesSDKProvider";
 import Image from "next/image";
 import { useAccount, useConnect } from "wagmi";
 import { UserAvatar } from "./UserAvatar";
 import { useEffect, useState } from "react";
 
 export function ConnectWallet() {
-  const { connector } = useFrameSDK();
-  const { connect } = useConnect();
+  const { connect, connectors } = useConnect();
   const { isConnected, address } = useAccount();
   const [mounted, setMounted] = useState(false);
 
@@ -18,7 +16,7 @@ export function ConnectWallet() {
   }, []);
 
   const handleConnect = () => {
-    connect({ connector: connector });
+    connect({ connector: connectors[0] });
   };
 
   if (!mounted) {
