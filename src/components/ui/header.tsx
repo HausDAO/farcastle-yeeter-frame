@@ -1,30 +1,9 @@
 "use client";
 
 import { NetworkSwitcher } from "@/components/app/NetworkSwitcher";
-import Image from "next/image";
-import { useParams, usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import React from "react";
 import { ConnectWallet } from "../app/ConnectWallet";
-
-function HeaderLogoSvg({
-  className,
-  onClick,
-}: {
-  className: string;
-  onClick: () => void;
-}) {
-  return (
-    <Image
-      src="/castle.svg"
-      width={45}
-      height={45}
-      alt="Castle logo"
-      className={className}
-      onClick={onClick}
-      priority
-    />
-  );
-}
 
 function Header() {
   const router = useRouter();
