@@ -20,6 +20,11 @@ import { FrameSDKProvider } from "./FramesSDKProvider";
 import { HAUS_RPC_DEFAULTS } from "@/lib/constants";
 import { CurrentNetworkProvider } from "./CurrentNetworkProvider";
 
+const connectors =
+  process.env.NEXT_PUBLIC_ENV === "local"
+    ? [farcasterFrame(), injected()]
+    : [farcasterFrame()];
+
 export const config = createConfig({
   chains: [base, sepolia, gnosis, optimism, arbitrum],
   transports: {
@@ -29,7 +34,7 @@ export const config = createConfig({
     [sepolia.id]: http(),
     [gnosis.id]: http(HAUS_RPC_DEFAULTS["0x64"]),
   },
-  connectors: [farcasterFrame(), injected()],
+  connectors: connectors,
 });
 
 const queryClient = new QueryClient();
