@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState, useCallback } from "react";
 import {
   useAccount,
   useWaitForTransactionReceipt,
@@ -21,6 +21,7 @@ import { Button } from "@/components/ui/button";
 import { getExplorerUrl } from "@/lib/constants";
 import { toHex } from "viem";
 import sdk from "@farcaster/frame-sdk";
+import { LoadingSpinner } from "@/components/ui/loading";
 
 export const DetailsPage = () => {
   const { chainid, yeeterid } = useParams<{
@@ -51,6 +52,8 @@ export const DetailsPage = () => {
     useWaitForTransactionReceipt({
       hash,
     });
+
+  const [isCasting, setIsCasting] = useState(false);
 
   useEffect(() => {
     const reset = async () => {
@@ -98,6 +101,25 @@ export const DetailsPage = () => {
     writeContract(txPrep);
   };
 
+  const handleCastCampaign = useCallback(async () => {
+    try {
+      setIsCasting(true);
+      const baseUrl = process.env.NODE_ENV === 'development' 
+        ? window.location.origin 
+        : process.env.NEXT_PUBLIC_URL || "https://fundraiser.farcastle.net";
+      const campaignUrl = `${baseUrl}/yeeter/${chainid}/${yeeterid}`;
+      
+      await sdk.actions.composeCast({ 
+        text: metadata?.missionStatement || '',
+        embeds: [campaignUrl]
+      });
+    } catch (error) {
+      console.error('Error composing cast:', error);
+    } finally {
+      setIsCasting(false);
+    }
+  }, [yeeterid, chainid, metadata?.missionStatement]);
+
   if (!yeeter || !dao) return;
 
   return (
@@ -117,11 +139,30 @@ export const DetailsPage = () => {
                 height={254}
               />
               <div className="flex flex-col w-full items-center gap-2">
+                <Button 
+                  variant="default" 
+                  className="w-full mb-2" 
+                  onClick={handleCastCampaign}
+                  disabled={isCasting}
+                >
+                  {isCasting ? (
+                    <div className="flex items-center gap-2">
+                      <LoadingSpinner />
+                      <span>Casting...</span>
+                    </div>
+                  ) : (
+                    "Cast Campaign"
+                  )}
+                </Button>
                 <Link href={`/yeeter/${chainid}/${yeeterid}`} className="w-full">
-                  <Button className="w-full mb-2">View Campaign</Button>
+                  <Button variant="secondary" className="w-full mb-2">View Campaign</Button>
                 </Link>
                 {hash && (
-                  <Button onClick={() => sdk.actions.openUrl(`${getExplorerUrl(toHex(chainId))}/tx/${hash}`)} className="w-full mb-2">
+                  <Button 
+                    variant="tertiary" 
+                    onClick={() => sdk.actions.openUrl(`${getExplorerUrl(toHex(chainId))}/tx/${hash}`)} 
+                    className="w-full mb-2"
+                  >
                     View Transaction
                   </Button>
                 )}

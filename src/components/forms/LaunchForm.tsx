@@ -117,13 +117,13 @@ export const LaunchForm = ({
           render={({ field }) => (
             <FormItem>
               <ProposalFormLabel
-                label="What is the ticker for your campaign?"
+                label="What is the symbol for your campaign?"
                 id="name"
                 requiredFields={requiredFields}
-                popoverContent="The ticker is a short identifier for the token campaign contributors receive. It should be 8 characters or less."
+                popoverContent="The symbol is a short identifier for the token campaign contributors receive. It should be 8 characters or less."
               />
               <FormControl>
-                <Input id="lootTokenSymbol" placeholder="TICKER" {...field} disabled={isDisabled} />
+                <Input id="lootTokenSymbol" placeholder="SYMBOL" {...field} disabled={isDisabled} />
               </FormControl>
               <FormMessage />
             </FormItem>
