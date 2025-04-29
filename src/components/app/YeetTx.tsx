@@ -2,11 +2,10 @@ import { useEffect, useRef } from "react";
 import { toBaseUnits } from "../../lib/units";
 import {
   useAccount,
-  useChainId,
   useChains,
   useWaitForTransactionReceipt,
   useWriteContract,
-  useSwitchChain
+  useSwitchChain,
 } from "wagmi";
 import { useQueryClient } from "@tanstack/react-query";
 import yeeterAbi from "../../lib/tx-prepper/abi/yeeterShaman.json";
@@ -18,6 +17,7 @@ import { nativeCurrencySymbol } from "@/lib/helpers";
 import { ArbitraryState } from "@/lib/tx-prepper/prepper-types";
 import { Button } from "../ui/button";
 import Image from "next/image";
+import { toHex } from "viem";
 
 export const YeetTx = ({
   yeeterid,
@@ -32,10 +32,9 @@ export const YeetTx = ({
   });
   const queryClient = useQueryClient();
   const closeRef = useRef<HTMLButtonElement>(null);
-  const { isConnected } = useAccount();
+  const { isConnected, chainId } = useAccount();
   const { switchChain } = useSwitchChain();
 
-  const chainId = useChainId();
   const chains = useChains();
   const activeChain = chains.find((c) => c.id === chainId);
 
@@ -94,6 +93,8 @@ export const YeetTx = ({
     resetWrite();
   };
 
+  const invalidConnection = !isConnected || chainid !== toHex(chainId || "0");
+
   if (!yeeter) return;
 
   return (
@@ -143,7 +144,7 @@ export const YeetTx = ({
                   confirmed={isConfirmed}
                   yeeter={yeeter}
                   loading={isSendTxPending || isConfirming}
-                  invalidConnection={!isConnected}
+                  invalidConnection={invalidConnection}
                   handleSubmit={handleSubmit}
                   formElmClass="w-full space-y-4"
                   hash={hash}

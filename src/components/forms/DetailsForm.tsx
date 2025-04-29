@@ -16,12 +16,10 @@ import { ArbitraryState } from "@/lib/tx-prepper/prepper-types";
 import { ProposalFormLabel } from "../app/ProposalFormLabel";
 import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
-import { useChainId } from "wagmi";
 import { Button } from "../ui/button";
 import { useCallback } from "react";
 import { getExplorerUrl } from "@/lib/constants";
 import sdk from "@farcaster/frame-sdk";
-import { toHex } from "viem";
 import { YeeterMetadata } from "@/lib/types";
 import Link from "next/link";
 import { useParams } from "next/navigation";
@@ -53,8 +51,6 @@ export const DetailsForm = ({
     yeeterid: string;
   }>();
   const submitButtonText = "Update Campaign Details";
-
-  const chainId = useChainId();
 
   const formSchema = yup.object().shape({
     name: yup.string(),
@@ -106,8 +102,8 @@ export const DetailsForm = ({
   };
 
   const openUrl = useCallback(() => {
-    sdk.actions.openUrl(`${getExplorerUrl(toHex(chainId))}/tx/${hash}`);
-  }, [hash, chainId]);
+    sdk.actions.openUrl(`${getExplorerUrl(chainid)}/tx/${hash}`);
+  }, [hash, chainid]);
 
   const disabled = loading || confirmed || invalidConnection;
 
@@ -239,12 +235,16 @@ export const DetailsForm = ({
         </div>
 
         {isError && (
-          <div className="text-sm text-destructive flex items-center">Transaction Error</div>
+          <div className="text-sm text-destructive flex items-center">
+            Transaction Error
+          </div>
         )}
       </form>
       {!confirmed && (
         <Link href={`/yeeter/${chainid}/${yeeterid}`} className="w-full">
-          <Button variant="tertiary" className="w-full mt-2">Cancel Details Update</Button>
+          <Button variant="tertiary" className="w-full mt-2">
+            Cancel Details Update
+          </Button>
         </Link>
       )}
       {confirmed && (

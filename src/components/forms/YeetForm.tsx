@@ -17,12 +17,11 @@ import { ProposalFormLabel } from "../app/ProposalFormLabel";
 import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
 import { fromWei, nativeCurrencySymbol } from "@/lib/helpers";
-import { useChainId, useChains } from "wagmi";
+import { useAccount, useChains } from "wagmi";
 import { Button } from "../ui/button";
 import { useCallback, useState } from "react";
 import { getExplorerUrl } from "@/lib/constants";
 import sdk from "@farcaster/frame-sdk";
-import { toHex } from "viem";
 import { YeeterItem } from "@/lib/types";
 import { formatLootForAmount } from "@/lib/yeet-helpers";
 import { toBaseUnits } from "@/lib/units";
@@ -58,7 +57,8 @@ export const YeetForm = ({
     yeeterid: string;
   }>();
 
-  const chainId = useChainId();
+  const { chainId } = useAccount();
+
   const chains = useChains();
   const activeChain = chains.find((c) => c.id === chainId);
 
@@ -92,23 +92,24 @@ export const YeetForm = ({
   };
 
   const openUrl = useCallback(() => {
-    sdk.actions.openUrl(`${getExplorerUrl(toHex(chainId))}/tx/${hash}`);
-  }, [hash, chainId]);
+    sdk.actions.openUrl(`${getExplorerUrl(chainid)}/tx/${hash}`);
+  }, [hash, chainid]);
 
   const handleCastContribution = useCallback(async () => {
     try {
       setIsCasting(true);
-      const baseUrl = process.env.NODE_ENV === 'development' 
-        ? window.location.origin 
-        : process.env.NEXT_PUBLIC_URL || "https://fundraiser.farcastle.net";
+      const baseUrl =
+        process.env.NODE_ENV === "development"
+          ? window.location.origin
+          : process.env.NEXT_PUBLIC_URL || "https://fundraiser.farcastle.net";
       const campaignUrl = `${baseUrl}/yeeter/${chainid}/${yeeterid}`;
-      
-      await sdk.actions.composeCast({ 
-        text: form.getValues("message") || '',
-        embeds: [campaignUrl]
+
+      await sdk.actions.composeCast({
+        text: form.getValues("message") || "",
+        embeds: [campaignUrl],
       });
     } catch (error) {
-      console.error('Error composing cast:', error);
+      console.error("Error composing cast:", error);
     } finally {
       setIsCasting(false);
     }
@@ -179,7 +180,9 @@ export const YeetForm = ({
           />
         )}
         {isError && (
-          <div className="text-sm text-destructive flex items-center">Transaction Error</div>
+          <div className="text-sm text-destructive flex items-center">
+            Transaction Error
+          </div>
         )}
       </form>
 
@@ -201,9 +204,9 @@ export const YeetForm = ({
               ? "token"
               : "tokens"}
           </div>
-          <Button 
-            variant="default" 
-            className="w-full mb-3" 
+          <Button
+            variant="default"
+            className="w-full mb-3"
             onClick={handleCastContribution}
             disabled={isCasting}
           >
@@ -218,11 +221,7 @@ export const YeetForm = ({
           </Button>
 
           {hash && (
-            <Button 
-              variant="secondary" 
-              onClick={openUrl} 
-              className="w-full"
-            >
+            <Button variant="secondary" onClick={openUrl} className="w-full">
               View Transaction
             </Button>
           )}

@@ -6,7 +6,7 @@ import { useYeeter } from "@/hooks/useYeeter";
 import { formatDateFromSeconds } from "@/lib/dates";
 import { nativeCurrencySymbol, toWholeUnits } from "@/lib/helpers";
 import Link from "next/link";
-import { useChainId, useChains } from "wagmi";
+import { useAccount, useChains } from "wagmi";
 import { Progress } from "../ui/progress";
 import { calcProgressPerc } from "@/lib/yeet-helpers";
 
@@ -25,7 +25,7 @@ export const YeeterListCard = ({ yeeterid, chainid }: YeeterListCardProps) => {
     yeeterid,
   });
 
-  const chainId = useChainId();
+  const { chainId } = useAccount();
   const chains = useChains();
   const activeChain = chains.find((c) => c.id === chainId);
 

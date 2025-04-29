@@ -5,7 +5,6 @@ import {
   useAccount,
   useWaitForTransactionReceipt,
   useWriteContract,
-  useChainId,
 } from "wagmi";
 import { useQueryClient } from "@tanstack/react-query";
 import { useYeeter } from "@/hooks/useYeeter";
@@ -28,7 +27,8 @@ export const DetailsPage = () => {
     chainid: string;
     yeeterid: string;
   }>();
-  const chainId = useChainId();
+
+  const { isConnected, address, chainId } = useAccount();
   const { yeeter, metadata } = useYeeter({
     chainid,
     yeeterid,
@@ -38,7 +38,6 @@ export const DetailsPage = () => {
     daoid: yeeter?.dao.id,
   });
   const queryClient = useQueryClient();
-  const { isConnected, address } = useAccount();
 
   const {
     writeContract,
@@ -104,21 +103,24 @@ export const DetailsPage = () => {
   const handleCastCampaign = useCallback(async () => {
     try {
       setIsCasting(true);
-      const baseUrl = process.env.NODE_ENV === 'development' 
-        ? window.location.origin 
-        : process.env.NEXT_PUBLIC_URL || "https://fundraiser.farcastle.net";
+      const baseUrl =
+        process.env.NODE_ENV === "development"
+          ? window.location.origin
+          : process.env.NEXT_PUBLIC_URL || "https://fundraiser.farcastle.net";
       const campaignUrl = `${baseUrl}/yeeter/${chainid}/${yeeterid}`;
-      
-      await sdk.actions.composeCast({ 
-        text: metadata?.missionStatement || '',
-        embeds: [campaignUrl]
+
+      await sdk.actions.composeCast({
+        text: metadata?.missionStatement || "",
+        embeds: [campaignUrl],
       });
     } catch (error) {
-      console.error('Error composing cast:', error);
+      console.error("Error composing cast:", error);
     } finally {
       setIsCasting(false);
     }
   }, [yeeterid, chainid, metadata?.missionStatement]);
+
+  const invalidConnection = !isConnected || chainid !== toHex(chainId || "0");
 
   if (!yeeter || !dao) return;
 
@@ -132,16 +134,11 @@ export const DetailsPage = () => {
         <div className="flex flex-col gap-2 mx-4 mb-4">
           {isConfirmed ? (
             <div className="flex flex-col items-center gap-8">
-              <Image
-                src="/heart.svg"
-                alt="Success"
-                width={300}
-                height={254}
-              />
+              <Image src="/heart.svg" alt="Success" width={300} height={254} />
               <div className="flex flex-col w-full items-center gap-2">
-                <Button 
-                  variant="default" 
-                  className="w-full mb-2" 
+                <Button
+                  variant="default"
+                  className="w-full mb-2"
                   onClick={handleCastCampaign}
                   disabled={isCasting}
                 >
@@ -154,13 +151,22 @@ export const DetailsPage = () => {
                     "Cast Campaign"
                   )}
                 </Button>
-                <Link href={`/yeeter/${chainid}/${yeeterid}`} className="w-full">
-                  <Button variant="secondary" className="w-full mb-2">View Campaign</Button>
+                <Link
+                  href={`/yeeter/${chainid}/${yeeterid}`}
+                  className="w-full"
+                >
+                  <Button variant="secondary" className="w-full mb-2">
+                    View Campaign
+                  </Button>
                 </Link>
                 {hash && (
-                  <Button 
-                    variant="tertiary" 
-                    onClick={() => sdk.actions.openUrl(`${getExplorerUrl(toHex(chainId))}/tx/${hash}`)} 
+                  <Button
+                    variant="tertiary"
+                    onClick={() =>
+                      sdk.actions.openUrl(
+                        `${getExplorerUrl(chainid)}/tx/${hash}`
+                      )
+                    }
                     className="w-full mb-2"
                   >
                     View Transaction
@@ -172,7 +178,7 @@ export const DetailsPage = () => {
             <DetailsForm
               confirmed={isConfirmed}
               loading={isSendTxPending || isConfirming}
-              invalidConnection={!isConnected}
+              invalidConnection={invalidConnection}
               handleSubmit={handleSubmit}
               formElmClass="w-full space-y-4"
               hash={hash}
