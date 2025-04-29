@@ -23,7 +23,7 @@ import { CurrentNetworkProvider } from "./CurrentNetworkProvider";
 const connectors =
   process.env.NEXT_PUBLIC_ENV === "local"
     ? [farcasterFrame(), injected()]
-    : [farcasterFrame()];
+    : [farcasterFrame(), injected()];
 
 // const connectors = [farcasterFrame(), injected()];
 

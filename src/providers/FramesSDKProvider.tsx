@@ -18,7 +18,7 @@ export function FrameSDKProvider({ children }: { children: React.ReactNode }) {
   const [isFrameSDKLoaded, setIsFrameSDKLoaded] = useState(false);
   const [context, setContext] = useState<FrameContext>();
   const [localConnector, setLocalConnector] = useState<Connector>(
-    config.connectors[1]
+    config.connectors[0]
   );
 
   useEffect(() => {

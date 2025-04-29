@@ -5,18 +5,20 @@ import Image from "next/image";
 import { useAccount, useConnect } from "wagmi";
 import { UserAvatar } from "./UserAvatar";
 import { useEffect, useState } from "react";
+import { useFrameSDK } from "@/providers/FramesSDKProvider";
 
 export function ConnectWallet() {
-  const { connect, connectors } = useConnect();
+  const { connect } = useConnect();
   const { isConnected, address } = useAccount();
   const [mounted, setMounted] = useState(false);
+  const { connector } = useFrameSDK();
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
   const handleConnect = () => {
-    connect({ connector: connectors[0] });
+    connect({ connector: connector });
   };
 
   if (!mounted) {

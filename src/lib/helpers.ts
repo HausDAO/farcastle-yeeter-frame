@@ -73,8 +73,10 @@ export const nativeCurrencySymbol = (chain: Chain | undefined) => {
   return chain?.nativeCurrency.symbol || "ETH";
 };
 
-export const formatRaiseStatsDate = (seconds: string | undefined): string | undefined => {
+export const formatRaiseStatsDate = (
+  seconds: string | undefined
+): string | undefined => {
   if (!seconds) return undefined;
   const date = new Date(Number(seconds) * 1000);
-  return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+  return date.toLocaleDateString("en-US", { month: "short", day: "numeric" });
 };
