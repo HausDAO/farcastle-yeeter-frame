@@ -14,6 +14,8 @@ export default function Page() {
   const [mounted, setMounted] = useState(false);
   const { connector } = useFrameSDK();
 
+  console.log("connector", connector);
+
   useEffect(() => {
     setMounted(true);
   }, []);
