@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { useFrameSDK } from "@/providers/FramesSDKProvider";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -11,12 +12,13 @@ export const dynamic = "force-dynamic";
 
 export default function Page() {
   const [mounted, setMounted] = useState(false);
+  const { connector } = useFrameSDK();
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  const { connect, connectors } = useConnect();
+  const { connect } = useConnect();
   const { isConnected } = useAccount();
 
   if (!mounted) return null;
@@ -43,7 +45,7 @@ export default function Page() {
             </div>
             <div className="mt-4 w-full px-4 mb-0">
               <Button
-                onClick={() => connect({ connector: connectors[0] })}
+                onClick={() => connect({ connector: connector })}
                 className="w-full"
               >
                 Connect Wallet
@@ -73,7 +75,8 @@ export default function Page() {
               Your Path Awaits
             </div>
             <p className="text-muted-foreground text-base px-4 mb-4">
-              Explore campaigns and identify opportunities to contribute. Launch a campaign and raise funds for your mission.
+              Explore campaigns and identify opportunities to contribute. Launch
+              a campaign and raise funds for your mission.
             </p>
             <div className="flex flex-col w-full gap-2">
               <div className="mt-4 w-full px-4">

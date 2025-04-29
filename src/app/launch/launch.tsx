@@ -6,8 +6,7 @@ import { useFrameSDK } from "@/providers/FramesSDKProvider";
 import { useCallback } from "react";
 import {
   useAccount,
-  useChainId,
-  useConnect,
+  useChains,
   useWaitForTransactionReceipt,
   useWriteContract,
 } from "wagmi";
@@ -45,9 +44,8 @@ const chainNames: Record<ChainName, string> = {
 
 export default function Launch() {
   const { isLoaded } = useFrameSDK();
-  const { connect, connectors } = useConnect();
-  const { address, isConnected } = useAccount();
-  const chainId = useChainId();
+  const { address, isConnected, chainId } = useAccount();
+  const chains = useChains();
 
   const {
     writeContract,
@@ -63,10 +61,13 @@ export default function Launch() {
     });
 
   const openUrl = useCallback(() => {
-    sdk.actions.openUrl(`${getExplorerUrl(toHex(chainId))}/tx/${hash}`);
+    if (chainId) {
+      sdk.actions.openUrl(`${getExplorerUrl(toHex(chainId))}/tx/${hash}`);
+    }
   }, [hash, chainId]);
 
   const handleSend = async (values: ArbitraryState) => {
+    if (!chainId) return;
     const now = nowInSeconds();
 
     console.log("values", values);
@@ -123,21 +124,33 @@ export default function Launch() {
     );
   }
 
+  const connectedToValidChain = chains.find(
+    (chain) => chain.id === chainId
+  )?.id;
+  const invalidConnection = !isConnected || connectedToValidChain === undefined;
+
   return (
     <>
       <div className="w-full h-full space-y-4 pb-4 px-4">
         <Card className="flex flex-col items-center px-4 pt-4 pb-8 rounded-none">
-          <div className="text-primary font-display text-3xl uppercase mb-4">
-            {isConfirmed
-              ? `${chainNames[getWagmiChainObj(toHex(chainId)).name as ChainName] || "Base"} Campaign Launched`
-              : `${chainNames[getWagmiChainObj(toHex(chainId)).name as ChainName] || "Base"} Campaign`}
-          </div>
+          {!chainId && (
+            <div className="text-primary font-display text-3xl uppercase mb-4">
+              Campaign
+            </div>
+          )}
+          {chainId && (
+            <div className="text-primary font-display text-3xl uppercase mb-4">
+              {isConfirmed
+                ? `${chainNames[getWagmiChainObj(toHex(chainId)).name as ChainName] || "Base"} Campaign Launched`
+                : `${chainNames[getWagmiChainObj(toHex(chainId)).name as ChainName] || "Base"} Campaign`}
+            </div>
+          )}
 
           {!isConfirmed && (
             <LaunchForm
               confirmed={isConfirmed}
               loading={isSendTxPending || isConfirming}
-              invalidConnection={!isConnected}
+              invalidConnection={invalidConnection}
               handleSubmit={handleSend}
               formElmClass="w-full space-y-4"
             />
@@ -145,15 +158,6 @@ export default function Launch() {
 
           <div className="flex flex-col gap-2 w-full">
             {isSendTxError && renderError(sendTxError)}
-
-            {!isConnected && (
-              <Button
-                onClick={() => connect({ connector: connectors[0] })}
-                className="mt-2"
-              >
-                Connect
-              </Button>
-            )}
 
             {isConfirmed && (
               <div className="flex flex-col items-center gap-8">

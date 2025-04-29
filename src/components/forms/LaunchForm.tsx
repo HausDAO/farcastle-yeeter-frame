@@ -43,17 +43,17 @@ const formSchema = yup.object().shape({
   goal: yup
     .string()
     .required()
-    .test('is-number', 'goal must be a number', (value) => {
+    .test("is-number", "goal must be a number", (value) => {
       if (!value) return true; // Allow empty string for placeholder
       const num = Number(value);
       return !isNaN(num);
     })
-    .test('is-positive', 'goal must be positive', (value) => {
+    .test("is-positive", "goal must be positive", (value) => {
       if (!value) return true; // Allow empty string for placeholder
       const num = Number(value);
       return num > 0;
     })
-    .test('in-range', 'goal must be less than 1,000,000 ETH', (value) => {
+    .test("in-range", "goal must be less than 1,000,000 ETH", (value) => {
       if (!value) return true; // Allow empty string for placeholder
       const num = Number(value);
       return num <= 1000000;
@@ -105,7 +105,12 @@ export const LaunchForm = ({
                 requiredFields={requiredFields}
               />
               <FormControl>
-                <Input id="name" placeholder="Name" {...field} disabled={isDisabled} />
+                <Input
+                  id="name"
+                  placeholder="Name"
+                  {...field}
+                  disabled={isDisabled}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -123,7 +128,12 @@ export const LaunchForm = ({
                 popoverContent="The symbol is a short identifier for the token campaign contributors receive. It should be 8 characters or less."
               />
               <FormControl>
-                <Input id="lootTokenSymbol" placeholder="SYMBOL" {...field} disabled={isDisabled} />
+                <Input
+                  id="lootTokenSymbol"
+                  placeholder="SYMBOL"
+                  {...field}
+                  disabled={isDisabled}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -140,7 +150,13 @@ export const LaunchForm = ({
                 requiredFields={requiredFields}
               />
               <FormControl>
-                <Input id="goal" placeholder="ETH" type="number" {...field} disabled={isDisabled} />
+                <Input
+                  id="goal"
+                  placeholder="ETH"
+                  type="number"
+                  {...field}
+                  disabled={isDisabled}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
