@@ -48,8 +48,6 @@ export function FrameSDKProvider({ children }: { children: React.ReactNode }) {
 export const useFrameSDK = () => {
   const frameContext = useContext(FrameSDKContext);
 
-  console.log("frameContext", frameContext);
-
   return {
     context: frameContext?.context,
     isLoaded: frameContext?.isLoaded,

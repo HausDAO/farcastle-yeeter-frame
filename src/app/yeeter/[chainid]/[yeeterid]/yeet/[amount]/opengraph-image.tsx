@@ -4,12 +4,9 @@ import { getGraphUrl } from "@/lib/endpoints";
 import { GraphQLClient } from "graphql-request";
 import { RecordItem, YeeterItem } from "@/lib/types";
 import { FIND_YEETER, FIND_YEETER_PROFILE } from "@/lib/graph-queries";
-import { toWholeUnits, formatRaiseStatsDate } from "@/lib/helpers";
-import {
-  calcYeetIsActive,
-  calcYeetIsEnded,
-  calcYeetIsComingSoon,
-} from "@/lib/yeet-helpers";
+import { toWholeUnits } from "@/lib/helpers";
+import { formatLootForAmount } from "@/lib/yeet-helpers";
+import { toBaseUnits } from "@/lib/units";
 
 export const runtime = "edge";
 export const contentType = "image/png";
@@ -21,8 +18,9 @@ export const size = {
 export default async function Image({
   params,
 }: {
-  params: { chainid: string; yeeterid: string };
+  params: { chainid: string; yeeterid: string; amount: string };
 }) {
+  console.log("params", params);
   const dhUrl = getGraphUrl({
     chainid: params.chainid,
     graphKey: process.env.NEXT_PUBLIC_GRAPH_KEY || "",
@@ -41,8 +39,7 @@ export default async function Image({
   let raisedAmount = "0.00000";
   let goal = "0.0088";
   let title = "UNTITLED CAMPAIGN";
-  let isActive, isEnded, isComingSoon;
-  let statusMessage = "Default status message";
+  let contribution, loot;
 
   // Fetch font data
   const vt323FontUrl = `${baseUrl}/fonts/VT323-Regular.woff`;
@@ -94,6 +91,7 @@ export default async function Image({
             .split(`"yeeterId":"`)[1]
             ?.split(`"`)[0];
         }
+
         return recordYeeterId === yeeter.id;
       }) || records[0];
 
@@ -109,16 +107,9 @@ export default async function Image({
 
     raisedAmount = Number(toWholeUnits(yeeter?.balance)).toFixed(5);
     goal = toWholeUnits(yeeter?.goal);
-    isActive = calcYeetIsActive(yeeter);
-    isEnded = calcYeetIsEnded(yeeter);
-    isComingSoon = calcYeetIsComingSoon(yeeter);
-    if (isActive) {
-      statusMessage = `Closing ${formatRaiseStatsDate(yeeter.endTime)}`;
-    } else if (isEnded) {
-      statusMessage = `Closed ${formatRaiseStatsDate(yeeter.endTime)}`;
-    } else if (isComingSoon) {
-      statusMessage = `Opening ${formatRaiseStatsDate(yeeter.startTime)}`;
-    }
+
+    contribution = params.amount;
+    loot = `${formatLootForAmount(yeeter, toBaseUnits(params.amount))} ${yeeter.dao.lootTokenSymbol}`;
   } catch (error) {
     console.error("Error:", error);
   }
@@ -205,6 +196,26 @@ export default async function Image({
                 }}
               />
             </div>
+          </div>
+          <div
+            style={{
+              display: "flex",
+              fontSize: "36px",
+              justifyContent: "center",
+              fontFamily: "'Mulish'",
+            }}
+          >
+            I contributed {contribution} ETH!
+          </div>
+          <div
+            style={{
+              display: "flex",
+              fontSize: "20px",
+              justifyContent: "center",
+              fontFamily: "'Mulish'",
+            }}
+          >
+            For {loot}
           </div>
 
           {/* Bottom section */}
@@ -298,18 +309,6 @@ export default async function Image({
                   {goal} ETH
                 </div>
               </div>
-            </div>
-
-            {/* Closing date */}
-            <div
-              style={{
-                display: "flex",
-                fontSize: "36px",
-                justifyContent: "center",
-                fontFamily: "'Mulish'",
-              }}
-            >
-              {statusMessage}
             </div>
           </div>
         </div>
