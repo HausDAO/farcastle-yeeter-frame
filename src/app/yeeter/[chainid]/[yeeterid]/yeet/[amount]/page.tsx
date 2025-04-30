@@ -8,16 +8,16 @@ async function getBaseUrl() {
 }
 
 type Props = {
-  params: Promise<{ chainid: string; yeeterid: string }>;
+  params: Promise<{ chainid: string; yeeterid: string; amount: string }>;
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { chainid, yeeterid } = await params;
+  const { chainid, yeeterid, amount } = await params;
   const baseUrl = await getBaseUrl();
 
   const frame = {
     version: "next",
-    imageUrl: `${baseUrl}/yeeter/${chainid}/${yeeterid}/opengraph-image`,
+    imageUrl: `${baseUrl}/yeeter/${chainid}/${yeeterid}/yeet/${amount}/opengraph-image`,
     button: {
       title: "Contribute",
       action: {
