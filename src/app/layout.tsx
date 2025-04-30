@@ -68,8 +68,12 @@ export default function RootLayout({
       </head>
       <body className="antialiased scrollbar-vert">
         <Providers>
-          <Header />
-          <div className="mt-1">{children}</div>
+          <div className="w-full flex flex-col items-center">
+            <div className="w-screen md:w-[768px]">
+              <Header />
+              <div className="mt-1">{children}</div>
+            </div>
+          </div>
         </Providers>
       </body>
     </html>
