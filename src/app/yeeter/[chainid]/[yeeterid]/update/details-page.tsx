@@ -145,10 +145,9 @@ export const DetailsPage = () => {
                   {isCasting ? (
                     <div className="flex items-center gap-2">
                       <LoadingSpinner />
-                      <span>Casting...</span>
                     </div>
                   ) : (
-                    "Cast Campaign"
+                    "Share Campaign"
                   )}
                 </Button>
                 <Link

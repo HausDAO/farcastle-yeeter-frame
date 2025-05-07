@@ -176,7 +176,11 @@ export default function Launch() {
                   </Link>
 
                   {hash && (
-                    <Button onClick={openUrl} className="w-full">
+                    <Button
+                      variant="secondary"
+                      onClick={openUrl}
+                      className="w-full"
+                    >
                       View Transaction
                     </Button>
                   )}
