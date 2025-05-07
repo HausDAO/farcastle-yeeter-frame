@@ -115,7 +115,6 @@ export const YeeterAbout = ({
                   {isCasting ? (
                     <div className="flex items-center gap-2">
                       <LoadingSpinner />
-                      <span>Casting...</span>
                     </div>
                   ) : (
                     "Cast Campaign"
