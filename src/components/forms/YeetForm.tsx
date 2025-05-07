@@ -95,25 +95,29 @@ export const YeetForm = ({
     sdk.actions.openUrl(`${getExplorerUrl(chainid)}/tx/${hash}`);
   }, [hash, chainid]);
 
-  const handleCastContribution = useCallback(async () => {
-    try {
-      setIsCasting(true);
-      const baseUrl =
-        process.env.NODE_ENV === "development"
-          ? window.location.origin
-          : process.env.NEXT_PUBLIC_URL || "https://fundraiser.farcastle.net";
-      const campaignUrl = `${baseUrl}/yeeter/${chainid}/${yeeterid}`;
+  const handleCastContribution = useCallback(
+    async (amount: string) => {
+      try {
+        console.log("amount", amount);
+        setIsCasting(true);
+        const baseUrl =
+          process.env.NODE_ENV === "development"
+            ? window.location.origin
+            : process.env.NEXT_PUBLIC_URL || "https://fundraiser.farcastle.net";
+        const campaignUrl = `${baseUrl}/yeeter/${chainid}/${yeeterid}/yeet/${amount}`;
 
-      await sdk.actions.composeCast({
-        text: form.getValues("message") || "",
-        embeds: [campaignUrl],
-      });
-    } catch (error) {
-      console.error("Error composing cast:", error);
-    } finally {
-      setIsCasting(false);
-    }
-  }, [yeeterid, chainid, form]);
+        await sdk.actions.composeCast({
+          text: form.getValues("message") || "",
+          embeds: [campaignUrl],
+        });
+      } catch (error) {
+        console.error("Error composing cast:", error);
+      } finally {
+        setIsCasting(false);
+      }
+    },
+    [yeeterid, chainid, form]
+  );
 
   const disabled = loading || confirmed || invalidConnection;
 
@@ -207,16 +211,17 @@ export const YeetForm = ({
           <Button
             variant="default"
             className="w-full mb-3"
-            onClick={handleCastContribution}
+            onClick={() =>
+              handleCastContribution(form.getValues("amount").toString())
+            }
             disabled={isCasting}
           >
             {isCasting ? (
               <div className="flex items-center gap-2">
                 <LoadingSpinner />
-                <span>Casting...</span>
               </div>
             ) : (
-              "Cast Contribution"
+              "Share Contribution"
             )}
           </Button>
 
