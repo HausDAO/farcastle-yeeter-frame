@@ -19,6 +19,7 @@ import { DaoRecordProvider } from "./DaoRecordProvider";
 import { FrameSDKProvider } from "./FramesSDKProvider";
 import { HAUS_RPC_DEFAULTS } from "@/lib/constants";
 import { CurrentNetworkProvider } from "./CurrentNetworkProvider";
+import { PostHogProvider } from "./PostHogProvider";
 
 const connectors =
   process.env.NEXT_PUBLIC_ENV === "local"
@@ -47,17 +48,19 @@ function Providers({ children }: React.PropsWithChildren) {
   };
 
   return (
-    <WagmiProvider config={config}>
-      <QueryClientProvider client={queryClient}>
-        <FrameSDKProvider>
-          <CurrentNetworkProvider>
-            <DaoHooksProvider keyConfig={daoHooksConfig}>
-              <DaoRecordProvider>{children}</DaoRecordProvider>
-            </DaoHooksProvider>
-          </CurrentNetworkProvider>
-        </FrameSDKProvider>
-      </QueryClientProvider>
-    </WagmiProvider>
+    <PostHogProvider>
+      <WagmiProvider config={config}>
+        <QueryClientProvider client={queryClient}>
+          <FrameSDKProvider>
+            <CurrentNetworkProvider>
+              <DaoHooksProvider keyConfig={daoHooksConfig}>
+                <DaoRecordProvider>{children}</DaoRecordProvider>
+              </DaoHooksProvider>
+            </CurrentNetworkProvider>
+          </FrameSDKProvider>
+        </QueryClientProvider>
+      </WagmiProvider>
+    </PostHogProvider>
   );
 }
 
