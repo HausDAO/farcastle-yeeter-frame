@@ -1,13 +1,12 @@
 "use client";
 
 import { NetworkSwitcher } from "@/components/app/NetworkSwitcher";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import React from "react";
 import { ConnectWallet } from "../app/ConnectWallet";
 
 function Header() {
   const router = useRouter();
-  const pathname = usePathname();
 
   const onExploreClick = React.useCallback(() => {
     router.push("/explore");
