@@ -221,7 +221,7 @@ export const YeetForm = ({
                 <LoadingSpinner />
               </div>
             ) : (
-              "Cast Contribution"
+              "Share Contribution"
             )}
           </Button>
 

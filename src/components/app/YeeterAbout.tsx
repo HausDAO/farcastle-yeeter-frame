@@ -117,7 +117,7 @@ export const YeeterAbout = ({
                       <LoadingSpinner />
                     </div>
                   ) : (
-                    "Cast Campaign"
+                    "Share Campaign"
                   )}
                 </Button>
               </div>

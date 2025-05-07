@@ -54,7 +54,7 @@ export const ClosedYeeter = ({
               <LoadingSpinner />
             </div>
           ) : (
-            "Cast Campaign"
+            "Share Campaign"
           )}
         </Button>
       </div>

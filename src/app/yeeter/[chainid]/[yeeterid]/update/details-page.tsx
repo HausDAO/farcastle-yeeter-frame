@@ -147,7 +147,7 @@ export const DetailsPage = () => {
                       <LoadingSpinner />
                     </div>
                   ) : (
-                    "Cast Campaign"
+                    "Share Campaign"
                   )}
                 </Button>
                 <Link
