@@ -1,7 +1,7 @@
 import { http, createConfig, useEnsName } from "wagmi";
 import { mainnet } from "wagmi/chains";
 import { YeetsItem } from "../../lib/types";
-import { fromWei, truncateAddress } from "../../lib/helpers";
+import { fromWei, truncateAddress, charLimit } from "../../lib/helpers";
 import { formatValueTo } from "../../lib/units";
 import { HAUS_RPC_DEFAULTS } from "../../lib/constants";
 import { AvatarDisplay } from "./AvatarDisplay";
@@ -30,7 +30,9 @@ export const YeetMessage = ({ yeet }: { yeet: YeetsItem }) => {
             <div className="flex flex-row gap-4 items-center text-sm">
               <AvatarDisplay name={name} />
               <p>
-                {name || truncateAddress(yeet.contributor)}
+                {name
+                  ? charLimit(name, 20)
+                  : truncateAddress(yeet.contributor)}
               </p>
             </div>
             <p className="stat-value text-lg">{`${formatValueTo({
