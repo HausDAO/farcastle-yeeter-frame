@@ -40,8 +40,30 @@ export const useYeets = ({
     }> => graphQLClient.request(LIST_YEETS, { shamanAddress: yeeterid }),
   });
 
+  const yeeterAddresses = data?.yeets.map((yeet) => yeet.contributor);
+
+  const { data: farcasterUsers } = useQuery({
+    queryKey: ["farcaster-users", yeeterAddresses],
+    enabled: Boolean(yeeterAddresses?.length),
+    queryFn: async () => {
+      const response = await fetch("/api/farcaster/users", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ ethereumAddresses: yeeterAddresses }),
+      });
+      if (!response.ok) {
+        throw new Error("Failed to fetch Farcaster users");
+      }
+      const data = await response.json();
+      return data.users;
+    },
+  });
+
   return {
     yeets: data?.yeets,
+    farcasterUsers,
     ...rest,
   };
 };
