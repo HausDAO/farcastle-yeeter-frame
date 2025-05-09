@@ -54,8 +54,31 @@ export const useDaoMembers = ({
     },
   });
 
+  const memberAddresses = data?.members.map((member) => member.memberAddress);
+
+  const { data: farcasterUsers } = useQuery({
+    queryKey: ["farcaster-users-member-list", memberAddresses],
+    enabled: Boolean(memberAddresses?.length),
+    queryFn: async () => {
+      console.log("TRIGGER");
+      const response = await fetch("/api/farcaster/users", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ ethereumAddresses: memberAddresses }),
+      });
+      if (!response.ok) {
+        throw new Error("Failed to fetch Farcaster users");
+      }
+      const data = await response.json();
+      return data.users;
+    },
+  });
+
   return {
     members: data?.members,
+    farcasterUsers,
     ...rest,
   };
 };
