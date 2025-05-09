@@ -3,11 +3,7 @@ import { ImageResponse } from "next/og";
 import { getGraphUrl } from "@/lib/endpoints";
 import { GraphQLClient } from "graphql-request";
 import { RecordItem, YeeterItem } from "@/lib/types";
-import {
-  FIND_YEETER_EMBED,
-  FIND_YEETER_PROFILE,
-  LIST_YEETS,
-} from "@/lib/graph-queries";
+import { FIND_YEETER_EMBED, FIND_YEETER_PROFILE } from "@/lib/graph-queries";
 import { toWholeUnits, formatRaiseStatsDate } from "@/lib/helpers";
 import {
   calcYeetIsActive,
