@@ -206,9 +206,20 @@ export default async function Image({
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
-              gap: "20px",
+              gap: "8px",
             }}
           >
+          <div
+            style={{
+              display: "flex",
+              fontSize: "20px",
+              textTransform: "uppercase",
+              fontFamily: "'Mulish'",
+              color: "#9FA3AF",
+            }}
+          >
+            I contributed {contribution} ETH to
+          </div>
             <div
               style={{
                 display: "flex",
@@ -233,48 +244,68 @@ export default async function Image({
               />
             </div>
           </div>
-          <div
-            style={{
-              display: "flex",
-              fontSize: "36px",
-              justifyContent: "center",
-              fontFamily: "'Mulish'",
-            }}
-          >
-            I contributed {contribution} ETH!
-          </div>
-          <div
-            style={{
-              display: "flex",
-              fontSize: "20px",
-              justifyContent: "center",
-              fontFamily: "'Mulish'",
-            }}
-          >
-            For {loot}
-          </div>
 
+          {/* Contributors and Team headings row */}
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
+              width: "100%",
+              maxWidth: "600px",
+              marginTop: "24px",
+              marginBottom: "8px",
+            }}
+          >
+            <div
+              style={{
+                fontSize: "20px",
+                textTransform: "uppercase",
+                fontFamily: "'Mulish'",
+                color: "#9FA3AF",
+                textAlign: "left",
+              }}
+            >
+              Contributors
+            </div>
+            <div
+              style={{
+                fontSize: "20px",
+                textTransform: "uppercase",
+                fontFamily: "'Mulish'",
+                color: "#9FA3AF",
+                textAlign: "right",
+              }}
+            >
+              Team
+            </div>
+          </div>
+          {/* Avatars row */}
           <div
             style={{
               display: "flex",
               flexDirection: "row",
               flexWrap: "wrap",
+              gap: "8px",
+              alignItems: "center",
+              width: "100%",
+              maxWidth: "600px",
+              marginBottom: "24px",
             }}
           >
-            {farcasterPfps?.map((url) => {
-              return (
-                <img
-                  src={url}
-                  key={url}
-                  alt="farcasterPfp"
-                  style={{
-                    width: "20px",
-                    height: "20px",
-                    borderRadius: "100%",
-                  }}
-                />
-              );
-            })}
+            {farcasterPfps?.map((url) => (
+              <img
+                src={url}
+                key={url}
+                alt="farcasterPfp"
+                style={{
+                  width: "40px",
+                  height: "40px",
+                  borderRadius: "100%",
+                }}
+              />
+            ))}
           </div>
 
           {/* Bottom section */}
