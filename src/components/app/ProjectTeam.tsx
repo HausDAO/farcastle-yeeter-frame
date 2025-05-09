@@ -15,11 +15,13 @@ export const ProjectTeamList = ({
     chainid,
     yeeterid,
   });
-  const { members } = useDaoMembers({
+  const { members, farcasterUsers } = useDaoMembers({
     chainid,
     daoid,
   });
   if (!yeeter || !chainid) return;
+
+  console.log("farcasterUsers", farcasterUsers);
 
   return (
     <div className="flex flex-col gap-4">
@@ -28,6 +30,7 @@ export const ProjectTeamList = ({
           return (
             <ProjectAddressListItem
               memberAddress={member.memberAddress}
+              farcasterUsers={farcasterUsers?.[member.memberAddress]}
               key={member.id}
             />
           );

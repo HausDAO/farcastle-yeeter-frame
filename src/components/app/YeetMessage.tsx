@@ -1,16 +1,11 @@
 import { http, createConfig, useEnsName } from "wagmi";
 import { mainnet } from "wagmi/chains";
-import { YeetsItem } from "../../lib/types";
+import { FarcasterUser, YeetsItem } from "../../lib/types";
 import { fromWei, truncateAddress, charLimit } from "../../lib/helpers";
 import { formatValueTo } from "../../lib/units";
 import { HAUS_RPC_DEFAULTS } from "../../lib/constants";
 import { AvatarDisplay } from "./AvatarDisplay";
 import { Card, CardContent } from "@/components/ui/card";
-
-interface FarcasterUser {
-  pfp_url: string;
-  username: string;
-}
 
 const config = createConfig({
   chains: [mainnet],

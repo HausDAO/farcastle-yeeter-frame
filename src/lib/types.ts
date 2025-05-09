@@ -300,3 +300,8 @@ export type ExitItem = {
   loot: string;
   to: string;
 };
+
+export interface FarcasterUser {
+  pfp_url: string;
+  username: string;
+}
