@@ -9,7 +9,7 @@ export const YeetMessages = ({
   chainid: string;
   yeeterid: string;
 }) => {
-  const { yeets } = useYeets({
+  const { yeets, farcasterUsers } = useYeets({
     chainid,
     yeeterid,
   });
@@ -22,7 +22,13 @@ export const YeetMessages = ({
         <div className="text-muted text-sm mb-4 uppercase">Contributors</div>
         {yeets &&
           yeets?.map((yeet) => {
-            return <YeetMessage yeet={yeet} key={yeet.id} />;
+            return (
+              <YeetMessage
+                yeet={yeet}
+                key={yeet.id}
+                farcasterUsers={farcasterUsers?.[yeet.contributor]}
+              />
+            );
           })}
       </CardContent>
     </Card>

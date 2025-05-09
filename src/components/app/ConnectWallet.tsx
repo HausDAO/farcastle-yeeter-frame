@@ -11,7 +11,7 @@ export function ConnectWallet() {
   const { connect } = useConnect();
   const { isConnected, address } = useAccount();
   const [mounted, setMounted] = useState(false);
-  const { connector } = useFrameSDK();
+  const { connector, context } = useFrameSDK();
 
   useEffect(() => {
     setMounted(true);
@@ -20,6 +20,8 @@ export function ConnectWallet() {
   const handleConnect = () => {
     connect({ connector: connector });
   };
+
+  const pfpImg = context?.user?.pfpUrl || "/images/skull.png";
 
   if (!mounted) {
     return (
@@ -49,10 +51,15 @@ export function ConnectWallet() {
         <UserAvatar address={address} />
       ) : (
         <Image
-          src="/images/skull.png"
+          src={pfpImg}
           alt="Connect wallet"
           fill
           className="rounded-full object-cover"
+          style={
+            !isConnected && {
+              filter: "opacity(0.5)",
+            }
+          }
         />
       )}
     </Button>
