@@ -175,6 +175,8 @@ export default async function Image({
     });
   }
 
+  console.log("farcasterPfps", farcasterPfps);
+
   return new ImageResponse(
     (
       <div
