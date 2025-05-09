@@ -2,9 +2,9 @@
 import { ImageResponse } from "next/og";
 import { getGraphUrl } from "@/lib/endpoints";
 import { GraphQLClient } from "graphql-request";
-import { RecordItem, YeeterItem, YeetsItem } from "@/lib/types";
+import { RecordItem, YeeterItem } from "@/lib/types";
 import {
-  FIND_YEETER,
+  FIND_YEETER_EMBED,
   FIND_YEETER_PROFILE,
   LIST_YEETS,
 } from "@/lib/graph-queries";
@@ -81,7 +81,7 @@ export default async function Image({
 
   try {
     const graphQLClientYeeter = new GraphQLClient(yeeterUrl);
-    const { yeeter } = (await graphQLClientYeeter.request(FIND_YEETER, {
+    const { yeeter } = (await graphQLClientYeeter.request(FIND_YEETER_EMBED, {
       shamanAddress: params.yeeterid,
     })) as { yeeter: YeeterItem };
 
@@ -89,10 +89,6 @@ export default async function Image({
     const { records } = (await graphQLClientDh.request(FIND_YEETER_PROFILE, {
       daoid: yeeter.dao.id,
     })) as { records: RecordItem[] };
-
-    const { yeets } = (await graphQLClientYeeter.request(LIST_YEETS, {
-      shamanAddress: params.yeeterid,
-    })) as { yeets: YeetsItem[] };
 
     const profileMatch =
       records.find((record) => {
@@ -115,31 +111,35 @@ export default async function Image({
       }
     }
 
-    const yeeterAddresses = yeets.map((yeet) => yeet.contributor);
+    const yeeterAddresses = yeeter.yeets?.map((yeet) => yeet.contributor);
 
-    const options = {
-      method: "GET",
-      headers: { "x-api-key": process.env.NEYNAR_API_KEY || "" },
-    };
+    if (yeeterAddresses) {
+      const options = {
+        method: "GET",
+        headers: { "x-api-key": process.env.NEYNAR_API_KEY || "" },
+      };
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    let farcasterUsers = {} as Record<string, any[]>;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      let farcasterUsers = {} as Record<string, any[]>;
 
-    const res = await fetch(
-      `https://api.neynar.com/v2/farcaster/user/bulk-by-address?addresses=${yeeterAddresses.join(",")}`,
-      options
-    );
+      const res = await fetch(
+        `https://api.neynar.com/v2/farcaster/user/bulk-by-address?addresses=${yeeterAddresses.join(",")}`,
+        options
+      );
 
-    if (res.ok) {
-      farcasterUsers = await res.json();
-    }
+      if (res.ok) {
+        farcasterUsers = await res.json();
+      }
 
-    // console.log("farcasterUsers", farcasterUsers);
-    /* tslint:ignore */
-    farcasterPfps = Object.keys(farcasterUsers).map((address) => {
+      // console.log("farcasterUsers", farcasterUsers);
       /* tslint:ignore */
-      return farcasterUsers[address][0].pfp_url;
-    });
+      farcasterPfps = Object.keys(farcasterUsers).map((address) => {
+        /* tslint:ignore */
+        return farcasterUsers[address][0].pfp_url;
+      });
+
+      farcasterPfps = [...new Set(farcasterPfps)];
+    }
 
     raisedAmount = Number(toWholeUnits(yeeter?.balance)).toFixed(5);
     goal = toWholeUnits(yeeter?.goal);
@@ -241,27 +241,67 @@ export default async function Image({
             </div>
           </div>
 
+          {/* Contributors and Team headings row */}
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
+              width: "100%",
+              maxWidth: "600px",
+              marginTop: "24px",
+              marginBottom: "8px",
+            }}
+          >
+            <div
+              style={{
+                fontSize: "20px",
+                textTransform: "uppercase",
+                fontFamily: "'Mulish'",
+                color: "#9FA3AF",
+                textAlign: "left",
+              }}
+            >
+              Contributors
+            </div>
+            <div
+              style={{
+                fontSize: "20px",
+                textTransform: "uppercase",
+                fontFamily: "'Mulish'",
+                color: "#9FA3AF",
+                textAlign: "right",
+              }}
+            >
+              {/* Members */}
+            </div>
+          </div>
+          {/* Avatars row */}
           <div
             style={{
               display: "flex",
               flexDirection: "row",
               flexWrap: "wrap",
+              gap: "8px",
+              alignItems: "center",
+              width: "100%",
+              maxWidth: "600px",
+              marginBottom: "24px",
             }}
           >
-            {farcasterPfps?.map((url) => {
-              return (
-                <img
-                  src={url}
-                  key={url}
-                  alt="farcasterPfp"
-                  style={{
-                    width: "20px",
-                    height: "20px",
-                    borderRadius: "100%",
-                  }}
-                />
-              );
-            })}
+            {farcasterPfps?.map((url) => (
+              <img
+                src={url}
+                key={url}
+                alt="farcasterPfp"
+                style={{
+                  width: "40px",
+                  height: "40px",
+                  borderRadius: "100%",
+                }}
+              />
+            ))}
           </div>
 
           {/* Bottom section */}
