@@ -3,7 +3,7 @@ import { ImageResponse } from "next/og";
 import { getGraphUrl } from "@/lib/endpoints";
 import { GraphQLClient } from "graphql-request";
 import { RecordItem, YeeterItem } from "@/lib/types";
-import { FIND_YEETER, FIND_YEETER_PROFILE } from "@/lib/graph-queries";
+import { FIND_YEETER_EMBED, FIND_YEETER_PROFILE } from "@/lib/graph-queries";
 import { toWholeUnits, formatRaiseStatsDate } from "@/lib/helpers";
 import {
   calcYeetIsActive,
@@ -41,7 +41,7 @@ export default async function Image({
   let raisedAmount = "0.00000";
   let goal = "0.0088";
   let title = "UNTITLED CAMPAIGN";
-  let isActive, isEnded, isComingSoon;
+  let isActive, isEnded, isComingSoon, farcasterPfps;
   let statusMessage = "Default status message";
 
   // Fetch font data
@@ -77,7 +77,7 @@ export default async function Image({
 
   try {
     const graphQLClientYeeter = new GraphQLClient(yeeterUrl);
-    const { yeeter } = (await graphQLClientYeeter.request(FIND_YEETER, {
+    const { yeeter } = (await graphQLClientYeeter.request(FIND_YEETER_EMBED, {
       shamanAddress: params.yeeterid,
     })) as { yeeter: YeeterItem };
 
@@ -105,6 +105,36 @@ export default async function Image({
       if (profile.name) {
         title = profile.name.toUpperCase();
       }
+    }
+
+    const yeeterAddresses = yeeter.yeets?.map((yeet) => yeet.contributor);
+
+    if (yeeterAddresses) {
+      const options = {
+        method: "GET",
+        headers: { "x-api-key": process.env.NEYNAR_API_KEY || "" },
+      };
+
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      let farcasterUsers = {} as Record<string, any[]>;
+
+      const res = await fetch(
+        `https://api.neynar.com/v2/farcaster/user/bulk-by-address?addresses=${yeeterAddresses.join(",")}`,
+        options
+      );
+
+      if (res.ok) {
+        farcasterUsers = await res.json();
+      }
+
+      // console.log("farcasterUsers", farcasterUsers);
+      /* tslint:ignore */
+      farcasterPfps = Object.keys(farcasterUsers).map((address) => {
+        /* tslint:ignore */
+        return farcasterUsers[address][0].pfp_url;
+      });
+
+      farcasterPfps = [...new Set(farcasterPfps)];
     }
 
     raisedAmount = Number(toWholeUnits(yeeter?.balance)).toFixed(5);
@@ -205,6 +235,69 @@ export default async function Image({
                 }}
               />
             </div>
+          </div>
+
+          {/* Contributors and Team headings row */}
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
+              width: "100%",
+              maxWidth: "600px",
+              marginTop: "24px",
+              marginBottom: "8px",
+            }}
+          >
+            <div
+              style={{
+                fontSize: "20px",
+                textTransform: "uppercase",
+                fontFamily: "'Mulish'",
+                color: "#9FA3AF",
+                textAlign: "left",
+              }}
+            >
+              Contributors
+            </div>
+            <div
+              style={{
+                fontSize: "20px",
+                textTransform: "uppercase",
+                fontFamily: "'Mulish'",
+                color: "#9FA3AF",
+                textAlign: "right",
+              }}
+            >
+              {/* Members */}
+            </div>
+          </div>
+          {/* Avatars row */}
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              flexWrap: "wrap",
+              gap: "8px",
+              alignItems: "center",
+              width: "100%",
+              maxWidth: "600px",
+              marginBottom: "24px",
+            }}
+          >
+            {farcasterPfps?.map((url) => (
+              <img
+                src={url}
+                key={url}
+                alt="farcasterPfp"
+                style={{
+                  width: "40px",
+                  height: "40px",
+                  borderRadius: "100%",
+                }}
+              />
+            ))}
           </div>
 
           {/* Bottom section */}

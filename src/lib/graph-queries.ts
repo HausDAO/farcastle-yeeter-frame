@@ -25,6 +25,18 @@ export const FIND_YEETER = gql`
   }
 `;
 
+export const FIND_YEETER_EMBED = gql`
+  query yeeter($shamanAddress: String!) {
+    yeeter(id: $shamanAddress) {
+      ${yeeterFields}
+      yeets {
+        id
+        contributor
+      }
+    }
+  }
+`;
+
 export const LIST_ALL_YEETERS = gql`
   {
     yeeters(

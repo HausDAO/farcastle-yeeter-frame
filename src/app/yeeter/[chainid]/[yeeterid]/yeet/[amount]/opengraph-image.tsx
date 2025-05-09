@@ -2,12 +2,8 @@
 import { ImageResponse } from "next/og";
 import { getGraphUrl } from "@/lib/endpoints";
 import { GraphQLClient } from "graphql-request";
-import { RecordItem, YeeterItem, YeetsItem } from "@/lib/types";
-import {
-  FIND_YEETER,
-  FIND_YEETER_PROFILE,
-  LIST_YEETS,
-} from "@/lib/graph-queries";
+import { RecordItem, YeeterItem } from "@/lib/types";
+import { FIND_YEETER_EMBED, FIND_YEETER_PROFILE } from "@/lib/graph-queries";
 import { toWholeUnits } from "@/lib/helpers";
 
 export const runtime = "edge";
@@ -76,7 +72,7 @@ export default async function Image({
 
   try {
     const graphQLClientYeeter = new GraphQLClient(yeeterUrl);
-    const { yeeter } = (await graphQLClientYeeter.request(FIND_YEETER, {
+    const { yeeter } = (await graphQLClientYeeter.request(FIND_YEETER_EMBED, {
       shamanAddress: params.yeeterid,
     })) as { yeeter: YeeterItem };
 
@@ -84,10 +80,6 @@ export default async function Image({
     const { records } = (await graphQLClientDh.request(FIND_YEETER_PROFILE, {
       daoid: yeeter.dao.id,
     })) as { records: RecordItem[] };
-
-    const { yeets } = (await graphQLClientYeeter.request(LIST_YEETS, {
-      shamanAddress: params.yeeterid,
-    })) as { yeets: YeetsItem[] };
 
     // const frameContext = await frameSDK.context;
 
@@ -113,31 +105,35 @@ export default async function Image({
       }
     }
 
-    const yeeterAddresses = yeets.map((yeet) => yeet.contributor);
+    const yeeterAddresses = yeeter.yeets?.map((yeet) => yeet.contributor);
 
-    const options = {
-      method: "GET",
-      headers: { "x-api-key": process.env.NEYNAR_API_KEY || "" },
-    };
+    if (yeeterAddresses) {
+      const options = {
+        method: "GET",
+        headers: { "x-api-key": process.env.NEYNAR_API_KEY || "" },
+      };
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    let farcasterUsers = {} as Record<string, any[]>;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      let farcasterUsers = {} as Record<string, any[]>;
 
-    const res = await fetch(
-      `https://api.neynar.com/v2/farcaster/user/bulk-by-address?addresses=${yeeterAddresses.join(",")}`,
-      options
-    );
+      const res = await fetch(
+        `https://api.neynar.com/v2/farcaster/user/bulk-by-address?addresses=${yeeterAddresses.join(",")}`,
+        options
+      );
 
-    if (res.ok) {
-      farcasterUsers = await res.json();
-    }
+      if (res.ok) {
+        farcasterUsers = await res.json();
+      }
 
-    // console.log("farcasterUsers", farcasterUsers);
-    /* tslint:ignore */
-    farcasterPfps = Object.keys(farcasterUsers).map((address) => {
+      // console.log("farcasterUsers", farcasterUsers);
       /* tslint:ignore */
-      return farcasterUsers[address][0].pfp_url;
-    });
+      farcasterPfps = Object.keys(farcasterUsers).map((address) => {
+        /* tslint:ignore */
+        return farcasterUsers[address][0].pfp_url;
+      });
+
+      farcasterPfps = [...new Set(farcasterPfps)];
+    }
 
     raisedAmount = Number(toWholeUnits(yeeter?.balance)).toFixed(5);
     goal = toWholeUnits(yeeter?.goal);
@@ -206,17 +202,17 @@ export default async function Image({
               gap: "8px",
             }}
           >
-          <div
-            style={{
-              display: "flex",
-              fontSize: "20px",
-              textTransform: "uppercase",
-              fontFamily: "'Mulish'",
-              color: "#9FA3AF",
-            }}
-          >
-            I contributed {contribution} ETH to
-          </div>
+            <div
+              style={{
+                display: "flex",
+                fontSize: "20px",
+                textTransform: "uppercase",
+                fontFamily: "'Mulish'",
+                color: "#9FA3AF",
+              }}
+            >
+              I contributed {contribution} ETH to
+            </div>
             <div
               style={{
                 display: "flex",
