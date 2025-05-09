@@ -9,8 +9,6 @@ import {
   LIST_YEETS,
 } from "@/lib/graph-queries";
 import { toWholeUnits } from "@/lib/helpers";
-import { formatLootForAmount } from "@/lib/yeet-helpers";
-import { toBaseUnits } from "@/lib/units";
 
 export const runtime = "edge";
 export const contentType = "image/png";
@@ -43,7 +41,7 @@ export default async function Image({
   let raisedAmount = "0.00000";
   let goal = "0.0088";
   let title = "UNTITLED CAMPAIGN";
-  let contribution, loot, farcasterPfps;
+  let contribution, farcasterPfps;
 
   // Fetch font data
   const vt323FontUrl = `${baseUrl}/fonts/VT323-Regular.woff`;
@@ -145,7 +143,6 @@ export default async function Image({
     goal = toWholeUnits(yeeter?.goal);
 
     contribution = params.amount;
-    loot = `${formatLootForAmount(yeeter, toBaseUnits(params.amount))} ${yeeter.dao.lootTokenSymbol}`;
   } catch (error) {
     console.error("Error:", error);
   }
@@ -206,9 +203,20 @@ export default async function Image({
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
-              gap: "20px",
+              gap: "8px",
             }}
           >
+          <div
+            style={{
+              display: "flex",
+              fontSize: "20px",
+              textTransform: "uppercase",
+              fontFamily: "'Mulish'",
+              color: "#9FA3AF",
+            }}
+          >
+            I contributed {contribution} ETH to
+          </div>
             <div
               style={{
                 display: "flex",
@@ -233,48 +241,68 @@ export default async function Image({
               />
             </div>
           </div>
-          <div
-            style={{
-              display: "flex",
-              fontSize: "36px",
-              justifyContent: "center",
-              fontFamily: "'Mulish'",
-            }}
-          >
-            I contributed {contribution} ETH!
-          </div>
-          <div
-            style={{
-              display: "flex",
-              fontSize: "20px",
-              justifyContent: "center",
-              fontFamily: "'Mulish'",
-            }}
-          >
-            For {loot}
-          </div>
 
+          {/* Contributors and Team headings row */}
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
+              width: "100%",
+              maxWidth: "600px",
+              marginTop: "24px",
+              marginBottom: "8px",
+            }}
+          >
+            <div
+              style={{
+                fontSize: "20px",
+                textTransform: "uppercase",
+                fontFamily: "'Mulish'",
+                color: "#9FA3AF",
+                textAlign: "left",
+              }}
+            >
+              Contributors
+            </div>
+            <div
+              style={{
+                fontSize: "20px",
+                textTransform: "uppercase",
+                fontFamily: "'Mulish'",
+                color: "#9FA3AF",
+                textAlign: "right",
+              }}
+            >
+              {/* Members */}
+            </div>
+          </div>
+          {/* Avatars row */}
           <div
             style={{
               display: "flex",
               flexDirection: "row",
               flexWrap: "wrap",
+              gap: "8px",
+              alignItems: "center",
+              width: "100%",
+              maxWidth: "600px",
+              marginBottom: "24px",
             }}
           >
-            {farcasterPfps?.map((url) => {
-              return (
-                <img
-                  src={url}
-                  key={url}
-                  alt="farcasterPfp"
-                  style={{
-                    width: "20px",
-                    height: "20px",
-                    borderRadius: "100%",
-                  }}
-                />
-              );
-            })}
+            {farcasterPfps?.map((url) => (
+              <img
+                src={url}
+                key={url}
+                alt="farcasterPfp"
+                style={{
+                  width: "40px",
+                  height: "40px",
+                  borderRadius: "100%",
+                }}
+              />
+            ))}
           </div>
 
           {/* Bottom section */}
