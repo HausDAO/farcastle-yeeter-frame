@@ -14,7 +14,13 @@ const config = createConfig({
   },
 });
 
-export const AvatarDisplay = ({ name }: { name?: GetEnsNameReturnType }) => {
+export const AvatarDisplay = ({
+  name,
+  farcasterPfp,
+}: {
+  name?: GetEnsNameReturnType;
+  farcasterPfp?: string;
+}) => {
   const { data: avatar } = useEnsAvatar({
     config,
     name: normalize(name || ""),
@@ -30,7 +36,7 @@ export const AvatarDisplay = ({ name }: { name?: GetEnsNameReturnType }) => {
       <Avatar className="h-10 w-10">
         {!imgError && avatar ? (
           <Image
-            src={avatar}
+            src={farcasterPfp || avatar}
             alt={name || "Skull"}
             width={40}
             height={40}
@@ -39,7 +45,7 @@ export const AvatarDisplay = ({ name }: { name?: GetEnsNameReturnType }) => {
           />
         ) : (
           <Image
-            src="/images/skull.png"
+            src={farcasterPfp || "/images/skull.png"}
             alt="Skull"
             width={120}
             height={120}

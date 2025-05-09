@@ -2,8 +2,12 @@
 import { ImageResponse } from "next/og";
 import { getGraphUrl } from "@/lib/endpoints";
 import { GraphQLClient } from "graphql-request";
-import { RecordItem, YeeterItem } from "@/lib/types";
-import { FIND_YEETER, FIND_YEETER_PROFILE } from "@/lib/graph-queries";
+import { RecordItem, YeeterItem, YeetsItem } from "@/lib/types";
+import {
+  FIND_YEETER,
+  FIND_YEETER_PROFILE,
+  LIST_YEETS,
+} from "@/lib/graph-queries";
 import { toWholeUnits } from "@/lib/helpers";
 import { formatLootForAmount } from "@/lib/yeet-helpers";
 import { toBaseUnits } from "@/lib/units";
@@ -39,7 +43,7 @@ export default async function Image({
   let raisedAmount = "0.00000";
   let goal = "0.0088";
   let title = "UNTITLED CAMPAIGN";
-  let contribution, loot;
+  let contribution, loot, farcasterPfps;
 
   // Fetch font data
   const vt323FontUrl = `${baseUrl}/fonts/VT323-Regular.woff`;
@@ -83,6 +87,12 @@ export default async function Image({
       daoid: yeeter.dao.id,
     })) as { records: RecordItem[] };
 
+    const { yeets } = (await graphQLClientYeeter.request(LIST_YEETS, {
+      shamanAddress: params.yeeterid,
+    })) as { yeets: YeetsItem[] };
+
+    // const frameContext = await frameSDK.context;
+
     const profileMatch =
       records.find((record) => {
         let recordYeeterId;
@@ -104,6 +114,32 @@ export default async function Image({
         title = profile.name.toUpperCase();
       }
     }
+
+    const yeeterAddresses = yeets.map((yeet) => yeet.contributor);
+
+    const options = {
+      method: "GET",
+      headers: { "x-api-key": process.env.NEYNAR_API_KEY || "" },
+    };
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    let farcasterUsers = {} as Record<string, any[]>;
+
+    const res = await fetch(
+      `https://api.neynar.com/v2/farcaster/user/bulk-by-address?addresses=${yeeterAddresses.join(",")}`,
+      options
+    );
+
+    if (res.ok) {
+      farcasterUsers = await res.json();
+    }
+
+    // console.log("farcasterUsers", farcasterUsers);
+    /* tslint:ignore */
+    farcasterPfps = Object.keys(farcasterUsers).map((address) => {
+      /* tslint:ignore */
+      return farcasterUsers[address][0].pfp_url;
+    });
 
     raisedAmount = Number(toWholeUnits(yeeter?.balance)).toFixed(5);
     goal = toWholeUnits(yeeter?.goal);
@@ -218,6 +254,29 @@ export default async function Image({
             For {loot}
           </div>
 
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              flexWrap: "wrap",
+            }}
+          >
+            {farcasterPfps?.map((url) => {
+              return (
+                <img
+                  src={url}
+                  key={url}
+                  alt="farcasterPfp"
+                  style={{
+                    width: "20px",
+                    height: "20px",
+                    borderRadius: "100%",
+                  }}
+                />
+              );
+            })}
+          </div>
+
           {/* Bottom section */}
           <div
             style={{
@@ -233,7 +292,7 @@ export default async function Image({
               style={{
                 display: "flex",
                 width: "100%",
-                height: "48px",
+                height: "24px",
                 background: "hsla(189, 100%, 40%, 0.2)",
                 borderRadius: "9999px",
                 overflow: "hidden",
