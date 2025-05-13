@@ -209,6 +209,36 @@ const daoFields = `
   }
 `;
 
+export const FIND_YEETER_PROFILE_DAO_EMBED = gql`
+  query record($daoid: String!) {
+    records(
+      where: { dao: $daoid, table: "yeetDetails" }
+      orderBy: createdAt
+      orderDirection: desc
+    ) {
+      id
+      createdAt
+      createdBy
+      tag
+      table
+      contentType
+      content
+      queryType
+      dao {
+        id
+        name
+      }
+    }
+    dao(id: $daoid) {
+      id
+      name
+      members(where: { shares_gt: 0 }) {
+        memberAddress
+      }
+    }
+  }
+`;
+
 export const FIND_DAO = gql`
   query dao($daoid: String!) {
     dao(id: $daoid) {
