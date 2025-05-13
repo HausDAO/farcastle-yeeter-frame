@@ -15,9 +15,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { chainid, yeeterid, amount } = await params;
   const baseUrl = await getBaseUrl();
 
+  const imageUrl = new URL(
+    `${baseUrl}/api/contribution/${chainid}/${yeeterid}&amount=${amount}`
+  );
+
   const frame = {
     version: "next",
-    imageUrl: `${baseUrl}/yeeter/${chainid}/${yeeterid}/yeet/${amount}/opengraph-image`,
+    // imageUrl: `${baseUrl}/yeeter/${chainid}/${yeeterid}/yeet/${amount}/opengraph-image`,
+    imageUrl: imageUrl.toString(),
     button: {
       title: "Contribute",
       action: {
@@ -39,11 +44,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     openGraph: {
       title: "Farcastle Fundraiser",
       description: "Enrich the realm",
-      images: [`${baseUrl}/yeeter/${chainid}/${yeeterid}/opengraph-image`],
+      // images: [`${baseUrl}/yeeter/${chainid}/${yeeterid}/opengraph-image`],
+      images: [{ url: imageUrl.toString() }],
     },
     other: {
       "fc:frame": JSON.stringify(frame),
-      "fc:frame:image": `${baseUrl}/yeeter/${chainid}/${yeeterid}/opengraph-image`,
+      "fc:frame:image": `${imageUrl.toString()}`,
       "fc:frame:button:1": "Contribute",
       "fc:frame:post_url": `${baseUrl}/api/frame`,
     },
