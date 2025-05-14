@@ -13,7 +13,7 @@ import { useDao } from "@/hooks/useDao";
 import { TX } from "@/lib/tx-prepper/tx";
 import { prepareTX } from "@/lib/tx-prepper/tx-prepper";
 import { DetailsForm } from "@/components/forms/DetailsForm";
-import { useParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
@@ -21,12 +21,17 @@ import { getExplorerUrl } from "@/lib/constants";
 import { toHex } from "viem";
 import sdk from "@farcaster/frame-sdk";
 import { LoadingSpinner } from "@/components/ui/loading";
+import { RewardsForm } from "@/components/forms/RewardsForm";
 
 export const DetailsPage = () => {
   const { chainid, yeeterid } = useParams<{
     chainid: string;
     yeeterid: string;
   }>();
+  const searchParams = useSearchParams();
+
+  const rewards = searchParams.get("rewards");
+  const isRewards = !!rewards;
 
   const { isConnected, address, chainId } = useAccount();
   const { yeeter, metadata } = useYeeter({
@@ -77,6 +82,23 @@ export const DetailsPage = () => {
 
     const wholeState = {
       formValues: {
+        discord: metadata?.parsedLinks?.[0].url || "",
+        github: metadata?.parsedLinks?.[1].url || "",
+        blog: metadata?.parsedLinks?.[2].url || "",
+        telegram: metadata?.parsedLinks?.[3].url || "",
+        twitter: metadata?.parsedLinks?.[4].url || "",
+        web: metadata?.parsedLinks?.[5].url || "",
+        custom1: metadata?.parsedLinks?.[6].url || "",
+        custom1Label: metadata?.parsedLinks?.[6].label || "",
+        custom2: metadata?.parsedLinks?.[7].url || "",
+        custom2Label: metadata?.parsedLinks?.[7].label || "",
+        custom3: metadata?.parsedLinks?.[8].url || "",
+        custom3Label: metadata?.parsedLinks?.[8].label || "",
+        rewardLevel1: metadata?.parsedRewards?.[0].rewardLevel || "",
+        rewardLevel1Details: metadata?.parsedRewards?.[0].details || "",
+        rewardLevel2: metadata?.parsedRewards?.[1].rewardLevel || "",
+        rewardLevel2Details: metadata?.parsedRewards?.[1].details || "",
+        ...metadata,
         ...values,
         yeeterid,
       },
@@ -84,6 +106,8 @@ export const DetailsPage = () => {
       daoId: dao.id,
       yeeterid,
     };
+
+    console.log("wholeState", wholeState);
 
     const txPrep = await prepareTX({
       tx,
@@ -121,13 +145,14 @@ export const DetailsPage = () => {
   }, [yeeterid, chainid, metadata?.missionStatement]);
 
   const invalidConnection = !isConnected || chainid !== toHex(chainId || "0");
+  const title = isRewards ? "Reward Details" : "Campaign Details";
 
   if (!yeeter || !dao) return;
 
   return (
     <div className="w-full">
       <div className="text-primary font-display text-3xl uppercase text-center">
-        {isConfirmed ? "Campaign Details Updated" : "Update Campaign Details"}
+        {isConfirmed ? `${title} Updated` : `Update ${title}`}
       </div>
 
       <div className="w-full mt-5">
@@ -174,16 +199,31 @@ export const DetailsPage = () => {
               </div>
             </div>
           ) : (
-            <DetailsForm
-              confirmed={isConfirmed}
-              loading={isSendTxPending || isConfirming}
-              invalidConnection={invalidConnection}
-              handleSubmit={handleSubmit}
-              formElmClass="w-full space-y-4"
-              hash={hash}
-              isError={isError}
-              currentProfile={metadata}
-            />
+            <>
+              {isRewards ? (
+                <RewardsForm
+                  confirmed={isConfirmed}
+                  loading={isSendTxPending || isConfirming}
+                  invalidConnection={invalidConnection}
+                  handleSubmit={handleSubmit}
+                  formElmClass="w-full space-y-4"
+                  hash={hash}
+                  isError={isError}
+                  currentProfile={metadata}
+                />
+              ) : (
+                <DetailsForm
+                  confirmed={isConfirmed}
+                  loading={isSendTxPending || isConfirming}
+                  invalidConnection={invalidConnection}
+                  handleSubmit={handleSubmit}
+                  formElmClass="w-full space-y-4"
+                  hash={hash}
+                  isError={isError}
+                  currentProfile={metadata}
+                />
+              )}
+            </>
           )}
         </div>
       </div>

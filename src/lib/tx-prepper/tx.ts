@@ -185,6 +185,25 @@ export const TX: Record<string, TXLego> = {
           missionStatement: ".formValues.missionStatement",
           yeeterId: ".formValues.yeeterid",
           icon: ".formValues.icon",
+          rewards: {
+            type: "nestedArray",
+            args: [
+              {
+                type: "JSONDetails",
+                jsonSchema: {
+                  rewardLevel: ".formValues.rewardLevel1",
+                  details: ".formValues.rewardLevel1Details",
+                },
+              },
+              {
+                type: "JSONDetails",
+                jsonSchema: {
+                  rewardLevel: ".formValues.rewardLevel2",
+                  details: ".formValues.rewardLevel2Details",
+                },
+              },
+            ],
+          },
           links: {
             type: "nestedArray",
             args: [
