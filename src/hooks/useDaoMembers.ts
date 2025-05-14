@@ -60,7 +60,6 @@ export const useDaoMembers = ({
     queryKey: ["farcaster-users-member-list", memberAddresses],
     enabled: Boolean(memberAddresses?.length),
     queryFn: async () => {
-      console.log("TRIGGER");
       const response = await fetch("/api/farcaster/users", {
         method: "POST",
         headers: {

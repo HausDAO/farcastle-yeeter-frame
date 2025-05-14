@@ -6,6 +6,7 @@ import { YeeterItem, YeeterMetadata, RecordItem } from "../lib/types";
 import {
   addParsedContent,
   addParsedLinks,
+  addParsedRewards,
   calcYeetIsActive,
   calcYeetIsComingSoon,
   calcYeetIsEnded,
@@ -91,7 +92,7 @@ export const useYeeter = ({
       } as YeeterItem;
 
       const metadataOne = addParsedContent<YeeterMetadata>(profileMatch);
-      const metadata = addParsedLinks(metadataOne);
+      const metadata = addParsedLinks(addParsedRewards(metadataOne));
 
       return {
         yeeter: yeeter,

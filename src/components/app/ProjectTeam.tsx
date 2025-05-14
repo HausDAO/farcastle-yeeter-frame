@@ -21,8 +21,6 @@ export const ProjectTeamList = ({
   });
   if (!yeeter || !chainid) return;
 
-  console.log("farcasterUsers", farcasterUsers);
-
   return (
     <div className="flex flex-col gap-4">
       {members &&
