@@ -2,13 +2,15 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useYeeter } from "@/hooks/useYeeter";
 import { ProjectTeamList } from "./ProjectTeam";
-import { useAccount } from "wagmi";
+import { useAccount, useChains } from "wagmi";
 import { useMember } from "@/hooks/useMember";
 import Link from "next/link";
 import { useCallback, useState } from "react";
 import { sdk } from "@farcaster/frame-sdk";
 import { Button } from "../ui/button";
 import { LoadingSpinner } from "../ui/loading";
+import { formatLootForMin, formatMinContribution } from "@/lib/yeet-helpers";
+import { nativeCurrencySymbol } from "@/lib/helpers";
 
 const truncateButtonLabel = (label: string) => {
   if (label.length > 20) {
@@ -31,12 +33,15 @@ export const YeeterAbout = ({
     chainid,
     yeeterid,
   });
-  const { address } = useAccount();
+  const { address, chainId } = useAccount();
   const { member } = useMember({
     daoid,
     chainid,
     memberaddress: address,
   });
+
+  const chains = useChains();
+  const activeChain = chains.find((c) => c.id === chainId);
 
   const handleCastCampaign = useCallback(async () => {
     try {
@@ -59,6 +64,28 @@ export const YeeterAbout = ({
       setIsCasting(false);
     }
   }, [yeeterid, chainid, metadata?.missionStatement]);
+
+  const handleCastCampaignRewards = useCallback(async () => {
+    try {
+      setIsCasting(true);
+      // Use window.location.origin in development, fallback to env var in production
+      const baseUrl =
+        process.env.NODE_ENV === "development"
+          ? window.location.origin
+          : process.env.NEXT_PUBLIC_URL || "https://fundraiser.farcastle.net";
+      const campaignUrl = `${baseUrl}/rewards/${chainid}/${yeeterid}`;
+
+      await sdk.actions.composeCast({
+        text: "Look at these cool rewards",
+        embeds: [campaignUrl],
+      });
+    } catch (error) {
+      console.error("Error composing cast:", error);
+      // You might want to show a toast or notification here
+    } finally {
+      setIsCasting(false);
+    }
+  }, [yeeterid, chainid, metadata?.parsedRewards]);
 
   const onProjectTeam = address && member && Number(member.shares) > 0;
 
@@ -106,12 +133,19 @@ export const YeeterAbout = ({
           {metadata?.parsedRewards && (
             <CardContent className="p-0 pb-4">
               <div className="text-muted text-sm mb-4 uppercase">Rewards</div>
+              <div className="text-muted text-lg mt-1">
+                Receive {formatLootForMin(yeeter)} {yeeter.dao.lootTokenSymbol}{" "}
+                {Number(formatLootForMin(yeeter)) === 1 ? "token" : "tokens"}{" "}
+                per {formatMinContribution(yeeter)}{" "}
+                {nativeCurrencySymbol(activeChain)}
+              </div>
               <div className="leading-relaxed">
                 {metadata.parsedRewards.map((reward, i) => {
                   if (!reward.rewardLevel) return null;
                   return (
                     <div className="w-full" key={i}>
                       <p className="font-bold">{reward.rewardLevel}</p>
+                      <p className="font-bold">{reward.title}</p>
                       <p>{reward.details}</p>
                     </div>
                   );
@@ -164,6 +198,21 @@ export const YeeterAbout = ({
                     </div>
                   ) : (
                     "Share Campaign"
+                  )}
+                </Button>
+
+                <Button
+                  variant="default"
+                  className="w-full mt-3"
+                  onClick={handleCastCampaignRewards}
+                  disabled={isCasting}
+                >
+                  {isCasting ? (
+                    <div className="flex items-center gap-2">
+                      <LoadingSpinner />
+                    </div>
+                  ) : (
+                    "Share Rewards"
                   )}
                 </Button>
               </div>

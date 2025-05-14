@@ -120,6 +120,7 @@ export const addParsedRewards = (
     }) as {
       rewardLevel: string;
       details: string;
+      title: string;
     }[]);
   return {
     ...profile,

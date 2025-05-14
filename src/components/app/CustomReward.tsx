@@ -13,8 +13,10 @@ interface CustomRewardFormData {
   [key: string]: string | undefined;
   rewardLevel1?: string;
   rewardLevel1Details?: string;
+  rewardLevel1Title?: string;
   rewardLevel2?: string;
   rewardLevel2Details?: string;
+  rewardLevel2Title?: string;
 }
 
 type CustomRewardFieldProps = {
@@ -36,30 +38,50 @@ export const CustomReward = ({
       <h2 className="font-display text-muted text-xl uppercase">
         Custom Reward Level {index}
       </h2>
-      <div>
-        <FormField
-          control={form.control}
-          name={`rewardLevel${index}`}
-          render={({ field }) => (
-            <FormItem>
-              <ProposalFormLabel
-                label="What is the contribution level for this reward?"
+      <FormField
+        control={form.control}
+        name={`rewardLevel${index}`}
+        render={({ field }) => (
+          <FormItem>
+            <ProposalFormLabel
+              label="What is the contribution level for this reward?"
+              id={`rewardLevel${index}`}
+              requiredFields={requiredFields}
+            />
+            <FormControl>
+              <Input
                 id={`rewardLevel${index}`}
-                requiredFields={requiredFields}
+                placeholder="Reward Level"
+                {...field}
+                disabled={disabled}
               />
-              <FormControl>
-                <Input
-                  id={`rewardLevel${index}`}
-                  placeholder="Reward Level"
-                  {...field}
-                  disabled={disabled}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-      </div>
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+      <FormField
+        control={form.control}
+        name={`rewardLevel${index}Title`}
+        render={({ field }) => (
+          <FormItem>
+            <ProposalFormLabel
+              label="What is this reward?"
+              id={`rewardLevel${index}Title`}
+              requiredFields={requiredFields}
+            />
+            <FormControl>
+              <Input
+                id={`rewardLevel${index}Title`}
+                placeholder="Reward Title"
+                {...field}
+                disabled={disabled}
+              />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
       <FormField
         control={form.control}
         name={`rewardLevel${index}Details`}
@@ -67,7 +89,7 @@ export const CustomReward = ({
           <FormItem>
             <div className="-mt-2">
               <ProposalFormLabel
-                label="What is the reward?"
+                label="What are the details of reward?"
                 id={`rewardLevel${index}Details`}
                 requiredFields={requiredFields}
               />

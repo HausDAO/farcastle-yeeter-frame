@@ -148,7 +148,7 @@ export const YeetTx = ({
                                   <p className="font-bold">
                                     {reward.rewardLevel}
                                   </p>
-                                  <p>{reward.details}</p>
+                                  <p>{reward.title}</p>
                                 </div>
                               );
                             })}

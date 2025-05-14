@@ -52,6 +52,7 @@ export type YeeterMetadata = {
   parsedRewards?: {
     rewardLevel: string;
     details: string;
+    title: string;
   }[];
   missionStatement?: string;
   projectDetails?: string;

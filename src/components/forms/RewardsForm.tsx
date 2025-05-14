@@ -58,6 +58,7 @@ export const RewardsForm = ({
         }
       ),
     rewardLevel1Details: yup.string(),
+    rewardLevel1Title: yup.string(),
     rewardLevel2: yup
       .string()
       .test(
@@ -75,6 +76,7 @@ export const RewardsForm = ({
         }
       ),
     rewardLevel2Details: yup.string(),
+    rewardLevel2Title: yup.string(),
   });
   const requiredFields = getRequiredFieldsList(formSchema);
 
@@ -83,8 +85,10 @@ export const RewardsForm = ({
     defaultValues: {
       rewardLevel1: currentProfile?.parsedRewards?.[0].rewardLevel || "",
       rewardLevel1Details: currentProfile?.parsedRewards?.[0].details || "",
+      rewardLevel1Title: currentProfile?.parsedRewards?.[0].title || "",
       rewardLevel2: currentProfile?.parsedRewards?.[1].rewardLevel || "",
       rewardLevel2Details: currentProfile?.parsedRewards?.[1].details || "",
+      rewardLevel2Title: currentProfile?.parsedRewards?.[1].title || "",
     },
   });
 
