@@ -26,7 +26,7 @@ export const YeetTx = ({
   yeeterid: string;
   chainid: string;
 }) => {
-  const { yeeter } = useYeeter({
+  const { yeeter, metadata } = useYeeter({
     chainid,
     yeeterid,
   });
@@ -135,6 +135,26 @@ export const YeetTx = ({
                         per {formatMinContribution(yeeter)}{" "}
                         {nativeCurrencySymbol(activeChain)}
                       </div>
+                      {metadata?.parsedRewards && (
+                        <div className="font-mulish text-muted text-base mt-3">
+                          <div className="text-muted text-sm mb-1 uppercase">
+                            Rewards
+                          </div>
+                          <div className="leading-relaxed">
+                            {metadata.parsedRewards.map((reward, i) => {
+                              if (!reward.rewardLevel) return null;
+                              return (
+                                <div className="w-full" key={i}>
+                                  <p className="font-bold">
+                                    {reward.rewardLevel}
+                                  </p>
+                                  <p>{reward.details}</p>
+                                </div>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      )}
                     </>
                   )}
                 </Drawer.DrawerTitle>

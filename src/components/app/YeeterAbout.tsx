@@ -103,6 +103,23 @@ export const YeeterAbout = ({
             </CardContent>
           )}
 
+          {metadata?.parsedRewards && (
+            <CardContent className="p-0 pb-4">
+              <div className="text-muted text-sm mb-4 uppercase">Rewards</div>
+              <div className="leading-relaxed">
+                {metadata.parsedRewards.map((reward, i) => {
+                  if (!reward.rewardLevel) return null;
+                  return (
+                    <div className="w-full" key={i}>
+                      <p className="font-bold">{reward.rewardLevel}</p>
+                      <p>{reward.details}</p>
+                    </div>
+                  );
+                })}
+              </div>
+            </CardContent>
+          )}
+
           {onProjectTeam && (
             <CardContent className="p-0 mt-2">
               <div className="w-full">
