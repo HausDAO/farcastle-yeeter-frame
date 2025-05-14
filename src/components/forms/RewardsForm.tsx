@@ -46,7 +46,6 @@ export const RewardsForm = ({
   const formSchema = yup.object().shape({
     rewardLevel1: yup
       .string()
-      .nullable()
       .test(
         "is-positive-number-or-empty",
         "Must be a positive number or empty",
@@ -61,7 +60,6 @@ export const RewardsForm = ({
     rewardLevel1Details: yup.string(),
     rewardLevel2: yup
       .string()
-      .nullable()
       .test(
         "is-positive-number-or-empty",
         "Must be a positive number or empty",
