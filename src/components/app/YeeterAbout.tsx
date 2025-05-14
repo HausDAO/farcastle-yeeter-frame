@@ -85,7 +85,7 @@ export const YeeterAbout = ({
     } finally {
       setIsCasting(false);
     }
-  }, [yeeterid, chainid, metadata?.parsedRewards]);
+  }, [yeeterid, chainid]);
 
   const onProjectTeam = address && member && Number(member.shares) > 0;
 
