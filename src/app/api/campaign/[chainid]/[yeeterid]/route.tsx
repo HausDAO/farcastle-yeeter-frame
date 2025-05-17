@@ -277,92 +277,114 @@ export async function GET(
               </div>
             </div>
 
-            {/* Contributors and Team headings row */}
+            {/* Contributors and Members headings and avatars row */}
             <div
               style={{
                 display: "flex",
                 flexDirection: "row",
                 justifyContent: "space-between",
-                alignItems: "center",
+                alignItems: "flex-start",
                 width: "100%",
                 maxWidth: "600px",
                 marginTop: "24px",
-                marginBottom: "8px",
-              }}
-            >
-              <div
-                style={{
-                  fontSize: "20px",
-                  textTransform: "uppercase",
-                  fontFamily: "'Mulish'",
-                  color: "#9FA3AF",
-                  textAlign: "left",
-                }}
-              >
-                Contributors
-              </div>
-              <div
-                style={{
-                  fontSize: "20px",
-                  textTransform: "uppercase",
-                  fontFamily: "'Mulish'",
-                  color: "#9FA3AF",
-                  textAlign: "right",
-                }}
-              >
-                Members
-              </div>
-            </div>
-            {/* Avatars row */}
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                flexWrap: "wrap",
-                gap: "8px",
-                alignItems: "center",
-                width: "100%",
-                maxWidth: "600px",
                 marginBottom: "24px",
+                gap: "32px",
               }}
             >
-              {contributorPfps?.map((pfp) => (
-                <img
-                  src={pfp}
-                  key={pfp}
-                  alt="farcasterPfp"
+              {/* Contributors column */}
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <div
                   style={{
-                    width: "40px",
-                    height: "40px",
-                    borderRadius: "100%",
+                    fontSize: "20px",
+                    textTransform: "uppercase",
+                    fontFamily: "'Mulish'",
+                    color: "#9FA3AF",
+                    textAlign: "left",
                   }}
-                />
-              ))}
-            </div>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                flexWrap: "wrap",
-                gap: "8px",
-                alignItems: "center",
-                width: "100%",
-                maxWidth: "600px",
-                marginBottom: "24px",
-              }}
-            >
-              {memberPfps?.map((pfp) => (
-                <img
-                  src={pfp}
-                  key={pfp}
-                  alt="farcasterPfp"
+                >
+                  Contributors
+                </div>
+                <div
                   style={{
-                    width: "40px",
-                    height: "40px",
-                    borderRadius: "100%",
+                    display: "flex",
+                    flexDirection: "row",
+                    flexWrap: "wrap",
+                    gap: "8px",
+                    alignItems: "center",
+                    marginTop: "8px",
                   }}
-                />
-              ))}
+                >
+                  {(contributorPfps?.slice(0, 6) || []).map((pfp) => (
+                    <img
+                      src={pfp}
+                      key={pfp}
+                      alt="farcasterPfp"
+                      style={{
+                        width: "40px",
+                        height: "40px",
+                        borderRadius: "100%",
+                      }}
+                    />
+                  ))}
+                  {contributorPfps && contributorPfps.length > 6 && (
+                    <div
+                      style={{
+                        width: "40px",
+                        height: "40px",
+                        borderRadius: "100%",
+                        background: "#9FA3AF",
+                        color: "#17151F",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        fontFamily: "'Mulish'",
+                        fontSize: "18px",
+                        fontWeight: 700,
+                      }}
+                    >
+                      +{contributorPfps.length - 6}
+                    </div>
+                  )}
+                </div>
+              </div>
+              {/* Members column */}
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <div
+                  style={{
+                    fontSize: "20px",
+                    textTransform: "uppercase",
+                    fontFamily: "'Mulish'",
+                    color: "#9FA3AF",
+                    textAlign: "right",
+                  }}
+                >
+                  Members
+                </div>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    flexWrap: "wrap",
+                    gap: "8px",
+                    alignItems: "center",
+                    justifyContent: "flex-end",
+                    marginTop: "8px",
+                  }}
+                >
+                  {(memberPfps || []).map((pfp) => (
+                    <img
+                      src={pfp}
+                      key={pfp}
+                      alt="farcasterPfp"
+                      style={{
+                        width: "40px",
+                        height: "40px",
+                        borderRadius: "100%",
+                      }}
+                    />
+                  ))}
+                </div>
+              </div>
             </div>
 
             {/* Bottom section */}

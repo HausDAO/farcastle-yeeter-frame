@@ -325,7 +325,7 @@ export async function GET(
                 marginBottom: "24px",
               }}
             >
-              {contributorPfps?.map((pfp) => (
+              {(contributorPfps?.slice(0, 6) || []).map((pfp) => (
                 <img
                   src={pfp}
                   key={pfp}
@@ -337,6 +337,25 @@ export async function GET(
                   }}
                 />
               ))}
+              {contributorPfps && contributorPfps.length > 6 && (
+                <div
+                  style={{
+                    width: "40px",
+                    height: "40px",
+                    borderRadius: "100%",
+                    background: "#9FA3AF",
+                    color: "#17151F",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    fontFamily: "'Mulish'",
+                    fontSize: "18px",
+                    fontWeight: 700,
+                  }}
+                >
+                  +{contributorPfps.length - 6}
+                </div>
+              )}
             </div>
             <div
               style={{
