@@ -17,7 +17,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { chainid, yeeterid } = await params;
   const baseUrl = await getBaseUrl();
 
-  const imageUrl = new URL(`${baseUrl}/api/campaign/${chainid}/${yeeterid}}`);
+  const imageUrl = new URL(`${baseUrl}/api/campaign/${chainid}/${yeeterid}`);
 
   const frame = {
     version: "next",
