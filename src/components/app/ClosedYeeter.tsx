@@ -1,9 +1,8 @@
 import { useYeeter } from "@/hooks/useYeeter";
 import { RaiseStats } from "./RaiseStats";
 import { Button } from "../ui/button";
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 import sdk from "@farcaster/frame-sdk";
-import { LoadingSpinner } from "../ui/loading";
 
 export const ClosedYeeter = ({
   yeeterid,
@@ -12,7 +11,6 @@ export const ClosedYeeter = ({
   yeeterid?: string;
   chainid?: string;
 }) => {
-  const [isCasting, setIsCasting] = useState(false);
   const { yeeter, metadata } = useYeeter({
     chainid,
     yeeterid,
@@ -20,7 +18,6 @@ export const ClosedYeeter = ({
 
   const handleCastCampaign = useCallback(async () => {
     try {
-      setIsCasting(true);
       const baseUrl = process.env.NODE_ENV === 'development' 
         ? window.location.origin 
         : process.env.NEXT_PUBLIC_URL || "https://fundraiser.farcastle.net";
@@ -32,8 +29,6 @@ export const ClosedYeeter = ({
       });
     } catch (error) {
       console.error('Error composing cast:', error);
-    } finally {
-      setIsCasting(false);
     }
   }, [yeeterid, chainid, metadata?.missionStatement]);
 
@@ -47,15 +42,8 @@ export const ClosedYeeter = ({
           variant="default" 
           className="w-full" 
           onClick={handleCastCampaign}
-          disabled={isCasting}
         >
-          {isCasting ? (
-            <div className="flex items-center gap-2">
-              <LoadingSpinner />
-            </div>
-          ) : (
-            "Share Campaign"
-          )}
+          Share Campaign
         </Button>
       </div>
     </div>
