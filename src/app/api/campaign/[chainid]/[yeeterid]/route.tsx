@@ -287,19 +287,19 @@ export async function GET(
                 width: "100%",
                 maxWidth: "600px",
                 marginTop: "24px",
-                marginBottom: "24px",
+                marginBottom: "12px",
                 gap: "32px",
               }}
             >
               {/* Contributors column */}
-              <div style={{ flex: 1, minWidth: 0 }}>
+              <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", maxWidth: "50%" }}>
                 <div
                   style={{
                     fontSize: "20px",
                     textTransform: "uppercase",
                     fontFamily: "'Mulish'",
                     color: "#9FA3AF",
-                    textAlign: "left",
+                    marginBottom: "8px",
                   }}
                 >
                   Contributors
@@ -311,10 +311,9 @@ export async function GET(
                     flexWrap: "wrap",
                     gap: "8px",
                     alignItems: "center",
-                    marginTop: "8px",
                   }}
                 >
-                  {(contributorPfps?.slice(0, 6) || []).map((pfp) => (
+                  {(contributorPfps?.slice(0, 9) || []).map((pfp, idx) => (
                     <img
                       src={pfp}
                       key={pfp}
@@ -323,10 +322,13 @@ export async function GET(
                         width: "40px",
                         height: "40px",
                         borderRadius: "100%",
+                        border: "2px solid #17151F",
+                        marginLeft: idx === 0 ? 0 : -20,
+                        zIndex: 10 - idx,
                       }}
                     />
                   ))}
-                  {contributorPfps && contributorPfps.length > 6 && (
+                  {contributorPfps && contributorPfps.length > 9 && (
                     <div
                       style={{
                         width: "40px",
@@ -340,22 +342,24 @@ export async function GET(
                         fontFamily: "'Mulish'",
                         fontSize: "18px",
                         fontWeight: 700,
+                        marginLeft: contributorPfps.length > 0 ? -20 : 0,
+                        zIndex: 0,
                       }}
                     >
-                      +{contributorPfps.length - 6}
+                      +{contributorPfps.length - 9}
                     </div>
                   )}
                 </div>
               </div>
               {/* Members column */}
-              <div style={{ flex: 1, minWidth: 0 }}>
+              <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", maxWidth: "50%" }}>
                 <div
                   style={{
                     fontSize: "20px",
                     textTransform: "uppercase",
                     fontFamily: "'Mulish'",
                     color: "#9FA3AF",
-                    textAlign: "right",
+                    marginBottom: "8px",
                   }}
                 >
                   Members
@@ -368,10 +372,9 @@ export async function GET(
                     gap: "8px",
                     alignItems: "center",
                     justifyContent: "flex-end",
-                    marginTop: "8px",
                   }}
                 >
-                  {(memberPfps || []).map((pfp) => (
+                  {(memberPfps?.slice(0, 9) || []).map((pfp, idx) => (
                     <img
                       src={pfp}
                       key={pfp}
@@ -380,9 +383,33 @@ export async function GET(
                         width: "40px",
                         height: "40px",
                         borderRadius: "100%",
+                        border: "2px solid #17151F",
+                        marginLeft: idx === 0 ? 0 : -20,
+                        zIndex: 10 - idx,
                       }}
                     />
                   ))}
+                  {memberPfps && memberPfps.length > 9 && (
+                    <div
+                      style={{
+                        width: "40px",
+                        height: "40px",
+                        borderRadius: "100%",
+                        background: "#9FA3AF",
+                        color: "#17151F",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        fontFamily: "'Mulish'",
+                        fontSize: "18px",
+                        fontWeight: 700,
+                        marginLeft: memberPfps.length > 0 ? -20 : 0,
+                        zIndex: 0,
+                      }}
+                    >
+                      +{memberPfps.length - 9}
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -394,7 +421,7 @@ export async function GET(
                 flexDirection: "column",
                 width: "100%",
                 maxWidth: "600px",
-                gap: "24px",
+                gap: "12px",
               }}
             >
               {/* Progress bar */}
