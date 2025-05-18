@@ -19,14 +19,13 @@ import { Textarea } from "../ui/textarea";
 import { fromWei, nativeCurrencySymbol } from "@/lib/helpers";
 import { useAccount, useChains } from "wagmi";
 import { Button } from "../ui/button";
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 import { getExplorerUrl } from "@/lib/constants";
 import sdk from "@farcaster/frame-sdk";
 import { YeeterItem } from "@/lib/types";
 import { formatLootForAmount } from "@/lib/yeet-helpers";
 import { toBaseUnits } from "@/lib/units";
 import { useParams } from "next/navigation";
-import { LoadingSpinner } from "@/components/ui/loading";
 
 export type YeetFormProps = {
   confirmed: boolean;
@@ -49,7 +48,6 @@ export const YeetForm = ({
   yeeter,
   isError,
 }: YeetFormProps) => {
-  const [isCasting, setIsCasting] = useState(false);
   const submitButtonText = "Contribute to Campaign";
 
   const { chainid, yeeterid } = useParams<{
@@ -99,7 +97,6 @@ export const YeetForm = ({
     async (amount: string) => {
       try {
         console.log("amount", amount);
-        setIsCasting(true);
         const baseUrl =
           process.env.NODE_ENV === "development"
             ? window.location.origin
@@ -112,8 +109,6 @@ export const YeetForm = ({
         });
       } catch (error) {
         console.error("Error composing cast:", error);
-      } finally {
-        setIsCasting(false);
       }
     },
     [yeeterid, chainid, form]
@@ -214,15 +209,8 @@ export const YeetForm = ({
             onClick={() =>
               handleCastContribution(form.getValues("amount").toString())
             }
-            disabled={isCasting}
           >
-            {isCasting ? (
-              <div className="flex items-center gap-2">
-                <LoadingSpinner />
-              </div>
-            ) : (
-              "Share Contribution"
-            )}
+            Share Contribution
           </Button>
 
           {hash && (
