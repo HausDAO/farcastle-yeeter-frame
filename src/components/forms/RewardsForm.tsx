@@ -84,11 +84,11 @@ export const RewardsForm = ({
     resolver: yupResolver(formSchema),
     defaultValues: {
       rewardLevel1: currentProfile?.parsedRewards?.[0].rewardLevel || "",
-      rewardLevel1Details: currentProfile?.parsedRewards?.[0].details || "",
       rewardLevel1Title: currentProfile?.parsedRewards?.[0].title || "",
+      rewardLevel1Details: currentProfile?.parsedRewards?.[0].details || "",
       rewardLevel2: currentProfile?.parsedRewards?.[1].rewardLevel || "",
-      rewardLevel2Details: currentProfile?.parsedRewards?.[1].details || "",
       rewardLevel2Title: currentProfile?.parsedRewards?.[1].title || "",
+      rewardLevel2Details: currentProfile?.parsedRewards?.[1].details || "",
     },
   });
 
