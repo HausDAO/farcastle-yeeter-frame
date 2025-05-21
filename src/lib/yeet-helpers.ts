@@ -108,3 +108,22 @@ export const addParsedLinks = (
     parsedLinks: links,
   };
 };
+
+export const addParsedRewards = (
+  profile?: YeeterMetadata
+): YeeterMetadata | undefined => {
+  if (!profile) return;
+  const rewards =
+    profile.rewards &&
+    (profile.rewards.map((obj: string) => {
+      return typeof obj === "string" ? JSON.parse(obj) : {};
+    }) as {
+      rewardLevel: string;
+      details: string;
+      title: string;
+    }[]);
+  return {
+    ...profile,
+    parsedRewards: rewards,
+  };
+};

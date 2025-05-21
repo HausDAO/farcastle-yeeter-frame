@@ -12,12 +12,10 @@ type Props = {
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { chainid, yeeterid, amount } = await params;
+  const { chainid, yeeterid } = await params;
   const baseUrl = await getBaseUrl();
 
-  const imageUrl = new URL(
-    `${baseUrl}/api/contribution/${chainid}/${yeeterid}&amount=${amount}`
-  );
+  const imageUrl = new URL(`${baseUrl}/api/reward/${chainid}/${yeeterid}`);
 
   const frame = {
     version: "next",

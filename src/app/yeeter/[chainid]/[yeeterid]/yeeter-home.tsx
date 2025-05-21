@@ -49,7 +49,7 @@ export default function YeeterHome() {
       {yeeter && (
         <>
           <div className="flex flex-col items-center">
-          {yeeter?.isComingSoon && (
+            {yeeter?.isComingSoon && (
               <UpcomingYeeter
                 yeeterid={params.yeeterid}
                 chainid={params.chainid}
