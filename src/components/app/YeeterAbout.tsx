@@ -5,10 +5,9 @@ import { ProjectTeamList } from "./ProjectTeam";
 import { useAccount, useChains } from "wagmi";
 import { useMember } from "@/hooks/useMember";
 import Link from "next/link";
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 import { sdk } from "@farcaster/frame-sdk";
 import { Button } from "../ui/button";
-import { LoadingSpinner } from "../ui/loading";
 import { formatLootForMin, formatMinContribution } from "@/lib/yeet-helpers";
 import { nativeCurrencySymbol } from "@/lib/helpers";
 
@@ -28,7 +27,6 @@ export const YeeterAbout = ({
   chainid?: string;
   daoid?: string;
 }) => {
-  const [isCasting, setIsCasting] = useState(false);
   const { yeeter, metadata } = useYeeter({
     chainid,
     yeeterid,
@@ -45,14 +43,11 @@ export const YeeterAbout = ({
 
   const handleCastCampaign = useCallback(async () => {
     try {
-      setIsCasting(true);
-      // Use window.location.origin in development, fallback to env var in production
       const baseUrl =
         process.env.NODE_ENV === "development"
           ? window.location.origin
           : process.env.NEXT_PUBLIC_URL || "https://fundraiser.farcastle.net";
       const campaignUrl = `${baseUrl}/yeeter/${chainid}/${yeeterid}`;
-
       await sdk.actions.composeCast({
         text: metadata?.missionStatement || "",
         embeds: [campaignUrl],
@@ -60,21 +55,16 @@ export const YeeterAbout = ({
     } catch (error) {
       console.error("Error composing cast:", error);
       // You might want to show a toast or notification here
-    } finally {
-      setIsCasting(false);
     }
   }, [yeeterid, chainid, metadata?.missionStatement]);
 
   const handleCastCampaignRewards = useCallback(async () => {
     try {
-      setIsCasting(true);
-      // Use window.location.origin in development, fallback to env var in production
       const baseUrl =
         process.env.NODE_ENV === "development"
           ? window.location.origin
           : process.env.NEXT_PUBLIC_URL || "https://fundraiser.farcastle.net";
       const campaignUrl = `${baseUrl}/rewards/${chainid}/${yeeterid}`;
-
       await sdk.actions.composeCast({
         text: "Look at these cool rewards",
         embeds: [campaignUrl],
@@ -82,8 +72,6 @@ export const YeeterAbout = ({
     } catch (error) {
       console.error("Error composing cast:", error);
       // You might want to show a toast or notification here
-    } finally {
-      setIsCasting(false);
     }
   }, [yeeterid, chainid]);
 
@@ -123,18 +111,12 @@ export const YeeterAbout = ({
               </div>
             </CardContent>
           )}
-          {metadata?.projectDetails && (
-            <CardContent className="p-0 pb-4">
-              <div className="text-muted text-sm mb-4 uppercase">Details</div>
-              <div className="leading-relaxed">{metadata?.projectDetails}</div>
-            </CardContent>
-          )}
-
-          {metadata?.parsedRewards && (
+           
+           {metadata?.parsedRewards && (
             <CardContent className="p-0 pb-4">
               <div className="text-muted text-sm mb-4 uppercase">Rewards</div>
-              <div className="text-muted text-lg mt-1">
-                Receive {formatLootForMin(yeeter)} {yeeter.dao.lootTokenSymbol}{" "}
+              <div className="leading-relaxed">
+                {formatLootForMin(yeeter)} {yeeter.dao.lootTokenSymbol}{" "}
                 {Number(formatLootForMin(yeeter)) === 1 ? "token" : "tokens"}{" "}
                 per {formatMinContribution(yeeter)}{" "}
                 {nativeCurrencySymbol(activeChain)}
@@ -151,6 +133,13 @@ export const YeeterAbout = ({
                   );
                 })}
               </div>
+            </CardContent>
+          )}
+
+          {metadata?.projectDetails && (
+            <CardContent className="p-0 pb-4">
+              <div className="text-muted text-sm mb-4 uppercase">Details</div>
+              <div className="leading-relaxed">{metadata?.projectDetails}</div>
             </CardContent>
           )}
 
@@ -173,7 +162,7 @@ export const YeeterAbout = ({
                   className="block w-full"
                 >
                   <Button variant="default" className="w-full">
-                    Edit Reward Details
+                    Add Rewards
                   </Button>
                 </Link>
               </div>
@@ -190,30 +179,16 @@ export const YeeterAbout = ({
                   variant="default"
                   className="w-full"
                   onClick={handleCastCampaign}
-                  disabled={isCasting}
                 >
-                  {isCasting ? (
-                    <div className="flex items-center gap-2">
-                      <LoadingSpinner />
-                    </div>
-                  ) : (
-                    "Share Campaign"
-                  )}
+                  Share Campaign
                 </Button>
 
                 <Button
                   variant="default"
                   className="w-full mt-3"
                   onClick={handleCastCampaignRewards}
-                  disabled={isCasting}
                 >
-                  {isCasting ? (
-                    <div className="flex items-center gap-2">
-                      <LoadingSpinner />
-                    </div>
-                  ) : (
-                    "Share Rewards"
-                  )}
+                  Share Rewards
                 </Button>
               </div>
 

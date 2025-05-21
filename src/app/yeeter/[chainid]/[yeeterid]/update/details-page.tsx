@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useCallback } from "react";
 import {
   useAccount,
   useWaitForTransactionReceipt,
@@ -20,7 +20,6 @@ import { Button } from "@/components/ui/button";
 import { getExplorerUrl } from "@/lib/constants";
 import { toHex } from "viem";
 import sdk from "@farcaster/frame-sdk";
-import { LoadingSpinner } from "@/components/ui/loading";
 import { RewardsForm } from "@/components/forms/RewardsForm";
 
 export const DetailsPage = () => {
@@ -57,8 +56,6 @@ export const DetailsPage = () => {
       hash,
     });
 
-  const [isCasting, setIsCasting] = useState(false);
-
   useEffect(() => {
     const reset = async () => {
       queryClient.refetchQueries({
@@ -82,6 +79,10 @@ export const DetailsPage = () => {
 
     const wholeState = {
       formValues: {
+        name: metadata?.name || "",
+        missionStatement: metadata?.missionStatement || "",
+        projectDetails: metadata?.projectDetails || "",
+        icon: metadata?.icon || "",
         discord: metadata?.parsedLinks?.[0].url || "",
         github: metadata?.parsedLinks?.[1].url || "",
         blog: metadata?.parsedLinks?.[2].url || "",
@@ -128,21 +129,17 @@ export const DetailsPage = () => {
 
   const handleCastCampaign = useCallback(async () => {
     try {
-      setIsCasting(true);
       const baseUrl =
         process.env.NODE_ENV === "development"
           ? window.location.origin
           : process.env.NEXT_PUBLIC_URL || "https://fundraiser.farcastle.net";
       const campaignUrl = `${baseUrl}/yeeter/${chainid}/${yeeterid}`;
-
       await sdk.actions.composeCast({
         text: metadata?.missionStatement || "",
         embeds: [campaignUrl],
       });
     } catch (error) {
       console.error("Error composing cast:", error);
-    } finally {
-      setIsCasting(false);
     }
   }, [yeeterid, chainid, metadata?.missionStatement]);
 
@@ -167,15 +164,8 @@ export const DetailsPage = () => {
                   variant="default"
                   className="w-full mb-2"
                   onClick={handleCastCampaign}
-                  disabled={isCasting}
                 >
-                  {isCasting ? (
-                    <div className="flex items-center gap-2">
-                      <LoadingSpinner />
-                    </div>
-                  ) : (
-                    "Share Campaign"
-                  )}
+                  Share Campaign
                 </Button>
                 <Link
                   href={`/yeeter/${chainid}/${yeeterid}`}

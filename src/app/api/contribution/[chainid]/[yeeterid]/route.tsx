@@ -114,6 +114,8 @@ export async function GET(
 
       console.log("dao", dao);
 
+      title = dao.name;
+
       const profileMatch =
         records.find((record) => {
           let recordYeeterId;
@@ -276,94 +278,167 @@ export async function GET(
               </div>
             </div>
 
-            {/* Contributors and Team headings row */}
+            {/* Contributors and Members headings row */}
+            {/* Contributors and Members headings and avatars row */}
             <div
               style={{
                 display: "flex",
                 flexDirection: "row",
                 justifyContent: "space-between",
-                alignItems: "center",
+                alignItems: "flex-start",
                 width: "100%",
                 maxWidth: "600px",
                 marginTop: "24px",
-                marginBottom: "8px",
+                marginBottom: "12px",
+                gap: "32px",
               }}
             >
+              {/* Contributors column */}
               <div
                 style={{
-                  fontSize: "20px",
-                  textTransform: "uppercase",
-                  fontFamily: "'Mulish'",
-                  color: "#9FA3AF",
-                  textAlign: "left",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "flex-start",
+                  maxWidth: "50%",
                 }}
               >
-                Contributors
+                {contributorPfps && contributorPfps.length > 0 && (
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "flex-start",
+                    }}
+                  >
+                    <div
+                      style={{
+                        fontSize: "20px",
+                        textTransform: "uppercase",
+                        fontFamily: "'Mulish'",
+                        color: "#9FA3AF",
+                        marginBottom: "8px",
+                      }}
+                    >
+                      Contributors
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        flexWrap: "wrap",
+                        gap: "8px",
+                        alignItems: "center",
+                      }}
+                    >
+                      {(contributorPfps?.slice(0, 9) || []).map((pfp, idx) => (
+                        <img
+                          src={pfp}
+                          key={pfp}
+                          alt="farcasterPfp"
+                          style={{
+                            width: "40px",
+                            height: "40px",
+                            borderRadius: "100%",
+                            border: "2px solid #17151F",
+                            marginLeft: idx === 0 ? 0 : -20,
+                            zIndex: 10 - idx,
+                          }}
+                        />
+                      ))}
+                      {contributorPfps && contributorPfps.length > 9 && (
+                        <div
+                          style={{
+                            width: "40px",
+                            height: "40px",
+                            borderRadius: "100%",
+                            background: "#9FA3AF",
+                            color: "#17151F",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            fontFamily: "'Mulish'",
+                            fontSize: "18px",
+                            fontWeight: 700,
+                            marginLeft: contributorPfps.length > 0 ? -20 : 0,
+                            zIndex: 0,
+                          }}
+                        >
+                          +{contributorPfps.length - 9}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
               </div>
+              {/* Members column */}
               <div
                 style={{
-                  fontSize: "20px",
-                  textTransform: "uppercase",
-                  fontFamily: "'Mulish'",
-                  color: "#9FA3AF",
-                  textAlign: "right",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "flex-end",
+                  maxWidth: "50%",
                 }}
               >
-                Members
+                <div
+                  style={{
+                    fontSize: "20px",
+                    textTransform: "uppercase",
+                    fontFamily: "'Mulish'",
+                    color: "#9FA3AF",
+                    marginBottom: "8px",
+                  }}
+                >
+                  Members
+                </div>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    flexWrap: "wrap",
+                    gap: "8px",
+                    alignItems: "center",
+                    justifyContent: "flex-end",
+                  }}
+                >
+                  {(memberPfps?.slice(0, 9) || []).map((pfp, idx) => (
+                    <img
+                      src={pfp}
+                      key={pfp}
+                      alt="farcasterPfp"
+                      style={{
+                        width: "40px",
+                        height: "40px",
+                        borderRadius: "100%",
+                        border: "2px solid #17151F",
+                        marginLeft: idx === 0 ? 0 : -20,
+                        zIndex: 10 - idx,
+                      }}
+                    />
+                  ))}
+                  {memberPfps && memberPfps.length > 9 && (
+                    <div
+                      style={{
+                        width: "40px",
+                        height: "40px",
+                        borderRadius: "100%",
+                        background: "#9FA3AF",
+                        color: "#17151F",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        fontFamily: "'Mulish'",
+                        fontSize: "18px",
+                        fontWeight: 700,
+                        marginLeft: memberPfps.length > 0 ? -20 : 0,
+                        zIndex: 0,
+                      }}
+                    >
+                      +{memberPfps.length - 9}
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
-            {/* Avatars row */}
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                flexWrap: "wrap",
-                gap: "8px",
-                alignItems: "center",
-                width: "100%",
-                maxWidth: "600px",
-                marginBottom: "24px",
-              }}
-            >
-              {contributorPfps?.map((pfp) => (
-                <img
-                  src={pfp}
-                  key={pfp}
-                  alt="farcasterPfp"
-                  style={{
-                    width: "40px",
-                    height: "40px",
-                    borderRadius: "100%",
-                  }}
-                />
-              ))}
-            </div>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                flexWrap: "wrap",
-                gap: "8px",
-                alignItems: "center",
-                width: "100%",
-                maxWidth: "600px",
-                marginBottom: "24px",
-              }}
-            >
-              {memberPfps?.map((pfp) => (
-                <img
-                  src={pfp}
-                  key={pfp}
-                  alt="farcasterPfp"
-                  style={{
-                    width: "40px",
-                    height: "40px",
-                    borderRadius: "100%",
-                  }}
-                />
-              ))}
-            </div>
-
             {/* Bottom section */}
             <div
               style={{
@@ -371,7 +446,7 @@ export async function GET(
                 flexDirection: "column",
                 width: "100%",
                 maxWidth: "600px",
-                gap: "24px",
+                gap: "12px",
               }}
             >
               {/* Progress bar */}

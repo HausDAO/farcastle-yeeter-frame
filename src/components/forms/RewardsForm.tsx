@@ -56,9 +56,10 @@ export const RewardsForm = ({
           const num = Number(value);
           return !isNaN(num) && num > 0;
         }
-      ),
-    rewardLevel1Details: yup.string(),
-    rewardLevel1Title: yup.string(),
+      )
+      .required(),
+    rewardLevel1Details: yup.string().required(),
+    rewardLevel1Title: yup.string().required(),
     rewardLevel2: yup
       .string()
       .test(
@@ -80,15 +81,17 @@ export const RewardsForm = ({
   });
   const requiredFields = getRequiredFieldsList(formSchema);
 
+  console.log("requiredFields", requiredFields);
+
   const form = useForm<yup.InferType<typeof formSchema>>({
     resolver: yupResolver(formSchema),
     defaultValues: {
       rewardLevel1: currentProfile?.parsedRewards?.[0].rewardLevel || "",
-      rewardLevel1Details: currentProfile?.parsedRewards?.[0].details || "",
       rewardLevel1Title: currentProfile?.parsedRewards?.[0].title || "",
+      rewardLevel1Details: currentProfile?.parsedRewards?.[0].details || "",
       rewardLevel2: currentProfile?.parsedRewards?.[1].rewardLevel || "",
-      rewardLevel2Details: currentProfile?.parsedRewards?.[1].details || "",
       rewardLevel2Title: currentProfile?.parsedRewards?.[1].title || "",
+      rewardLevel2Details: currentProfile?.parsedRewards?.[1].details || "",
     },
   });
 

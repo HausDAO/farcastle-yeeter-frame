@@ -9,8 +9,6 @@
     "name": "Fundraiser",
     "iconUrl": "https://fundraiser.farcastle.net/icon.png",
     "homeUrl": "https://fundraiser.farcastle.net",
-    "imageUrl": "https://fundraiser.farcastle.net/image.png",
-    "buttonTitle": "Raise Funds",
     "splashImageUrl": "https://fundraiser.farcastle.net/splash.png",
     "splashBackgroundColor": "#341A34",
     "webhookUrl": "https://fundraiser.farcastle.net/api/webhook",
@@ -22,11 +20,7 @@
       "https://fundraiser.farcastle.net/images/screenshots/contribute.png"
     ],
     "primaryCategory": "finance",
-    "tags": [
-      "social",
-      "funding",
-      "daos"
-    ],
+    "tags": ["social", "funding", "daos"],
     "heroImageUrl": "https://fundraiser.farcastle.net/hero.png",
     "tagline": "Explore, Launch, Contribute",
     "ogTitle": "Fundraiser",
