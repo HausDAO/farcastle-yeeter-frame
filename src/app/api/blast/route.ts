@@ -1,10 +1,10 @@
-import { sendFrameNotificationToMultipleUsers } from "@/lib/notifications/notification-client";
+import { sendFrameNotificationToAllUsers } from "@/lib/notifications/notification-client";
 import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { fids, notification, secretKey } = body;
+    const { notification, secretKey } = body;
 
     if (!secretKey || secretKey !== process.env.CASTLE_SECRET) {
       return NextResponse.json(
@@ -13,8 +13,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const result = await sendFrameNotificationToMultipleUsers({
-      fids,
+    const result = await sendFrameNotificationToAllUsers({
       title: notification.title,
       body: notification.body,
       notificationDetails: notification.notificationDetails,
