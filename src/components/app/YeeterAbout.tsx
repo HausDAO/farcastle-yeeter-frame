@@ -111,8 +111,8 @@ export const YeeterAbout = ({
               </div>
             </CardContent>
           )}
-           
-           {metadata?.parsedRewards && (
+
+          {metadata?.parsedRewards && (
             <CardContent className="p-0 pb-4">
               <div className="text-muted text-sm mb-4 uppercase">Rewards</div>
               <div className="leading-relaxed">
@@ -156,7 +156,7 @@ export const YeeterAbout = ({
                 </Link>
               </div>
 
-              <div className="w-full mt-3">
+              {/* <div className="w-full mt-3">
                 <Link
                   href={`/yeeter/${chainid}/${yeeterid}/update?rewards=true`}
                   className="block w-full"
@@ -165,7 +165,7 @@ export const YeeterAbout = ({
                     Add Rewards
                   </Button>
                 </Link>
-              </div>
+              </div> */}
             </CardContent>
           )}
         </Card>
