@@ -4,7 +4,14 @@ import { NextResponse } from "next/server";
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { fids, notification } = body;
+    const { fids, notification, secretKey } = body;
+
+    if (!secretKey || secretKey !== process.env.CASTLE_SECRET) {
+      return NextResponse.json(
+        { error: "missing castle secret" },
+        { status: 401 }
+      );
+    }
 
     const result = await sendFrameNotificationToMultipleUsers({
       fids,

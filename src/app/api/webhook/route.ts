@@ -85,11 +85,11 @@ export async function POST(request: Request) {
       );
       if (event.notificationDetails) {
         await setUserNotificationDetails(fid, event.notificationDetails);
-        // await sendFrameNotification({
-        //   fid,
-        //   title: `Welcome to ${appName}`,
-        //   body: `Thank you for adding ${appName}`,
-        // });
+        await sendFrameNotification({
+          fid,
+          title: `Your Path Awaits`,
+          body: `Thank you for adding Farcastle Fundraiser`,
+        });
       } else {
         await deleteUserNotificationDetails(fid);
       }
