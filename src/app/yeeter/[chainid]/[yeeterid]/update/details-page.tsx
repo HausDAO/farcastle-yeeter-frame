@@ -79,6 +79,10 @@ export const DetailsPage = () => {
 
     const wholeState = {
       formValues: {
+        name: metadata?.name || "",
+        missionStatement: metadata?.missionStatement || "",
+        projectDetails: metadata?.projectDetails || "",
+        icon: metadata?.icon || "",
         discord: metadata?.parsedLinks?.[0].url || "",
         github: metadata?.parsedLinks?.[1].url || "",
         blog: metadata?.parsedLinks?.[2].url || "",

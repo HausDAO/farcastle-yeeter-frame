@@ -56,9 +56,10 @@ export const RewardsForm = ({
           const num = Number(value);
           return !isNaN(num) && num > 0;
         }
-      ),
-    rewardLevel1Details: yup.string(),
-    rewardLevel1Title: yup.string(),
+      )
+      .required(),
+    rewardLevel1Details: yup.string().required(),
+    rewardLevel1Title: yup.string().required(),
     rewardLevel2: yup
       .string()
       .test(
@@ -79,6 +80,8 @@ export const RewardsForm = ({
     rewardLevel2Title: yup.string(),
   });
   const requiredFields = getRequiredFieldsList(formSchema);
+
+  console.log("requiredFields", requiredFields);
 
   const form = useForm<yup.InferType<typeof formSchema>>({
     resolver: yupResolver(formSchema),

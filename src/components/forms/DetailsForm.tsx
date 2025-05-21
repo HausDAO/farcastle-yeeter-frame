@@ -53,7 +53,7 @@ export const DetailsForm = ({
   const submitButtonText = "Update Campaign Details";
 
   const formSchema = yup.object().shape({
-    name: yup.string(),
+    name: yup.string().required(),
     missionStatement: yup.string(),
     projectDetails: yup.string(),
     icon: yup.string(),
