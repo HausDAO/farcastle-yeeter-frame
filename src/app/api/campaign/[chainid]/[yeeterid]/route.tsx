@@ -129,6 +129,8 @@ export async function GET(
           return recordYeeterId === yeeter.id;
         }) || records[0];
 
+      title = dao.name;
+
       if (profileMatch?.content) {
         const profile = JSON.parse(profileMatch.content);
         if (profile.icon) {
@@ -292,67 +294,91 @@ export async function GET(
               }}
             >
               {/* Contributors column */}
-              <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", maxWidth: "50%" }}>
-                <div
-                  style={{
-                    fontSize: "20px",
-                    textTransform: "uppercase",
-                    fontFamily: "'Mulish'",
-                    color: "#9FA3AF",
-                    marginBottom: "8px",
-                  }}
-                >
-                  Contributors
-                </div>
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    flexWrap: "wrap",
-                    gap: "8px",
-                    alignItems: "center",
-                  }}
-                >
-                  {(contributorPfps?.slice(0, 9) || []).map((pfp, idx) => (
-                    <img
-                      src={pfp}
-                      key={pfp}
-                      alt="farcasterPfp"
-                      style={{
-                        width: "40px",
-                        height: "40px",
-                        borderRadius: "100%",
-                        border: "2px solid #17151F",
-                        marginLeft: idx === 0 ? 0 : -20,
-                        zIndex: 10 - idx,
-                      }}
-                    />
-                  ))}
-                  {contributorPfps && contributorPfps.length > 9 && (
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "flex-start",
+                  maxWidth: "50%",
+                }}
+              >
+                {contributorPfps && contributorPfps.length > 0 && (
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "flex-start",
+                    }}
+                  >
                     <div
                       style={{
-                        width: "40px",
-                        height: "40px",
-                        borderRadius: "100%",
-                        background: "#9FA3AF",
-                        color: "#17151F",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
+                        fontSize: "20px",
+                        textTransform: "uppercase",
                         fontFamily: "'Mulish'",
-                        fontSize: "18px",
-                        fontWeight: 700,
-                        marginLeft: contributorPfps.length > 0 ? -20 : 0,
-                        zIndex: 0,
+                        color: "#9FA3AF",
+                        marginBottom: "8px",
                       }}
                     >
-                      +{contributorPfps.length - 9}
+                      Contributors
                     </div>
-                  )}
-                </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        flexWrap: "wrap",
+                        gap: "8px",
+                        alignItems: "center",
+                      }}
+                    >
+                      {(contributorPfps?.slice(0, 9) || []).map((pfp, idx) => (
+                        <img
+                          src={pfp}
+                          key={pfp}
+                          alt="farcasterPfp"
+                          style={{
+                            width: "40px",
+                            height: "40px",
+                            borderRadius: "100%",
+                            border: "2px solid #17151F",
+                            marginLeft: idx === 0 ? 0 : -20,
+                            zIndex: 10 - idx,
+                          }}
+                        />
+                      ))}
+                      {contributorPfps && contributorPfps.length > 9 && (
+                        <div
+                          style={{
+                            width: "40px",
+                            height: "40px",
+                            borderRadius: "100%",
+                            background: "#9FA3AF",
+                            color: "#17151F",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            fontFamily: "'Mulish'",
+                            fontSize: "18px",
+                            fontWeight: 700,
+                            marginLeft: contributorPfps.length > 0 ? -20 : 0,
+                            zIndex: 0,
+                          }}
+                        >
+                          +{contributorPfps.length - 9}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
               </div>
               {/* Members column */}
-              <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", maxWidth: "50%" }}>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "flex-end",
+                  maxWidth: "50%",
+                }}
+              >
                 <div
                   style={{
                     fontSize: "20px",
