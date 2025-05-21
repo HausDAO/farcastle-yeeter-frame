@@ -2,6 +2,7 @@ import {
   setUserNotificationDetails,
   deleteUserNotificationDetails,
 } from "@/lib/notifications/db";
+import { sendFrameNotification } from "@/lib/notifications/notification-client";
 // import { sendFrameNotification } from "@/lib/notification-client";
 import { http, createPublicClient } from "viem";
 import { optimism } from "viem/chains";
@@ -102,11 +103,11 @@ export async function POST(request: Request) {
     case "notifications_enabled": {
       console.log("notifications_enabled", event.notificationDetails);
       await setUserNotificationDetails(fid, event.notificationDetails);
-      // await sendFrameNotification({
-      //   fid,
-      //   title: `Welcome to ${appName}`,
-      //   body: `Thank you for enabling notifications for ${appName}`,
-      // });
+      await sendFrameNotification({
+        fid,
+        title: `Your Path Awaits`,
+        body: `Thank you for enabling notifications for Farcastle Fundraiser`,
+      });
 
       break;
     }
