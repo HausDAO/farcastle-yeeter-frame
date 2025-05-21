@@ -11,9 +11,9 @@ import { Textarea } from "../ui/textarea";
 
 interface CustomRewardFormData {
   [key: string]: string | undefined;
-  rewardLevel1?: string;
-  rewardLevel1Details?: string;
-  rewardLevel1Title?: string;
+  rewardLevel1: string;
+  rewardLevel1Details: string;
+  rewardLevel1Title: string;
   rewardLevel2?: string;
   rewardLevel2Details?: string;
   rewardLevel2Title?: string;
@@ -61,7 +61,7 @@ export const CustomReward = ({
           </FormItem>
         )}
       />
-            <FormField
+      <FormField
         control={form.control}
         name={`rewardLevel${index}Title`}
         render={({ field }) => (

@@ -1,10 +1,16 @@
-import { FormField, FormItem, FormControl, FormMessage } from "@/components/ui/form";
+import {
+  FormField,
+  FormItem,
+  FormControl,
+  FormMessage,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { ProposalFormLabel } from "./ProposalFormLabel";
 import { UseFormReturn } from "react-hook-form";
 
 interface CustomButtonFormData {
   [key: string]: string | undefined;
+  name: string;
   custom1?: string;
   custom1Label?: string;
   custom2?: string;
