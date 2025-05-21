@@ -111,18 +111,12 @@ export const YeeterAbout = ({
               </div>
             </CardContent>
           )}
-          {metadata?.projectDetails && (
-            <CardContent className="p-0 pb-4">
-              <div className="text-muted text-sm mb-4 uppercase">Details</div>
-              <div className="leading-relaxed">{metadata?.projectDetails}</div>
-            </CardContent>
-          )}
-
-          {metadata?.parsedRewards && (
+           
+           {metadata?.parsedRewards && (
             <CardContent className="p-0 pb-4">
               <div className="text-muted text-sm mb-4 uppercase">Rewards</div>
-              <div className="text-muted text-lg mt-1">
-                Receive {formatLootForMin(yeeter)} {yeeter.dao.lootTokenSymbol}{" "}
+              <div className="leading-relaxed">
+                {formatLootForMin(yeeter)} {yeeter.dao.lootTokenSymbol}{" "}
                 {Number(formatLootForMin(yeeter)) === 1 ? "token" : "tokens"}{" "}
                 per {formatMinContribution(yeeter)}{" "}
                 {nativeCurrencySymbol(activeChain)}
@@ -139,6 +133,13 @@ export const YeeterAbout = ({
                   );
                 })}
               </div>
+            </CardContent>
+          )}
+
+          {metadata?.projectDetails && (
+            <CardContent className="p-0 pb-4">
+              <div className="text-muted text-sm mb-4 uppercase">Details</div>
+              <div className="leading-relaxed">{metadata?.projectDetails}</div>
             </CardContent>
           )}
 
@@ -161,7 +162,7 @@ export const YeeterAbout = ({
                   className="block w-full"
                 >
                   <Button variant="default" className="w-full">
-                    Edit Reward Details
+                    Add Rewards
                   </Button>
                 </Link>
               </div>
