@@ -129,6 +129,8 @@ export async function GET(
           return recordYeeterId === yeeter.id;
         }) || records[0];
 
+      title = dao.name;
+
       if (profileMatch?.content) {
         const profile = JSON.parse(profileMatch.content);
         if (profile.icon) {
@@ -292,7 +294,14 @@ export async function GET(
               }}
             >
               {/* Contributors column */}
-              <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", maxWidth: "50%" }}>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "flex-start",
+                  maxWidth: "50%",
+                }}
+              >
                 <div
                   style={{
                     fontSize: "20px",
@@ -352,7 +361,14 @@ export async function GET(
                 </div>
               </div>
               {/* Members column */}
-              <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", maxWidth: "50%" }}>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "flex-end",
+                  maxWidth: "50%",
+                }}
+              >
                 <div
                   style={{
                     fontSize: "20px",

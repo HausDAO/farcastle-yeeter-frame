@@ -114,6 +114,8 @@ export async function GET(
 
       console.log("dao", dao);
 
+      title = dao.name;
+
       const profileMatch =
         records.find((record) => {
           let recordYeeterId;
