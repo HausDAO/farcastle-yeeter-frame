@@ -25,7 +25,7 @@ export const { POST } = serve(async (context) => {
     sendFrameNotificationToAllUsers({
       title: "A New Raid Begins",
       body: `${user} summoned a call to arms. Explore ${campaign} and see if the cause stirs your spirit.`,
-      targetUrl: `${process.env.NEXT_PUBLIC_URL}/yeeter/${chainid}/${yeeterid}`,
+      targetUrl: `https://fundraiser.farcastle.net/yeeter/${chainid}/${yeeterid}`,
     });
   });
 });
