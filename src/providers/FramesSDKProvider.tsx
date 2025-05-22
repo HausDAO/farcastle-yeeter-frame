@@ -25,8 +25,15 @@ export function FrameSDKProvider({ children }: { children: React.ReactNode }) {
     const load = async () => {
       const frameContext = await frameSDK.context;
       setContext(frameContext);
-      if (frameContext) {
+      const isMiniApp = await frameSDK.isInMiniApp();
+      console.log("isMiniApp", isMiniApp);
+      if (isMiniApp) {
         setLocalConnector(config.connectors[0]);
+        console.log("******** frameContext", frameContext);
+        if (!frameContext.client.added) {
+          console.log("$$$$$$$ trigger add app");
+          // frameSDK.actions.addMiniApp();
+        }
       }
       frameSDK.actions.ready({});
     };
