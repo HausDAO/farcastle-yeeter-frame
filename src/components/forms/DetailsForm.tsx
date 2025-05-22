@@ -163,7 +163,7 @@ export const DetailsForm = ({
               render={({ field }) => (
                 <FormItem>
                   <ProposalFormLabel
-                    label="What do contributors receive?"
+                    label="What are the details?"
                     id="projectDetails"
                     requiredFields={requiredFields}
                   />

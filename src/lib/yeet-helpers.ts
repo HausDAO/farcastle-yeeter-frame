@@ -48,6 +48,11 @@ export const formatMinContribution = (yeeter: YeeterItem) => {
   });
 };
 
+export function formatRewardLevel(level: string | number) {
+  const num = Number(level);
+  return num % 1 === 0 ? num.toString() : num.toLocaleString(undefined, { minimumFractionDigits: 3, maximumFractionDigits: 3 });
+}
+
 export const formatLootForMin = (yeeter: YeeterItem) => {
   const loot = BigInt(yeeter.minTribute) * BigInt(yeeter.multiplier);
   return formatValueTo({
