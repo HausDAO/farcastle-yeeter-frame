@@ -4,13 +4,13 @@ import { serve } from "@upstash/workflow/nextjs";
 type LaunchWorkflowPaylod = {
   yeeterid: string;
   chainid: string;
-  campaignName?: string;
+  campaignname?: string;
   username?: string;
 };
 
 export const { POST } = serve(async (context) => {
   console.log("context.re", context.requestPayload);
-  const { yeeterid, chainid, campaignName, username } =
+  const { yeeterid, chainid, campaignname, username } =
     context.requestPayload as LaunchWorkflowPaylod;
   if (!yeeterid || !chainid) {
     return;
@@ -19,7 +19,7 @@ export const { POST } = serve(async (context) => {
   await context.run("notify", () => {
     console.log("notify step ran");
     // const notification;
-    const campaign = campaignName || "the campaign";
+    const campaign = campaignname || "the campaign";
     const user = username || "Some brave soul";
 
     sendFrameNotificationToAllUsers({
