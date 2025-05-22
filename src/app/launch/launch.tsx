@@ -76,12 +76,14 @@ export default function Launch() {
     if (yeeter && chainId) {
       console.log("^^^^^^^^^^^^^^^^^^^^^ notify", yeeter);
 
-      triggerLaunchWorkflow({
-        yeeterid: yeeter.id,
-        chainid: toHex(chainId),
-        campaignname: campaignName,
-        username: context?.user.displayName,
-      });
+      if (context) {
+        triggerLaunchWorkflow({
+          yeeterid: yeeter.id,
+          chainid: toHex(chainId),
+          campaignname: campaignName,
+          username: context?.user.displayName,
+        });
+      }
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps

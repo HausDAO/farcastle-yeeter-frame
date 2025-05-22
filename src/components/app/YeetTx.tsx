@@ -12,12 +12,18 @@ import yeeterAbi from "../../lib/tx-prepper/abi/yeeterShaman.json";
 import { useYeeter } from "@/hooks/useYeeter";
 import * as Drawer from "../ui/drawer";
 import { YeetForm } from "../forms/YeetForm";
-import { formatLootForMin, formatMinContribution, formatRewardLevel } from "@/lib/yeet-helpers";
+import {
+  formatLootForMin,
+  formatMinContribution,
+  formatRewardLevel,
+} from "@/lib/yeet-helpers";
 import { nativeCurrencySymbol } from "@/lib/helpers";
 import { ArbitraryState } from "@/lib/tx-prepper/prepper-types";
 import { Button } from "../ui/button";
 import Image from "next/image";
 import { toHex } from "viem";
+import { triggerYeetWorkflow } from "@/lib/notifications/qstash";
+import { useFrameSDK } from "@/providers/FramesSDKProvider";
 
 export const YeetTx = ({
   yeeterid,
@@ -33,6 +39,7 @@ export const YeetTx = ({
   const queryClient = useQueryClient();
   const closeRef = useRef<HTMLButtonElement>(null);
   const { isConnected, chainId } = useAccount();
+  const { context } = useFrameSDK();
   const { switchChain } = useSwitchChain();
 
   const chains = useChains();
@@ -68,8 +75,18 @@ export const YeetTx = ({
     if (isConfirmed) {
       console.log("INVALIDATING/REFETCH");
       reset();
+
+      if (context) {
+        triggerYeetWorkflow({
+          yeeterid,
+          chainid,
+          campaignname: metadata?.name,
+          username: context.user.displayName,
+          fid: context.user.fid,
+        });
+      }
     }
-  }, [isConfirmed, queryClient, yeeterid, chainid]);
+  }, [isConfirmed, queryClient, yeeterid, chainid, context, metadata]);
 
   const handleSubmit = async (values: ArbitraryState) => {
     if (!yeeter) return;
@@ -143,9 +160,12 @@ export const YeetTx = ({
                               return (
                                 <div className="w-full" key={i}>
                                   <p className="text-sm font-mulish text-primary leading-none mt-1">
-                                    {formatRewardLevel(reward.rewardLevel)} {nativeCurrencySymbol(activeChain)}
+                                    {formatRewardLevel(reward.rewardLevel)}{" "}
+                                    {nativeCurrencySymbol(activeChain)}
                                   </p>
-                                  <p className="font-mulish text-muted text-lg mt-1 uppercase">{reward.title}</p>
+                                  <p className="font-mulish text-muted text-lg mt-1 uppercase">
+                                    {reward.title}
+                                  </p>
                                 </div>
                               );
                             })}

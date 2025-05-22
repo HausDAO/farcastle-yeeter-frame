@@ -37,3 +37,34 @@ export const triggerLaunchWorkflow = async ({
 
   return workflowRunId;
 };
+
+export const triggerYeetWorkflow = async ({
+  yeeterid,
+  chainid,
+  campaignname,
+  username,
+  fid,
+}: {
+  yeeterid: string;
+  chainid: string;
+  campaignname?: string;
+  username?: string;
+  fid: number;
+}) => {
+  console.log("triggerYeetWorkflow yeeterid", yeeterid);
+  const { workflowRunId } = await client.trigger({
+    url: `${appUrl}/api/workflow/yeet`,
+    body: {
+      yeeterid,
+      chainid,
+      campaignname,
+      username,
+      fid,
+    },
+    headers: { Authorization: `Bearer ${token}` }, // Optional headers
+    // workflowRunId: "my-workflow", // Optional workflow run ID
+    retries: 3, // Optional retries for the initial request
+  });
+
+  return workflowRunId;
+};
