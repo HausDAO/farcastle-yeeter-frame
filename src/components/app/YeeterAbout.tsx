@@ -18,6 +18,11 @@ const truncateButtonLabel = (label: string) => {
   return label;
 };
 
+function formatRewardLevel(level: string | number) {
+  const num = Number(level);
+  return num % 1 === 0 ? num.toString() : num.toLocaleString(undefined, { minimumFractionDigits: 3, maximumFractionDigits: 3 });
+}
+
 export const YeeterAbout = ({
   yeeterid,
   chainid,
@@ -116,19 +121,20 @@ export const YeeterAbout = ({
             <CardContent className="p-0 pb-4">
               <div className="text-muted text-sm mb-4 uppercase">Rewards</div>
               <div className="leading-relaxed">
-                {formatLootForMin(yeeter)} {yeeter.dao.lootTokenSymbol}{" "}
-                {Number(formatLootForMin(yeeter)) === 1 ? "token" : "tokens"}{" "}
-                per {formatMinContribution(yeeter)}{" "}
-                {nativeCurrencySymbol(activeChain)}
+              <p className="text-sm font-body text-primary leading-none">{formatMinContribution(yeeter)}{" "}
+              {nativeCurrencySymbol(activeChain)}</p>
+              <p className="font-body text-sm text-muted leading-none mt-2 mb-1">{yeeter.dao.lootTokenSymbol}</p>
+              <p className="leading-relaxed">{formatLootForMin(yeeter)}{" "}
+              {Number(formatLootForMin(yeeter)) === 1 ? "Token" : "Tokens"}</p>
               </div>
               <div className="leading-relaxed">
                 {metadata.parsedRewards.map((reward, i) => {
                   if (!reward.rewardLevel) return null;
                   return (
                     <div className="w-full" key={i}>
-                      <p className="font-bold">{reward.rewardLevel}</p>
-                      <p className="font-bold">{reward.title}</p>
-                      <p>{reward.details}</p>
+                      <p className="text-sm font-body text-primary leading-none mt-4">{formatRewardLevel(reward.rewardLevel)} {nativeCurrencySymbol(activeChain)}</p>
+                      <p className="font-body text-sm text-muted leading-none mt-2 mb-1">{reward.title}</p>
+                      <p className="leading-relaxed ">{reward.details}</p>
                     </div>
                   );
                 })}
@@ -156,7 +162,7 @@ export const YeeterAbout = ({
                 </Link>
               </div>
 
-              {/* <div className="w-full mt-3">
+              <div className="w-full mt-3">
                 <Link
                   href={`/yeeter/${chainid}/${yeeterid}/update?rewards=true`}
                   className="block w-full"
@@ -165,7 +171,7 @@ export const YeeterAbout = ({
                     Add Rewards
                   </Button>
                 </Link>
-              </div> */}
+              </div>
             </CardContent>
           )}
         </Card>
