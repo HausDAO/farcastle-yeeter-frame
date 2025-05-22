@@ -79,7 +79,7 @@ export default function Launch() {
       triggerLaunchWorkflow({
         yeeterid: yeeter.id,
         chainid: toHex(chainId),
-        campaignName,
+        campaignname: campaignName,
         username: context?.user.displayName,
       });
     }

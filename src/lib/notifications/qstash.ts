@@ -13,23 +13,24 @@ const appUrl = "https://fundraiser.farcastle.net";
 export const triggerLaunchWorkflow = async ({
   yeeterid,
   chainid,
-  campaignName,
+  campaignname,
   username,
 }: {
   yeeterid: string;
   chainid: string;
-  campaignName?: string;
+  campaignname?: string;
   username?: string;
 }) => {
+  console.log("triggerLaunchWorkflow yeeterid", yeeterid);
   const { workflowRunId } = await client.trigger({
     url: `${appUrl}/api/workflow/launch`,
     body: {
       yeeterid,
       chainid,
-      campaignName,
+      campaignname,
       username,
     },
-    headers: { Authorization: `Bearer ${process.env.QSTASH_TOKEN}` }, // Optional headers
+    headers: { Authorization: `Bearer ${token}` }, // Optional headers
     // workflowRunId: "my-workflow", // Optional workflow run ID
     retries: 3, // Optional retries for the initial request
   });
