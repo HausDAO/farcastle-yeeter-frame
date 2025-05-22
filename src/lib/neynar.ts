@@ -1,9 +1,4 @@
-import {
-  NeynarAPIClient,
-  Configuration,
-  // isApiErrorResponse,
-  Follower,
-} from "@neynar/nodejs-sdk";
+import { NeynarAPIClient, Configuration } from "@neynar/nodejs-sdk";
 
 const config = new Configuration({
   apiKey: process.env.NEYNAR_API_KEY || "", // Replace with your Neynar API Key.
