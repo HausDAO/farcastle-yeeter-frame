@@ -8,7 +8,7 @@ import Link from "next/link";
 import { useCallback } from "react";
 import { sdk } from "@farcaster/frame-sdk";
 import { Button } from "../ui/button";
-import { formatLootForMin, formatMinContribution } from "@/lib/yeet-helpers";
+import { formatLootForMin, formatMinContribution, formatRewardLevel } from "@/lib/yeet-helpers";
 import { nativeCurrencySymbol } from "@/lib/helpers";
 
 const truncateButtonLabel = (label: string) => {
@@ -17,11 +17,6 @@ const truncateButtonLabel = (label: string) => {
   }
   return label;
 };
-
-function formatRewardLevel(level: string | number) {
-  const num = Number(level);
-  return num % 1 === 0 ? num.toString() : num.toLocaleString(undefined, { minimumFractionDigits: 3, maximumFractionDigits: 3 });
-}
 
 export const YeeterAbout = ({
   yeeterid,

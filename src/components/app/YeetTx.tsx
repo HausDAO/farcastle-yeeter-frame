@@ -12,7 +12,7 @@ import yeeterAbi from "../../lib/tx-prepper/abi/yeeterShaman.json";
 import { useYeeter } from "@/hooks/useYeeter";
 import * as Drawer from "../ui/drawer";
 import { YeetForm } from "../forms/YeetForm";
-import { formatLootForMin, formatMinContribution } from "@/lib/yeet-helpers";
+import { formatLootForMin, formatMinContribution, formatRewardLevel } from "@/lib/yeet-helpers";
 import { nativeCurrencySymbol } from "@/lib/helpers";
 import { ArbitraryState } from "@/lib/tx-prepper/prepper-types";
 import { Button } from "../ui/button";
@@ -126,7 +126,7 @@ export const YeetTx = ({
                   ) : (
                     <>
                       Contribute
-                      <div className="font-mulish text-muted text-lg mt-1 uppercase">
+                      <div className="font-mulish text-muted text-lg mt-1 mb-1 uppercase">
                         Receive {formatLootForMin(yeeter)}{" "}
                         {yeeter.dao.lootTokenSymbol}{" "}
                         {Number(formatLootForMin(yeeter)) === 1
@@ -136,19 +136,16 @@ export const YeetTx = ({
                         {nativeCurrencySymbol(activeChain)}
                       </div>
                       {metadata?.parsedRewards && (
-                        <div className="font-mulish text-muted text-base mt-3">
-                          <div className="text-muted text-sm mb-1 uppercase">
-                            Rewards
-                          </div>
-                          <div className="leading-relaxed">
+                        <div>
+                          <div>
                             {metadata.parsedRewards.map((reward, i) => {
                               if (!reward.rewardLevel) return null;
                               return (
                                 <div className="w-full" key={i}>
-                                  <p className="font-bold">
-                                    {reward.rewardLevel}
+                                  <p className="text-sm font-mulish text-primary leading-none mt-1">
+                                    {formatRewardLevel(reward.rewardLevel)} {nativeCurrencySymbol(activeChain)}
                                   </p>
-                                  <p>{reward.title}</p>
+                                  <p className="font-mulish text-muted text-lg mt-1 uppercase">{reward.title}</p>
                                 </div>
                               );
                             })}
