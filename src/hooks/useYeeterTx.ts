@@ -20,14 +20,16 @@ export const useYeeterByTx = ({
     );
   }
 
-  // const yeeterUrl = getGraphUrl({
-  //   chainid: chainid || "",
-  //   graphKey: hookContext?.config.graphKey || "",
-  //   subgraphKey: "YEETER",
-  // });
+  let yeeterUrl = getGraphUrl({
+    chainid: chainid || "",
+    graphKey: hookContext?.config.graphKey || "",
+    subgraphKey: "YEETER",
+  });
 
-  const yeeterUrl =
-    "https://api.studio.thegraph.com/query/73494/yeeter-sepolia/version/latest";
+  if (chainid === "0xaa36a7") {
+    yeeterUrl =
+      "https://api.studio.thegraph.com/query/73494/yeeter-sepolia/version/latest";
+  }
 
   const {
     data,
