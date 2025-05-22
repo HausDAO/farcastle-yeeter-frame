@@ -249,6 +249,7 @@ export async function GET(
                   textTransform: "uppercase",
                   fontFamily: "'Mulish'",
                   color: "#9FA3AF",
+                  marginBottom: "-8px"
                 }}
               >
                 I contributed {contribution} ETH to
