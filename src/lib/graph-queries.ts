@@ -26,8 +26,8 @@ export const FIND_YEETER = gql`
 `;
 
 export const FIND_YEETER_BY_TX = gql`
-  query yeeter($txHash: String!) {
-    yeeter(where: { txHash: $txHash }) {
+  query yeeters($txHash: String!) {
+    yeeters(where: { txHash: $txHash }) {
       id
       createdAt
       txHash

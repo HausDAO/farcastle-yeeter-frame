@@ -20,11 +20,14 @@ export const useYeeterByTx = ({
     );
   }
 
-  const yeeterUrl = getGraphUrl({
-    chainid: chainid || "",
-    graphKey: hookContext?.config.graphKey || "",
-    subgraphKey: "YEETER",
-  });
+  // const yeeterUrl = getGraphUrl({
+  //   chainid: chainid || "",
+  //   graphKey: hookContext?.config.graphKey || "",
+  //   subgraphKey: "YEETER",
+  // });
+
+  const yeeterUrl =
+    "https://api.studio.thegraph.com/query/73494/yeeter-sepolia/version/latest";
 
   const {
     data,
@@ -37,25 +40,29 @@ export const useYeeterByTx = ({
     retry: 10,
     retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000),
     queryFn: async (): Promise<{
-      yeeter: {
-        id: string;
-        createdAt: string;
-        txHash: string;
-      } | null;
+      yeeters:
+        | {
+            id: string;
+            createdAt: string;
+            txHash: string;
+          }[]
+        | null;
     }> => {
       try {
         const graphQLClient = new GraphQLClient(yeeterUrl);
         const yeeterRes = (await graphQLClient.request(FIND_YEETER_BY_TX, {
           txHash,
         })) as {
-          yeeter: {
-            id: string;
-            createdAt: string;
-            txHash: string;
-          } | null;
+          yeeters:
+            | {
+                id: string;
+                createdAt: string;
+                txHash: string;
+              }[]
+            | null;
         };
 
-        if (!yeeterRes.yeeter) {
+        if (!yeeterRes.yeeters || !yeeterRes.yeeters[0]) {
           throw new Error("Yeeter not found for transaction");
         }
 
@@ -70,10 +77,8 @@ export const useYeeterByTx = ({
   // Check if we've exhausted all retries
   const isRetryExhausted = failureCount >= 10;
 
-  console.log("queryIsError", queryIsError);
-
   return {
-    yeeter: data?.yeeter,
+    yeeter: data?.yeeters && data.yeeters[0],
     isError: queryIsError || isRetryExhausted,
     ...rest,
   };

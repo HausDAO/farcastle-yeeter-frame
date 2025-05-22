@@ -3,7 +3,7 @@
 import { Card } from "@/components/ui/card";
 import sdk from "@farcaster/frame-sdk";
 import { useFrameSDK } from "@/providers/FramesSDKProvider";
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import {
   useAccount,
   useChains,
@@ -30,6 +30,7 @@ import { Button } from "@/components/ui/button";
 import { LaunchForm } from "@/components/forms/LaunchForm";
 import Link from "next/link";
 import { useYeeterByTx } from "@/hooks/useYeeterTx";
+import { triggerLaunchWorkflow } from "@/lib/notifications/qstash";
 
 type ChainName = "OP Mainnet" | "Base" | "Gnosis" | "Arbitrum One" | "Sepolia";
 
@@ -61,10 +62,21 @@ export default function Launch() {
       hash: hash,
     });
 
-  const { yeeter, isError: isYeeterError } = useYeeterByTx({
+  const {
+    yeeter,
+    isError: isYeeterError,
+    isLoading: isYeeterLoading,
+  } = useYeeterByTx({
     chainid: chainId ? toHex(chainId) : undefined,
     txHash: hash,
   });
+
+  useEffect(() => {
+    if (yeeter && chainId) {
+      console.log("^^^^^^^^^^^^^^^^^^^^^ notify", yeeter);
+      triggerLaunchWorkflow({ yeeterid: yeeter.id, chainid: toHex(chainId) });
+    }
+  }, [yeeter, chainId]);
 
   const openUrl = useCallback(() => {
     if (chainId) {
@@ -135,7 +147,6 @@ export default function Launch() {
   )?.id;
   const invalidConnection = !isConnected || connectedToValidChain === undefined;
 
-  console.log("isYeeterError", isYeeterError);
   const yeeterIdOrError = isYeeterError || Boolean(yeeter?.id);
   const showConfirmed = Boolean(isConfirmed && yeeterIdOrError);
 
@@ -159,7 +170,7 @@ export default function Launch() {
           {!showConfirmed && (
             <LaunchForm
               confirmed={showConfirmed}
-              loading={isSendTxPending || isConfirming}
+              loading={isSendTxPending || isConfirming || isYeeterLoading}
               invalidConnection={invalidConnection}
               handleSubmit={handleSend}
               formElmClass="w-full space-y-4"
