@@ -3,7 +3,7 @@
 import { Card } from "@/components/ui/card";
 import sdk from "@farcaster/frame-sdk";
 import { useFrameSDK } from "@/providers/FramesSDKProvider";
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
   useAccount,
   useChains,
@@ -45,9 +45,10 @@ const chainNames: Record<ChainName, string> = {
 };
 
 export default function Launch() {
-  const { isLoaded } = useFrameSDK();
+  const { isLoaded, context } = useFrameSDK();
   const { address, isConnected, chainId } = useAccount();
   const chains = useChains();
+  const [campaignName, setCampaignName] = useState();
 
   const {
     writeContract,
@@ -74,8 +75,16 @@ export default function Launch() {
   useEffect(() => {
     if (yeeter && chainId) {
       console.log("^^^^^^^^^^^^^^^^^^^^^ notify", yeeter);
-      triggerLaunchWorkflow({ yeeterid: yeeter.id, chainid: toHex(chainId) });
+
+      triggerLaunchWorkflow({
+        yeeterid: yeeter.id,
+        chainid: toHex(chainId),
+        campaignName,
+        username: context?.user.displayName,
+      });
     }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [yeeter, chainId]);
 
   const openUrl = useCallback(() => {
@@ -89,6 +98,7 @@ export default function Launch() {
     const now = nowInSeconds();
 
     console.log("values", values);
+    setCampaignName(values.name);
 
     const args = {
       chainId: toHex(chainId),
