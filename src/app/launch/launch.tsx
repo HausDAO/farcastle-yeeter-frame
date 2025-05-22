@@ -29,6 +29,7 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { LaunchForm } from "@/components/forms/LaunchForm";
 import Link from "next/link";
+import { useYeeterByTx } from "@/hooks/useYeeterTx";
 
 type ChainName = "OP Mainnet" | "Base" | "Gnosis" | "Arbitrum One" | "Sepolia";
 
@@ -59,6 +60,11 @@ export default function Launch() {
     useWaitForTransactionReceipt({
       hash: hash,
     });
+
+  const { yeeter, isError: isYeeterError } = useYeeterByTx({
+    chainid: chainId ? toHex(chainId) : undefined,
+    txHash: hash,
+  });
 
   const openUrl = useCallback(() => {
     if (chainId) {
@@ -129,6 +135,10 @@ export default function Launch() {
   )?.id;
   const invalidConnection = !isConnected || connectedToValidChain === undefined;
 
+  console.log("isYeeterError", isYeeterError);
+  const yeeterIdOrError = isYeeterError || Boolean(yeeter?.id);
+  const showConfirmed = Boolean(isConfirmed && yeeterIdOrError);
+
   return (
     <>
       <div className="w-full h-full space-y-4 pb-4 px-4">
@@ -140,15 +150,15 @@ export default function Launch() {
           )}
           {chainId && (
             <div className="text-primary font-display text-3xl uppercase mb-4">
-              {isConfirmed
+              {showConfirmed
                 ? `${chainNames[getWagmiChainObj(toHex(chainId)).name as ChainName] || "Base"} Campaign Launched`
                 : `${chainNames[getWagmiChainObj(toHex(chainId)).name as ChainName] || "Base"} Campaign`}
             </div>
           )}
 
-          {!isConfirmed && (
+          {!showConfirmed && (
             <LaunchForm
-              confirmed={isConfirmed}
+              confirmed={showConfirmed}
               loading={isSendTxPending || isConfirming}
               invalidConnection={invalidConnection}
               handleSubmit={handleSend}
@@ -159,7 +169,7 @@ export default function Launch() {
           <div className="flex flex-col gap-2 w-full">
             {isSendTxError && renderError(sendTxError)}
 
-            {isConfirmed && (
+            {showConfirmed && (
               <div className="flex flex-col items-center gap-8">
                 <Image
                   src="/heart.svg"
@@ -169,7 +179,14 @@ export default function Launch() {
                 />
 
                 <div className="flex flex-col w-full items-center gap-2">
-                  <Link href={`/explore`} className="w-full">
+                  <Link
+                    href={
+                      !isYeeterError && chainId && yeeter?.id
+                        ? `/yeeter/${toHex(chainId)}/${yeeter.id}`
+                        : "/explore"
+                    }
+                    className="w-full"
+                  >
                     <Button className="w-full mb-2">
                       Edit Campaign Details
                     </Button>

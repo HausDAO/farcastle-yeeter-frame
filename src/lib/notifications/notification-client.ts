@@ -76,11 +76,13 @@ export async function sendFrameNotificationToMultipleUsers({
   fids,
   title,
   body,
+  targetUrl,
   notificationDetails,
 }: {
   fids: number[];
   title: string;
   body: string;
+  targetUrl?: string;
   notificationDetails?: FrameNotificationDetails[] | null;
 }): Promise<SendFrameNotificationResult> {
   if (!notificationDetails) {
@@ -101,7 +103,7 @@ export async function sendFrameNotificationToMultipleUsers({
       notificationId: crypto.randomUUID(),
       title,
       body,
-      targetUrl: appUrl,
+      targetUrl: targetUrl || appUrl,
       tokens: notificationDetails.map((d) => d.token),
     } satisfies SendNotificationRequest),
   });
@@ -127,10 +129,12 @@ export async function sendFrameNotificationToMultipleUsers({
 export async function sendFrameNotificationToAllUsers({
   title,
   body,
+  targetUrl,
   notificationDetails,
 }: {
   title: string;
   body: string;
+  targetUrl?: string;
   notificationDetails?: FrameNotificationDetails[] | null;
 }): Promise<SendFrameNotificationResult> {
   if (!notificationDetails) {
@@ -151,7 +155,7 @@ export async function sendFrameNotificationToAllUsers({
       notificationId: crypto.randomUUID(),
       title,
       body,
-      targetUrl: appUrl,
+      targetUrl: targetUrl || appUrl,
       tokens: notificationDetails.map((d) => d.token),
     } satisfies SendNotificationRequest),
   });

@@ -25,6 +25,16 @@ export const FIND_YEETER = gql`
   }
 `;
 
+export const FIND_YEETER_BY_TX = gql`
+  query yeeter($txHash: String!) {
+    yeeter(where: { txHash: $txHash }) {
+      id
+      createdAt
+      txHash
+    }
+  }
+`;
+
 export const FIND_YEETER_EMBED = gql`
   query yeeter($shamanAddress: String!) {
     yeeter(id: $shamanAddress) {
