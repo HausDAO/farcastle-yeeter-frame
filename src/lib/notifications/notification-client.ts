@@ -52,6 +52,7 @@ async function sendNotificationBatch(
       return { state: "rate_limit" };
     }
 
+    console.log(`notification batch sent to ${batch.length} users`);
     return { state: "success" };
   }
 
@@ -135,6 +136,8 @@ export async function sendFrameNotificationToAllUsers({
   if (!notificationDetails) {
     return { state: "no_token" };
   }
+
+  console.log(`notfiying ${notificationDetails.length} users`);
 
   // Process in batches of 100
   const batchSize = 100;
