@@ -16,7 +16,7 @@
   "dependencies": {
     "0xsequence": "^2.2.14",
     "@farcaster/frame-core": "^0.0.32",
-    "@farcaster/frame-sdk": "^0.0.35",
+    "@farcaster/frame-sdk": "^0.0.45",
     "@farcaster/frame-wagmi-connector": "^0.0.23",
     "@hookform/resolvers": "^3.10.0",
     "@neynar/nodejs-sdk": "^2.33.1",
