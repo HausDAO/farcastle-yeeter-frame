@@ -2,6 +2,7 @@ import {
   NeynarAPIClient,
   Configuration,
   // isApiErrorResponse,
+  Follower,
 } from "@neynar/nodejs-sdk";
 
 const config = new Configuration({
@@ -52,6 +53,45 @@ export async function getUserProfiles(fids: number[]) {
     return response;
   } catch (error) {
     console.error("Error fetching user profile:", error);
+    throw error;
+  }
+}
+
+export async function getUserFollowers(fid: number) {
+  try {
+    let allFollowers: Array<{
+      object: string;
+      user: {
+        fid: number;
+        username: string;
+        display_name?: string;
+        pfp_url?: string;
+        profile: {
+          bio: {
+            text: string;
+          };
+        };
+        follower_count: number;
+        following_count: number;
+      };
+    }> = [];
+    let cursor: string | null = null;
+    const limit = 100; // Maximum allowed by the API
+
+    do {
+      const response = await neynarClient.fetchUserFollowers({
+        fid,
+        limit,
+        cursor: cursor || undefined,
+      });
+
+      allFollowers = [...allFollowers, ...response.users];
+      cursor = response.next?.cursor;
+    } while (cursor);
+
+    return allFollowers;
+  } catch (error) {
+    console.error("Error fetching user followers:", error);
     throw error;
   }
 }

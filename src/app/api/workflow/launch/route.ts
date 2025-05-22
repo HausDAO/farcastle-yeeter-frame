@@ -1,7 +1,7 @@
 import { sendFrameNotificationToAllUsers } from "@/lib/notifications/notification-client";
 import { serve } from "@upstash/workflow/nextjs";
 
-type LaunchWorkflowPaylod = {
+type LaunchWorkflowPayload = {
   yeeterid: string;
   chainid: string;
   campaignname?: string;
@@ -11,7 +11,7 @@ type LaunchWorkflowPaylod = {
 export const { POST } = serve(async (context) => {
   console.log("context.re", context.requestPayload);
   const { yeeterid, chainid, campaignname, username } =
-    context.requestPayload as LaunchWorkflowPaylod;
+    context.requestPayload as LaunchWorkflowPayload;
   if (!yeeterid || !chainid) {
     return;
   }
