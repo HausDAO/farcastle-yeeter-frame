@@ -5,11 +5,12 @@ type LaunchWorkflowPaylod = {
   yeeterid: string;
   chainid: string;
   campaignName?: string;
+  username?: string;
 };
 
 export const { POST } = serve(async (context) => {
   console.log("context.re", context.requestPayload);
-  const { yeeterid, chainid, campaignName } =
+  const { yeeterid, chainid, campaignName, username } =
     context.requestPayload as LaunchWorkflowPaylod;
   if (!yeeterid || !chainid) {
     return;
@@ -19,11 +20,12 @@ export const { POST } = serve(async (context) => {
     console.log("notify step ran");
     // const notification;
     const campaign = campaignName || "the campaign";
+    const user = username || "Some brave soul";
 
     sendFrameNotificationToAllUsers({
       title: "A New Raid Begins",
-      body: `Some brave soul summoned a call to arms. Explore ${campaign} and see if the cause stirs your spirit.`,
-      targetUrl: `${process.env.NEXT_PUBLIC_URL}/yeeter/${chainid}/${yeeterid}`,
+      body: `${user} summoned a call to arms. Explore ${campaign} and see if the cause stirs your spirit.`,
+      targetUrl: `https://fundraiser.farcastle.net/yeeter/${chainid}/${yeeterid}`,
     });
   });
 });
