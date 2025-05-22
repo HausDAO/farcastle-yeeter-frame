@@ -74,8 +74,6 @@ export default function Launch() {
 
   useEffect(() => {
     if (yeeter && chainId) {
-      console.log("^^^^^^^^^^^^^^^^^^^^^ notify", yeeter);
-
       if (context) {
         triggerLaunchWorkflow({
           yeeterid: yeeter.id,

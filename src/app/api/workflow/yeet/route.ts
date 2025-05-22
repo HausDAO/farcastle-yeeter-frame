@@ -29,14 +29,14 @@ export const { POST } = serve(async (context) => {
     console.log("followers count", followers.length);
     const fids = followers.map((f) => f.user.fid);
 
-    const campaign = campaignname || "a raid";
+    const campaign = campaignname ? `the ${campaignname} raid` : "a raid";
     const user = username || "An Ally";
     const bodyUser = username || "Someone you follow";
 
     sendFrameNotificationToMultipleUsers({
       fids,
       title: `${user} Contributed`,
-      body: `${bodyUser} Someone you follow pledged coin to ${campaign}. See where their loyalty lies and consider joining their cause.`,
+      body: `${bodyUser} pledged coin to ${campaign}. See where their loyalty lies and consider joining their cause.`,
       targetUrl: `https://fundraiser.farcastle.net/yeeter/${chainid}/${yeeterid}`,
     });
   });
