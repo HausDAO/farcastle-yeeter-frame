@@ -8,7 +8,7 @@ const client = new Client({ token });
 
 const appUrl = "https://fundraiser.farcastle.net";
 
-// const appUrl = "https://memory-kate-hr-no.trycloudflare.com";
+// const appUrl = "https://reviewed-buffalo-subscriber-caught.trycloudflare.com";
 
 export const triggerLaunchWorkflow = async ({
   yeeterid,
