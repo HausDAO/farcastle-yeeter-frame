@@ -8,7 +8,11 @@ import Link from "next/link";
 import { useCallback } from "react";
 import { sdk } from "@farcaster/frame-sdk";
 import { Button } from "../ui/button";
-import { formatLootForMin, formatMinContribution } from "@/lib/yeet-helpers";
+import {
+  formatLootForMin,
+  formatMinContribution,
+  formatRewardLevel,
+} from "@/lib/yeet-helpers";
 import { nativeCurrencySymbol } from "@/lib/helpers";
 
 const truncateButtonLabel = (label: string) => {
@@ -58,22 +62,22 @@ export const YeeterAbout = ({
     }
   }, [yeeterid, chainid, metadata?.missionStatement]);
 
-  const handleCastCampaignRewards = useCallback(async () => {
-    try {
-      const baseUrl =
-        process.env.NODE_ENV === "development"
-          ? window.location.origin
-          : process.env.NEXT_PUBLIC_URL || "https://fundraiser.farcastle.net";
-      const campaignUrl = `${baseUrl}/rewards/${chainid}/${yeeterid}`;
-      await sdk.actions.composeCast({
-        text: "Look at these cool rewards",
-        embeds: [campaignUrl],
-      });
-    } catch (error) {
-      console.error("Error composing cast:", error);
-      // You might want to show a toast or notification here
-    }
-  }, [yeeterid, chainid]);
+  // const handleCastCampaignRewards = useCallback(async () => {
+  //   try {
+  //     const baseUrl =
+  //       process.env.NODE_ENV === "development"
+  //         ? window.location.origin
+  //         : process.env.NEXT_PUBLIC_URL || "https://fundraiser.farcastle.net";
+  //     const campaignUrl = `${baseUrl}/rewards/${chainid}/${yeeterid}`;
+  //     await sdk.actions.composeCast({
+  //       text: "Look at these cool rewards",
+  //       embeds: [campaignUrl],
+  //     });
+  //   } catch (error) {
+  //     console.error("Error composing cast:", error);
+  //     // You might want to show a toast or notification here
+  //   }
+  // }, [yeeterid, chainid]);
 
   const onProjectTeam = address && member && Number(member.shares) > 0;
 
@@ -116,19 +120,31 @@ export const YeeterAbout = ({
             <CardContent className="p-0 pb-4">
               <div className="text-muted text-sm mb-4 uppercase">Rewards</div>
               <div className="leading-relaxed">
-                {formatLootForMin(yeeter)} {yeeter.dao.lootTokenSymbol}{" "}
-                {Number(formatLootForMin(yeeter)) === 1 ? "token" : "tokens"}{" "}
-                per {formatMinContribution(yeeter)}{" "}
-                {nativeCurrencySymbol(activeChain)}
+                <p className="text-sm font-body text-primary leading-none">
+                  {formatMinContribution(yeeter)}{" "}
+                  {nativeCurrencySymbol(activeChain)}
+                </p>
+                <p className="font-body text-sm text-muted leading-none mt-2 mb-1">
+                  {yeeter.dao.lootTokenSymbol}
+                </p>
+                <p className="leading-relaxed">
+                  {formatLootForMin(yeeter)}{" "}
+                  {Number(formatLootForMin(yeeter)) === 1 ? "Token" : "Tokens"}
+                </p>
               </div>
               <div className="leading-relaxed">
                 {metadata.parsedRewards.map((reward, i) => {
                   if (!reward.rewardLevel) return null;
                   return (
                     <div className="w-full" key={i}>
-                      <p className="font-bold">{reward.rewardLevel}</p>
-                      <p className="font-bold">{reward.title}</p>
-                      <p>{reward.details}</p>
+                      <p className="text-sm font-body text-primary leading-none mt-4">
+                        {formatRewardLevel(reward.rewardLevel)}{" "}
+                        {nativeCurrencySymbol(activeChain)}
+                      </p>
+                      <p className="font-body text-sm text-muted leading-none mt-2 mb-1">
+                        {reward.title}
+                      </p>
+                      <p className="leading-relaxed ">{reward.details}</p>
                     </div>
                   );
                 })}
@@ -156,7 +172,7 @@ export const YeeterAbout = ({
                 </Link>
               </div>
 
-              {/* <div className="w-full mt-3">
+              <div className="w-full mt-3">
                 <Link
                   href={`/yeeter/${chainid}/${yeeterid}/update?rewards=true`}
                   className="block w-full"
@@ -165,7 +181,7 @@ export const YeeterAbout = ({
                     Add Rewards
                   </Button>
                 </Link>
-              </div> */}
+              </div>
             </CardContent>
           )}
         </Card>
@@ -183,13 +199,13 @@ export const YeeterAbout = ({
                   Share Campaign
                 </Button>
 
-                <Button
+                {/* <Button
                   variant="default"
                   className="w-full mt-3"
                   onClick={handleCastCampaignRewards}
                 >
                   Share Rewards
-                </Button>
+                </Button> */}
               </div>
 
               {metadata?.parsedLinks &&

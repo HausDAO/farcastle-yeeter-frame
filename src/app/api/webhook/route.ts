@@ -85,10 +85,11 @@ export async function POST(request: Request) {
       );
       if (event.notificationDetails) {
         await setUserNotificationDetails(fid, event.notificationDetails);
+        // Thank You for Adding Fundraiser Mini App
         await sendFrameNotification({
           fid,
-          title: `Your Path Awaits`,
-          body: `Thank you for adding Farcastle Fundraiser`,
+          title: `The Gate Hath Opened`,
+          body: `Fundraiser is bound to thy realm. Discover raids and support builders with purpose.`,
         });
       } else {
         await deleteUserNotificationDetails(fid);
@@ -103,10 +104,11 @@ export async function POST(request: Request) {
     case "notifications_enabled": {
       console.log("notifications_enabled", event.notificationDetails);
       await setUserNotificationDetails(fid, event.notificationDetails);
+      // Thank You for Enabling Notifications
       await sendFrameNotification({
         fid,
-        title: `Your Path Awaits`,
-        body: `Thank you for enabling notifications for Farcastle Fundraiser`,
+        title: `The Ravens Shall Fly`,
+        body: `We will send word when new raids arise or allies take action. Stay watchful, noble one.`,
       });
 
       break;

@@ -16,7 +16,7 @@
   "dependencies": {
     "0xsequence": "^2.2.14",
     "@farcaster/frame-core": "^0.0.32",
-    "@farcaster/frame-sdk": "^0.0.35",
+    "@farcaster/frame-sdk": "^0.0.45",
     "@farcaster/frame-wagmi-connector": "^0.0.23",
     "@hookform/resolvers": "^3.10.0",
     "@neynar/nodejs-sdk": "^2.33.1",
@@ -35,6 +35,7 @@
     "@radix-ui/react-tooltip": "^1.1.6",
     "@tanstack/react-query": "^5.62.7",
     "@upstash/redis": "^1.34.9",
+    "@upstash/workflow": "^0.2.13",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "ethers": "^6.13.5",
