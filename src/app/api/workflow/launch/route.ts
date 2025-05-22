@@ -16,8 +16,8 @@ export const { POST } = serve(async (context) => {
     return;
   }
 
-  await context.run("notify", () => {
-    console.log("notify step ran");
+  await context.run("notifyLaunch", () => {
+    console.log("notifyLaunch step started");
     // const notification;
     const campaign = campaignname || "the campaign";
     const user = username || "Some brave soul";
