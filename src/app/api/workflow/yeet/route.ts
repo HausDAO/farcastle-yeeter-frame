@@ -35,7 +35,7 @@ export const { POST } = serve(async (context) => {
 
     sendFrameNotificationToMultipleUsers({
       fids,
-      title: `${user} Contributed`,
+      title: `An Ally Contributed`,
       body: `${bodyUser} pledged coin to ${campaign}. See where their loyalty lies and consider joining their cause.`,
       targetUrl: `https://fundraiser.farcastle.net/yeeter/${chainid}/${yeeterid}`,
     });
