@@ -30,7 +30,6 @@ export const { POST } = serve(async (context) => {
     const fids = followers.map((f) => f.user.fid);
 
     const campaign = campaignname ? `the ${campaignname} raid` : "a raid";
-    const user = username || "An Ally";
     const bodyUser = username || "Someone you follow";
 
     sendFrameNotificationToMultipleUsers({
