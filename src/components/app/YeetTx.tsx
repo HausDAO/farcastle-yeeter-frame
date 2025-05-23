@@ -142,36 +142,32 @@ export const YeetTx = ({
                     </>
                   ) : (
                     <>
-                      Contribute
-                      <div className="font-mulish text-muted text-lg mt-1 mb-1 uppercase">
-                        Receive {formatLootForMin(yeeter)}{" "}
-                        {yeeter.dao.lootTokenSymbol}{" "}
-                        {Number(formatLootForMin(yeeter)) === 1
-                          ? "token"
-                          : "tokens"}{" "}
-                        per {formatMinContribution(yeeter)}{" "}
-                        {nativeCurrencySymbol(activeChain)}
-                      </div>
-                      {metadata?.parsedRewards && (
+                      Rewards
+                      <div className="flex flex-col items-center gap-y-2 mt-2 mb-6">
                         <div>
-                          <div>
-                            {metadata.parsedRewards.map((reward, i) => {
-                              if (!reward.rewardLevel) return null;
-                              return (
-                                <div className="w-full" key={i}>
-                                  <p className="text-sm font-mulish text-primary leading-none mt-1">
-                                    {formatRewardLevel(reward.rewardLevel)}{" "}
-                                    {nativeCurrencySymbol(activeChain)}
-                                  </p>
-                                  <p className="font-mulish text-muted text-lg mt-1 uppercase">
-                                    {reward.title}
-                                  </p>
-                                </div>
-                              );
-                            })}
+                          <div className="font-mulish text-muted text-xs uppercase mb-0.5">
+                            {formatMinContribution(yeeter)} {nativeCurrencySymbol(activeChain)}
                           </div>
+                          <p className="text-base font-mulish text-primary normal-case leading-none">
+                            {formatLootForMin(yeeter)} {yeeter.dao.lootTokenSymbol}{" "}
+                            {Number(formatLootForMin(yeeter)) === 1 ? "Token" : "Tokens"}
+                          </p>
                         </div>
-                      )}
+                        {metadata?.parsedRewards &&
+                          metadata.parsedRewards.map((reward, i) => {
+                            if (!reward.rewardLevel) return null;
+                            return (
+                              <div className="w-full" key={i}>
+                                <p className="font-mulish text-muted text-xs uppercase mb-0.5">
+                                  {formatRewardLevel(reward.rewardLevel)} {nativeCurrencySymbol(activeChain)}
+                                </p>
+                                <p className="text-base font-mulish text-primary normal-case leading-none">
+                                  {reward.title}
+                                </p>
+                              </div>
+                            );
+                          })}
+                      </div>
                     </>
                   )}
                 </Drawer.DrawerTitle>
