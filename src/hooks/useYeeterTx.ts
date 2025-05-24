@@ -26,11 +26,6 @@ export const useYeeterByTx = ({
     subgraphKey: "YEETER",
   });
 
-  if (chainid === "0xaa36a7") {
-    yeeterUrl =
-      "https://api.studio.thegraph.com/query/73494/yeeter-sepolia/version/latest";
-  }
-
   const {
     data,
     isError: queryIsError,
