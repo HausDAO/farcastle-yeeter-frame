@@ -15,6 +15,7 @@ const yeeterFields = `
   goal
   balance
   yeetCount
+  txHash
 `;
 
 export const FIND_YEETER = gql`

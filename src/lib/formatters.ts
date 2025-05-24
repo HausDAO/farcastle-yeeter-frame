@@ -12,5 +12,5 @@ export const proposalCastUrl = (
   daoid: string,
   propid: number
 ) => {
-  return `https://warpcast.com/~/compose?text=&embeds[]=https://frames.farcastle.net/molochv3/${daochain}/${daoid}/proposals/${propid}`;
+  return `https://https://farcaster.xyz//~/compose?text=&embeds[]=https://frames.farcastle.net/molochv3/${daochain}/${daoid}/proposals/${propid}`;
 };

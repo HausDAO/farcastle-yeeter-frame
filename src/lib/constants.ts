@@ -110,4 +110,4 @@ export const DEFAULT_SUMMON_VALUES = {
 export const FEE_DISCLOSURE =
   "The Yeeter protocol fee is 3% on all contributions. Fees in the network's native token are sent to the Yeeter safe. These funds are used to maintain and enhance the platform while supporting the DAOhaus community.";
 
-export const composeCastUrl = `https://warpcast.com/~/compose?text=&embeds[]=https://fundraiser.farcastle.net`;
+export const composeCastUrl = `https://farcaster.xyz/~/compose?text=&embeds[]=https://fundraiser.farcastle.net`;
