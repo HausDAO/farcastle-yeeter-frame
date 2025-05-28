@@ -33,7 +33,7 @@ export function FrameSDKProvider({ children }: { children: React.ReactNode }) {
         console.log("******** frameContext", frameContext);
         if (!frameContext.client.added) {
           console.log("$$$$$$$ trigger add app");
-          // frameSDK.actions.addMiniApp();
+          frameSDK.actions.addMiniApp();
         }
         if (frameContext.client.notificationDetails) {
           console.log("setting notificationDetails");
