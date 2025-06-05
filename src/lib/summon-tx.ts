@@ -85,8 +85,8 @@ const assembleLootTokenParams = ({
   }
 
   const lootParams = encodeValues(
-    ["string", "string", "address[]", "uint256[]"],
-    [tokenName, tokenSymbol, [], []]
+    ["string", "string"],
+    [tokenName, tokenSymbol]
   );
 
   return encodeValues(["address", "bytes"], [lootSingleton, lootParams]);
@@ -105,18 +105,10 @@ const assembleShareTokenParams = ({
   const tokenSymbol = `v${lootTokenSymbol}`;
   const shareSingleton = CONTRACT_KEYCHAINS["SHARES_SINGLETON"][chainId];
 
-  const shareHolders: string[] = formValues["members"] as string[];
-
-  const shareAmounts = shareHolders.map(
-    () => DEFAULT_SUMMON_VALUES.shareAmounts
-  );
-
   if (
     !isString(yeetName) ||
     !isString(tokenName) ||
     !isString(tokenSymbol) ||
-    !isArray(shareHolders) ||
-    shareHolders.some((addr) => !isString(addr)) ||
     !shareSingleton
   ) {
     console.log("ERROR: passed args");
@@ -127,8 +119,8 @@ const assembleShareTokenParams = ({
   }
 
   const shareParams = encodeValues(
-    ["string", "string", "address[]", "uint256[]"],
-    [tokenName, tokenSymbol, shareHolders, shareAmounts]
+    ["string", "string"],
+    [tokenName, tokenSymbol]
   );
 
   return encodeValues(["address", "bytes"], [shareSingleton, shareParams]);
@@ -206,6 +198,8 @@ const assembleInitActions = ({
 
   return [
     governanceConfigTX(DEFAULT_SUMMON_VALUES),
+    tokenConfigTX(),
+    tokenMintTX(formValues),
     metadataConfigTX(formValues, POSTER),
   ];
 };
@@ -247,6 +241,47 @@ const governanceConfigTX = (formValues: SummonParams) => {
   const encoded = encodeFunction(LOCAL_ABI.BAAL, "setGovernanceConfig", [
     encodedValues,
   ]);
+  if (isString(encoded)) {
+    return encoded;
+  }
+  throw new Error("Encoding Error");
+};
+
+const tokenConfigTX = () => {
+  const lootPaused = DEFAULT_SUMMON_VALUES.nvTransferable;
+  const sharesPaused = DEFAULT_SUMMON_VALUES.votingTransferable;
+
+  const encoded = encodeFunction(LOCAL_ABI.BAAL, "setAdminConfig", [
+    lootPaused,
+    sharesPaused,
+  ]);
+
+  if (isString(encoded)) {
+    return encoded;
+  }
+  throw new Error("Encoding Error");
+};
+
+const tokenMintTX = (formValues: Record<string, unknown>) => {
+  const shareHolders: string[] = formValues["members"] as string[];
+
+  const shareAmounts = shareHolders.map(
+    () => DEFAULT_SUMMON_VALUES.shareAmounts
+  );
+
+  if (!isArray(shareHolders) || shareHolders.some((addr) => !isString(addr))) {
+    console.log("ERROR: passed args");
+
+    throw new Error(
+      "tokenMintTX recieved arguments in the wrong shape or type"
+    );
+  }
+
+  const encoded = encodeFunction(LOCAL_ABI.BAAL, "mintShares", [
+    shareHolders,
+    shareAmounts,
+  ]);
+
   if (isString(encoded)) {
     return encoded;
   }
