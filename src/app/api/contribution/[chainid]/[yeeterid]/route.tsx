@@ -101,14 +101,14 @@ export async function GET(
     try {
       const graphQLClientYeeter = new GraphQLClient(yeeterUrl);
       const { yeeter } = (await graphQLClientYeeter.request(FIND_YEETER_EMBED, {
-        shamanAddress: yeeterid,
+        shamanAddress: yeeterid.toLowerCase(),
       })) as { yeeter: YeeterItem };
 
       const graphQLClientDh = new GraphQLClient(dhUrl);
       const { records, dao } = (await graphQLClientDh.request(
         FIND_YEETER_PROFILE_DAO_EMBED,
         {
-          daoid: yeeter.dao.id,
+          daoid: yeeter.dao.id.toLowerCase(),
         }
       )) as { records: RecordItem[]; dao: DaoWithMembers };
 
@@ -249,7 +249,7 @@ export async function GET(
                   textTransform: "uppercase",
                   fontFamily: "'Mulish'",
                   color: "#9FA3AF",
-                  marginBottom: "-8px"
+                  marginBottom: "-8px",
                 }}
               >
                 I contributed {contribution} ETH to
