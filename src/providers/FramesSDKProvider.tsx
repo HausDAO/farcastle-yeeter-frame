@@ -5,7 +5,7 @@ import type { FrameContext } from "@farcaster/frame-core/dist/context";
 import { createContext, useContext, useEffect, useState } from "react";
 import { Connector } from "wagmi";
 import { config } from "./Providers";
-import { setUserNotificationDetails } from "@/lib/notifications/db";
+// import { setUserNotificationDetails } from "@/lib/notifications/db";
 
 interface FrameContextValue {
   context: FrameContext | undefined;
