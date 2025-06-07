@@ -36,11 +36,11 @@ export function FrameSDKProvider({ children }: { children: React.ReactNode }) {
           frameSDK.actions.addMiniApp();
         }
         if (frameContext.client.notificationDetails) {
-          console.log("setting notificationDetails");
-          setUserNotificationDetails(
-            frameContext.user.fid,
-            frameContext.client.notificationDetails
-          );
+          // console.log("setting notificationDetails");
+          // setUserNotificationDetails(
+          //   frameContext.user.fid,
+          //   frameContext.client.notificationDetails
+          // );
         }
       }
       frameSDK.actions.ready({});
