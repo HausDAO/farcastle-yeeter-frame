@@ -60,7 +60,7 @@ export async function getMultipleUserNotificationDetails(
   const keys = fids.map((fid) => getUserNotificationDetailsKey(fid));
   const details = await redis.mget<FrameNotificationDetails[]>(keys);
 
-  return details.filter(d => d)
+  return details.filter((d) => d);
 }
 
 export async function getAllUserNotificationDetails(): Promise<
@@ -69,13 +69,18 @@ export async function getAllUserNotificationDetails(): Promise<
   if (!redis) {
     return null;
   }
-  let allKeys: string[] = [];
-  let current = "1";
-  while (Number(current) > 0) {
-    const [cursor, keys] = await redis.scan(0, { match: "fundraiser:user:*" });
-    allKeys = [...allKeys, ...keys];
-    current = cursor;
-  }
+  const allKeys: string[] = [];
+  let cursor = "0";
+
+  do {
+    const [nextCursor, keys] = await redis.scan(cursor, {
+      match: "fundraiser:user:*",
+      count: 100,
+    });
+
+    cursor = nextCursor;
+    allKeys.push(...keys);
+  } while (cursor !== "0");
 
   return await redis.mget<FrameNotificationDetails[]>(allKeys);
 }
