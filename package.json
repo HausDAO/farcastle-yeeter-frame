@@ -42,7 +42,7 @@
     "ethers-multisend": "^3.1.0",
     "graphql-request": "^7.1.2",
     "lucide-react": "^0.471.1",
-    "next": "15.0.4",
+    "next": "15.0.5",
     "numbro": "^2.5.0",
     "pino-pretty": "^13.0.0",
     "posthog-js": "^1.240.2",
